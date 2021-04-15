@@ -4,9 +4,9 @@
 namespace App\Services;
 
 
-use App\Episodio;
-use App\Serie;
-use App\Temporada;
+use App\Models\Episodio;
+use App\Models\Serie;
+use App\Models\Temporada;
 use Illuminate\Support\Facades\DB;
 
 class RemovedorDeSerie

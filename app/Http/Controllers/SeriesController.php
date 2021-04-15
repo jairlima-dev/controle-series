@@ -4,13 +4,15 @@
 namespace App\Http\Controllers;
 
 
-use App\Episodio;
+use App\Models\Episodio;
 use App\Http\Requests\SeriesFormRequest;
-use App\Serie;
+use App\Models\Serie;
+use App\Models\User;
 use App\Services\CriadorDeSeries;
 use App\Services\RemovedorDeSerie;
-use App\Temporada;
+use App\Models\Temporada;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SeriesController extends Controller
 {
@@ -20,9 +22,11 @@ class SeriesController extends Controller
     }
 
     public function index(Request $request) {
-        $series = Serie::query()
-            ->orderBy('nome')
-            ->get();
+        //$series = Serie::query()
+        $series = DB::table('series')->paginate(5);
+        //$series = Serie::paginate(5);
+            //->orderBy('nome')
+            //->get();
         $mensagem = $request->session()->get('mensagem');
 
         return view('series.index', compact('series', 'mensagem'));

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Episodio;
-use App\Temporada;
+use App\Models\Episodio;
+use App\Models\Temporada;
 use Illuminate\Http\Request;
 
 class EpisodiosController extends Controller
@@ -20,15 +20,17 @@ class EpisodiosController extends Controller
     public function assistir(Temporada $temporada, Request $request)
     {
         $episodiosAssistidos = $request->episodios;
-        $temporada->episodios->each(function (Episodio $episodio) use($episodiosAssistidos){
-            $episodio->assistido = in_array($episodio->id, $episodiosAssistidos);
+        $temporada->episodios->each(function (Episodio $episodio) use($episodiosAssistidos) {
+            if(!empty($episodiosAssistidos)) {
+                $episodio->assistido = in_array($episodio->id, $episodiosAssistidos);
+            } else {
+                $episodio->assistido = '';
+            }
         });
+
+        $request->session()->flash('mensagem', 'Espisódios marcados com sucesso!');
         $temporada->push();
-
-        $request->session()->flash('mensagem', 'Episódios marcados com sucesso!');
-
         return redirect()->back();
-
 
     }
 }

@@ -6,13 +6,13 @@ Séries
 
 @section('conteudo')
 
-@include('mensagem')
+    @include('mensagem')
 
-<a href="{{ route('form_criar_serie') }}" class="btn btn-dark mb-2">Adicionar</a>
+    <a href="{{ route('form_criar_serie') }}" class="btn btn-dark mb-2">Adicionar</a>
 
-<ul class="list-group">
+    <ul class="list-group">
     @foreach($series as $serie)
-        <li class="list-group-item d-flex justify-content-between align-items-center">
+        <li class="list-group-item d-flex justify-content-between align-content-center">
 
             <span id="nome-serie-{{ $serie->id }}">{{ $serie->nome }}</span>
 
@@ -44,31 +44,39 @@ Séries
 
         </li>
     @endforeach
-</ul>
-<script>
-    function toggleInput(serieId) {
-        const nomeSerieEl = document.getElementById(`nome-serie-${serieId}`);
-        const inputSerieEl = document.getElementById(`input-nome-serie-${serieId}`);
-        if (nomeSerieEl.hasAttribute('hidden')) {
-            nomeSerieEl.removeAttribute('hidden');
-            inputSerieEl.hidden = true;
-        } else {
-            inputSerieEl.removeAttribute('hidden');
-            nomeSerieEl.hidden = true;
-        }
-    }
+    </ul>
 
-    function editarSerie(serieId) {
-        let formData = new FormData();
-        const nome = document.querySelector('#input-nome-serie-'+serieId+'> input').value;
-        const token = document.querySelector('input[name="_token"]').value;
-        formData.append('nome', nome);
-        formData.append('_token', token);
-        const url = '/series/'+serieId+'/editaNome';
-        fetch(url, {method: 'POST', body: formData}).then(() => {
-            toggleInput(serieId);
-            document.getElementById('nome-serie-'+serieId).textContent = nome;
-        });
-    }
-</script>
+    <nav class="nav d-flex justify-content-center">
+        <ul class="pagination p-4 pagination-sm flex-wrap">
+            {{ $series->links() }}
+        </ul>
+    </nav>
+
+
+    <script>
+        function toggleInput(serieId) {
+            const nomeSerieEl = document.getElementById(`nome-serie-${serieId}`);
+            const inputSerieEl = document.getElementById(`input-nome-serie-${serieId}`);
+            if (nomeSerieEl.hasAttribute('hidden')) {
+                nomeSerieEl.removeAttribute('hidden');
+                inputSerieEl.hidden = true;
+            } else {
+                inputSerieEl.removeAttribute('hidden');
+                nomeSerieEl.hidden = true;
+            }
+        }
+
+        function editarSerie(serieId) {
+            let formData = new FormData();
+            const nome = document.querySelector('#input-nome-serie-'+serieId+'> input').value;
+            const token = document.querySelector('input[name="_token"]').value;
+            formData.append('nome', nome);
+            formData.append('_token', token);
+            const url = '/series/'+serieId+'/editaNome';
+            fetch(url, {method: 'POST', body: formData}).then(() => {
+                toggleInput(serieId);
+                document.getElementById('nome-serie-'+serieId).textContent = nome;
+            });
+        }
+    </script>
 @endsection
