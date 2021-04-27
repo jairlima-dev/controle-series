@@ -14,7 +14,8 @@ class CriadorDeSeries
     {
         DB::beginTransaction();
             $serie = Serie::create([
-                'nome' => $nomeSerie]
+                'nome' => $nomeSerie
+                ]
             );
             $this->criarTemporada($serie, $epPorTemporada, $qtdTemporadas);
         DB::commit();

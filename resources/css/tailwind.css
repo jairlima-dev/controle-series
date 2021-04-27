@@ -1,0 +1,12 @@
+/* /resources/css/tailwind.css */
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+/* Para mostrar que posso usar algum recurso personalizado aqui */
+
+a {
+    text-decoration: none;
+}

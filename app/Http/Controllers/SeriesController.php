@@ -22,11 +22,7 @@ class SeriesController extends Controller
     }
 
     public function index(Request $request) {
-        //$series = Serie::query()
-        $series = DB::table('series')->paginate(5);
-        //$series = Serie::paginate(5);
-            //->orderBy('nome')
-            //->get();
+        $series = DB::table('series')->orderBy('nome')->paginate(4);
         $mensagem = $request->session()->get('mensagem');
 
         return view('series.index', compact('series', 'mensagem'));

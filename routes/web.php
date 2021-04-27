@@ -1,13 +1,21 @@
 <?php
-
+/*
 use App\Http\Controllers\EpisodiosController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\SeriesController;
 use App\Http\Controllers\TemporadasController;
 use Illuminate\Support\Facades\Auth;
+*/
+
 use Illuminate\Support\Facades\Route;
 
+
+Route::get('/{any}', function (){
+    return view('app');
+})->where('any','.*');
+
+/*
 Route::get('/series', [SeriesController::class, 'index'])
     ->name('listar_series');
 Route::get('/series/criar', [SeriesController::class, 'create'])
@@ -30,6 +38,4 @@ Route::get('/logout', function (){
     Auth::logout();
     return redirect('/login');
 });
-
-
-
+*/
