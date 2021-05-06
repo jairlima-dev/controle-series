@@ -9,9 +9,6 @@ Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
 
 let app = new Vue({
-
     el: '#app',
-
     router: new VueRouter(routes)
-
 });

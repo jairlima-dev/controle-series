@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\EpisodesController;
+use App\Http\Controllers\Api\EpisodiosController;
+use App\Http\Controllers\Api\SeasonsController;
 use App\Http\Controllers\Api\SeriesController;
 use App\Http\Resources\SerieResource;
 use App\Models\Serie;
@@ -29,5 +32,12 @@ Route::namespace('Api')->group(function () {
     Route::get('/series', [SeriesController::class, 'index']);
     Route::get('/series/{serie}', [SeriesController::class, 'show']);
     Route::put('/series/{serie}', [SeriesController::class, 'update']);
+    Route::delete('/series/{serie}', [SeriesController::class, 'destroy']);
+    Route::post('/series', [SeriesController::class, 'store']);
+
+    Route::get('/serie/{serie}', [SeasonsController::class, 'index']);
+
+    Route::get('/season/{serie}/episodes', [EpisodesController::class, 'index']);
+
 });
 

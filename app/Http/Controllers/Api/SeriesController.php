@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SeriesFormRequest;
 use App\Http\Resources\SerieResource;
+use App\Models\Episodio;
 use App\Models\Serie;
-use App\Models\User;
+use App\Models\Temporada;
+use App\Services\CriadorDeSeries;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,12 +16,24 @@ class SeriesController extends Controller
 {
     public function index ()
     {
-        return SerieResource::collection(Serie::paginate(5));
+
+        return SerieResource::collection(Serie::orderBy('nome')->paginate(10));
 
     }
 
     public function show (Serie $serie)
     {
+        return new SerieResource($serie);
+    }
+
+    public function store(SeriesFormRequest $request, CriadorDeSeries $criadorDeSeries)
+    {
+
+        $serie = $criadorDeSeries->criarSerie(
+            $request->nome,
+            $request->temporadas,
+            $request->episodios
+        );
 
         return new SerieResource($serie);
 
@@ -27,16 +42,42 @@ class SeriesController extends Controller
     public function update(Serie $serie, Request $request)
     {
 
-        $data = $request->validate([
-
-            'name' => 'required'
-
-        ]);
-
+        $data = $request->validate(['nome' => 'required']);
         $serie->update($data);
 
         return new SerieResource($serie);
 
+    }
+
+    public function destroy(Serie $serie)
+    {
+        $this->destroyTemporada($serie);
+        $serie->delete();
+
+        return response(null, 204);
+
+    }
+
+    /**
+     * @param Serie $serie
+     */
+    private function destroyTemporada($serie)
+    {
+        $serie->temporadas->each(function (Temporada $temporada) {
+            $this->destroyEpisodios($temporada);
+            $temporada->delete();
+        });
+
+    }
+
+    /**
+     * @param Temporada $temporada
+     */
+    private function destroyEpisodios(Temporada $temporada)
+    {
+        $temporada->episodios->each(function (Episodio $episodio) {
+            $episodio->delete();
+        });
     }
 
 }

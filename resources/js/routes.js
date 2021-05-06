@@ -1,7 +1,13 @@
+import SeriesIndex from "./views/series/SeriesIndex";
+import SeriesEdit from "./views/series/SeriesEdit";
+import SeriesCreate from "./views/series/SeriesCreate";
+import SeasonsIndex from "./views/seasons/SeasonsIndex";
+import MoviesIndex from "./views/MoviesIndex";
+import DocumentariesIndex from "./views/DocumentariesIndex";
 import About from "./views/About";
-import SeriesIndex from "./views/SeriesIndex";
-import SeriesEdit from "./views/SeriesEdit";
-import PageNotFound from "./views/PageNotFound";
+import NotFound from "./views/NotFound";
+import SeriesDelete from "./views/series/SeriesDelete";
+import EpisodesIndex from "./views/episodes/EpisodesIndex";
 
 export default {
 
@@ -11,21 +17,52 @@ export default {
 
     routes: [
 
-        // {
-        //     path: '*',
-        //     component: PageNotFound
-        // },
-
-        // {
-        //     path: '/',
-        //     name: 'home',
-        //     component: Home
-        // },
-
         {
-            path: '/',
+            path: '/series',
             name: 'series.index',
             component: SeriesIndex
+        },
+
+        {
+            path: '/movies',
+            name: 'movies.index',
+            component: MoviesIndex
+        },
+
+        {
+            path: '/documentaries',
+            name: 'documentaries.index',
+            component: DocumentariesIndex
+        },
+
+        {
+            path: '/series/create',
+            name: 'series.create',
+            component: SeriesCreate
+        },
+
+        {
+            path: '/series/:id/edit',
+            name: 'series.edit',
+            component: SeriesEdit
+        },
+
+        {
+            path: '/series/:id/delete',
+            name: 'series.delete',
+            component: SeriesDelete
+        },
+
+        {
+            path: '/serie/:id/seasons',
+            name: 'seasons.index',
+            component: SeasonsIndex
+        },
+
+        {
+            path: '/season/:id/episodes',
+            name: 'seasons.episodes',
+            component: EpisodesIndex
         },
 
         {
@@ -35,9 +72,19 @@ export default {
         },
 
         {
-            path: '/series/:id/edit',
-            name: 'series.edit',
-            component: SeriesEdit
+            path: '/404',
+            name: '404',
+            component: NotFound
+        },
+
+        {
+            path: '*',
+            redirect: '/404'
+        },
+
+        {
+            path: '/',
+            redirect: '/series'
         }
 
     ]};

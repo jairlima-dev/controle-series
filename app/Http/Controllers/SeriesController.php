@@ -22,6 +22,7 @@ class SeriesController extends Controller
     }
 
     public function index(Request $request) {
+
         $series = DB::table('series')->orderBy('nome')->paginate(4);
         $mensagem = $request->session()->get('mensagem');
 
