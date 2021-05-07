@@ -2,33 +2,33 @@
 
 <div>
 
-    <router-link
-        :to="{ name: to, params:  { id  } }">
+    <router-link :to="{ name: to, params:  { id  } }">
 
-        <div v-if="blue" class="bg-blue-500 hover:bg-blue-700
-            text-white font-bold py-2 px-4 mr-2 rounded-md">
+        <div v-if="link" class="border-4 border-blue-300 hover:border-blue-600
+            text-blue-400 font-bold text-xl py-1 px-2 mr-2 rounded-md">
+            <i v-if="link" class="fas fa-external-link-alt"/>
             {{ tag }}
             <slot></slot>
         </div>
 
-        <div v-if="yellow" class="bg-yellow-500 hover:bg-yellow-700
-            text-white font-bold py-2 px-4 mr-2 rounded-md">
+        <div v-if="edit" class="border-4 border-yellow-300 hover:border-yellow-600
+            text-yellow-400 font-bold text-xl py-1 px-2 mr-2 rounded-md">
+            <i v-if="edit" class="fas fa-pen"/>
             {{ tag }}
             <slot></slot>
         </div>
 
-        <div v-if="red" class="bg-red-500 hover:bg-red-700
-            text-white font-bold py-2 px-4 mr-2 rounded-md">
+        <div v-if="del" class="border-4 border-red-300 hover:border-red-600
+            text-red-400 font-bold text-xl py-1 px-2 mr-2 rounded-md">
+            <i v-if="del" class="fas fa-trash-alt"/>
+
             {{ tag }}
             <slot></slot>
         </div>
 
     </router-link>
 
-
 </div>
-
-
 
 </template>
 
@@ -39,10 +39,9 @@
             'to',
             'id',
             'tag',
-            'color',
-            'blue',
-            'red',
-            'yellow'
+            'link',
+            'del',
+            'edit'
         ]
     }
 </script>

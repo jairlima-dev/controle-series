@@ -18,8 +18,7 @@ class SeasonResource extends JsonResource
             'id' => $this->id,
             'numero' => $this->numero,
             'serie_id' => $this->serie_id,
-            'episodios' => EpisodioResource::collection($this->episodios)
-//            'episodios' => EpisodioResource::collection($this->whenLoaded('episodios'))
+            'episodios' => EpisodeResource::collection($this->whenLoaded('episodios'))
         ];
     }
 }

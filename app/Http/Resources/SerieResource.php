@@ -17,8 +17,7 @@ class SerieResource extends JsonResource
         return [
             'id' => $this->id,
             'nome' => $this->nome,
-            'temporadas' => SeasonResource::collection($this->temporadas)
-//            'temporadas' => SeasonResource::collection($this->whenLoaded('temporadas'))
+            'temporadas' => SeasonResource::collection($this->whenLoaded('temporadas'))
         ];
     }
 }

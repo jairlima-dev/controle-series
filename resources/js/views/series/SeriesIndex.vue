@@ -17,7 +17,7 @@
 
         <div class="actions flex my-4">
 
-            <button-link to="series.create" tag="Novo" blue="true"/>
+            <button-link to="series.create" tag="Novo" link="link"/>
 
             <filter-default :filte="filter"/>
 
@@ -25,7 +25,7 @@
 
         <ul class="flex flex-col" v-if="series">
 
-            <li class="flex p-2 border-2 justify-between" v-for="{id, nome } in series">
+            <li class="flex p-2 border-2 justify-between rounded-md" v-for="{id, nome } in series">
 
                 <div class="title flex-1 p-2 text-xl">
                     {{ nome }}
@@ -33,19 +33,11 @@
 
                 <div class="action-buttons flex flex-invert">
 
-                    <button-link to='seasons.index' :id="id" blue="true">
-                        <i class="fas fa-external-link-alt"/>
-                    </button-link>
+                    <button-link to='seasons.index' :id="id" link="true"/>
 
+                    <button-link to='series.edit' :id="id" edit="true"/>
 
-                    <button-link to='series.edit' :id="id" yellow="true">
-                        <i class="fas fa-pen"/>
-                    </button-link>
-
-
-                    <button-link to='series.delete' :id="id" red="true">
-                        <i class="fas fa-trash-alt"/>
-                    </button-link>
+                    <button-link to='series.delete' :id="id" del="true"/>
 
                 </div>
 
@@ -78,6 +70,7 @@
         axios
             .get('/api/series', { params })
             .then(response => {
+                console.log(response);
                 callback(null, response.data);
             }).catch(error => {
             callback(error, error.response.data);

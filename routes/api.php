@@ -37,7 +37,7 @@ Route::namespace('Api')->group(function () {
 
     Route::get('/serie/{serie}', [SeasonsController::class, 'index']);
 
-    Route::get('/season/{serie}/episodes', [EpisodesController::class, 'index']);
+    Route::get('/season/{season}', [EpisodesController::class, 'index']);
 
 });
 

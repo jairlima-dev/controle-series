@@ -61,7 +61,7 @@ export default {
 
         {
             path: '/season/:id/episodes',
-            name: 'seasons.episodes',
+            name: 'season.episodes',
             component: EpisodesIndex
         },
 

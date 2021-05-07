@@ -4,13 +4,10 @@
 
         <tag-title title="Nova Série"/>
 
-<!--        <h1 class="block text-2xl bg-gray-200 mb-2 p-4 font-bold rounded-md">Nova Série</h1>-->
+        <message v-if="message">
 
-        <message v-if="message" :text="message"/>
-<!--        <div v-if="message"-->
-<!--             class="alert">-->
-<!--            {{ message }}-->
-<!--        </div>-->
+        </message>
+
 
         <form class="flex" @submit.prevent="onSubmit($event)">
 
@@ -30,9 +27,13 @@
             </div>
 
             <div class="mx-1 mt-6 w-34 text-white bg-blue-400 py-1 px-6 lg:hover:bg-blue-700 rounded-md">
-                <button class="text-center" type="submit" :disabled="saving">
-                    {{ saving ? 'Salvando...' : 'Salvar' }}
-                </button>
+
+                <button-action save="true" tag="Salvar">
+<!--                    <button class="text-center" type="submit" :disabled="saving">-->
+<!--                        {{ saving ? 'Salvando...' : 'Salvar' }}-->
+<!--                    </button>-->
+                </button-action>
+
             </div>
 
         </form>
@@ -46,12 +47,14 @@
     import api from '../../api/series';
     import TagTitle from "../../components/shared/tag-title";
     import Message from "../../components/shared/message";
+    import ButtonAction from "../../components/shared/button-action";
 
     export default {
-        components: {Message, TagTitle},
+        components: {ButtonAction, Message, TagTitle},
         data() {
             return {
-                saving: false,
+                errors: {},
+                // saving: false,
                 message: false,
                 serie: {
                     nome: '',
@@ -77,6 +80,3 @@
     }
 </script>
 
-<style scoped>
-
-</style>

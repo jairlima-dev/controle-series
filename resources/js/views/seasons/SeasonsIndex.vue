@@ -8,11 +8,13 @@
 
         <ul class="flex flex-col" v-if="temporadas">
 
-            <li class="flex p-2 border-2 justify-between" v-for="{ numero } in temporadas">
+            <li class="flex p-2 border-2 justify-between" v-for="{ id, numero } in temporadas">
 
-                <router-link :to="{ name: 'seasons.episodes'}">
-                    Temporada - {{ numero }}
-                </router-link>
+                <div class="title flex-1 p-2 text-xl">
+                    <router-link :to="{ name: 'season.episodes', params: { id }}">
+                        Temporada - {{ numero }}
+                    </router-link>
+                </div>
 
             </li>
         </ul>
@@ -50,9 +52,8 @@ import GridDefault from "../../components/shared/grid-default";
                 api.all(this.$route.params.id)
                     .then(response => {
                         console.log(response);
-                        // this.id = response.data.data.id;
-                        // this.nome = response.data.data.nome;
-                        this.temporadas = response.data.data
+                        this.nome = response.data.data[0].nome;
+                        this.temporadas = response.data.data[0].temporadas
                 }).catch(error => this.message = 'Erro ao carregar os dados!');
             }
         },
