@@ -8,13 +8,20 @@
 
         <ul class="flex flex-col" v-if="temporadas">
 
-            <li class="flex p-2 border-2 justify-between" v-for="{ id, numero } in temporadas">
+            <li class="flex p-2 border-2 justify-between intems-center" v-for="{ id, numero } in temporadas">
 
-                <div class="title flex-1 p-2 text-xl">
+                <div class="title flex-1 p-2 text-xl items-center">
                     <router-link :to="{ name: 'season.episodes', params: { id }}">
                         Temporada - {{ numero }}
                     </router-link>
                 </div>
+
+                <div class="text-center text-xl">
+
+                    <span class="text-sm">{{assistido}}/{{total}}</span>
+
+                </div>
+
 
             </li>
         </ul>
@@ -36,6 +43,8 @@ import GridDefault from "../../components/shared/grid-default";
 
         data () {
             return {
+                assistido: 2,
+                total: 10,
                 message: '',
                 id: null,
                 nome: '',
@@ -55,8 +64,14 @@ import GridDefault from "../../components/shared/grid-default";
                         this.nome = response.data.data[0].nome;
                         this.temporadas = response.data.data[0].temporadas
                 }).catch(error => this.message = 'Erro ao carregar os dados!');
+            },
+
+            episodesCount() {
+
             }
         },
+
+
 
 
     }

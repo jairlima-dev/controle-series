@@ -4,12 +4,10 @@
 
         <tag-title title="Nova Série"/>
 
-        <message v-if="message">
-
-        </message>
+        <message v-if="message" :text="message"/>
 
 
-        <form class="flex" @submit.prevent="onSubmit($event)">
+        <form class="flex items-end" @submit.prevent="onSubmit($event)">
 
             <div class="mx-1 block">
                 <label class="block" for="serie_name">Nome</label>
@@ -26,35 +24,28 @@
                 <input class="w-24 px-2 py-1 border-2 rounded-md" id="qtd_episodios" v-model="serie.episodios" />
             </div>
 
-            <div class="mx-1 mt-6 w-34 text-white bg-blue-400 py-1 px-6 lg:hover:bg-blue-700 rounded-md">
-
-                <button-action save="true" tag="Salvar">
-<!--                    <button class="text-center" type="submit" :disabled="saving">-->
-<!--                        {{ saving ? 'Salvando...' : 'Salvar' }}-->
-<!--                    </button>-->
-                </button-action>
-
-            </div>
+            <button-action save="true"/>
 
         </form>
+
     </div>
+
 </template>
 
 <script>
-
-
 
     import api from '../../api/series';
     import TagTitle from "../../components/shared/tag-title";
     import Message from "../../components/shared/message";
     import ButtonAction from "../../components/shared/button-action";
+    import FormDefault from "../../components/shared/form-default";
 
     export default {
-        components: {ButtonAction, Message, TagTitle},
+        components: {ButtonAction, Message, TagTitle, FormDefault},
         data() {
             return {
-                errors: {},
-                // saving: false,
+                errors: [],
+                saving: false,
                 message: false,
                 serie: {
                     nome: '',
@@ -63,14 +54,14 @@
                 }
             }
         },
+
         methods: {
             onSubmit($event) {
                 this.saving = true
                 this.message = false
-                // console.log(this.serie);
                 api.create(this.serie)
                 .then((data) => {
-                    // console.log(data);
+                    // this.message = 'Processando solicitação...';
                     this.$router.push({ name: 'series.index' });
                 }).catch((e) => {
                     this.message = e.response.data || 'Processando solicitação...';

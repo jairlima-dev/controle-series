@@ -1,12 +1,35 @@
 <template>
-    <h1 class="block text-2xl bg-gray-200 mb-2 p-4 font-bold rounded-md">
-        {{ title }}
-    </h1>
+
+    <div class="flex text-2xl bg-gray-200 mb-2 p-4 font-bold rounded-md items-center justify-between">
+
+        <div>
+            <h1 class="">
+                {{ title }}
+            </h1>
+        </div>
+
+        <div>
+
+            <button type="submit" @click.prevent="$router.go(-1)"
+                    class="text-white font-bold
+                     h-12 px-3 mr-2 rounded-md">
+                <i class="fas fa-undo-alt text-3xl"/>
+                <p class="text-sm">Voltar</p>
+            </button>
+
+        </div>
+
+
+    </div>
+
 </template>
 
 <script>
 
+    import ButtonAction from "./button-action";
+
     export default {
+        components: {ButtonAction},
         props: [
             'title'
         ]

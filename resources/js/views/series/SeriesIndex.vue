@@ -25,7 +25,7 @@
 
         <ul class="flex flex-col" v-if="series">
 
-            <li class="flex p-2 border-2 justify-between rounded-md" v-for="{id, nome } in series">
+            <li class="flex p-2 border-2 justify-between rounded-md items-center" v-for="{id, nome } in series">
 
                 <div class="title flex-1 p-2 text-xl">
                     {{ nome }}
@@ -70,7 +70,6 @@
         axios
             .get('/api/series', { params })
             .then(response => {
-                console.log(response);
                 callback(null, response.data);
             }).catch(error => {
             callback(error, error.response.data);

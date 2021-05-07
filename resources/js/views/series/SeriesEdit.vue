@@ -6,16 +6,14 @@
 
         <message v-if="message" :text="message"/>
 
-        <form class="" @submit.prevent="onSubmit($event)">
+        <form class="flex items-end" @submit.prevent="onSubmit($event)">
 
             <div>
                 <label class="block" for="serie_name">Série</label>
                 <input class="w-96 px-2 py-1 border rounded-md block" id="serie_name" v-model="serie.nome"/>
             </div>
 
-            <button class="text-white bg-yellow-400 py-1 px-6 my-2 hover:bg-yellow-600 rounded-md"
-                    type="submit" :disabled="saving">Alterar
-            </button>
+            <button-action save="true"/>
 
         </form>
 
@@ -28,9 +26,11 @@
     import api from '../../api/series';
     import Message from "../../components/shared/message";
     import TagTitle from "../../components/shared/tag-title";
+    import ButtonAction from "../../components/shared/button-action"
+    import FormDefault from "../../components/shared/form-default";
 
     export default {
-        components: {TagTitle, Message},
+        components: {FormDefault, TagTitle, Message, ButtonAction},
         data() {
 
             return {
@@ -57,9 +57,7 @@
             });
         },
 
-
         methods: {
-
             onSubmit(event) {
                 api.update(this.serie.id, {
                     nome: this.serie.nome

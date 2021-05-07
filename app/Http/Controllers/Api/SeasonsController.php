@@ -14,6 +14,7 @@ class SeasonsController extends Controller
     public function index (Request $request, $id)
     {
         return SerieResource::collection(Serie::whereId($id)->with('temporadas')->get());
+//        return SerieResource::collection(Serie::whereId($id)->with('temporadas')->get());
     }
 
 }

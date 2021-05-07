@@ -8,26 +8,29 @@
 
         <ul class="flex flex-col" v-if="episodios">
 
-            <li  class="flex p-2 border-2 justify-between" v-for="{ id, numero } in episodios">
+            <li class="flex p-2 border-2 justify-between intems-center" v-for="{ id, numero } in episodios">
 
-                <div class="title flex p-2 text-xl">
-                    <div class="flex flex-1 mr-4 mt-2">
+                <div class="flex">
+
+                    <div class="title flex flex-1 p-2 text-xl">
                         Episódio - {{ numero }}
                     </div>
 
-
-                    <button-link blue="true" class="flex w-12 y-12">
-                        <i class="fas fa-external-link-alt"/>
-                    </button-link>
+                    <div class="action-buttons flex">
+                        <button-action edit="true"/>
+                    </div>
 
                 </div>
 
+
                 <div class="action-buttons flex flex-invert">
 
+                    <div class="text-center text-xl">
 
-                    <button-link red="true">
-                        <i class="fas fa-trash-alt"/>
-                    </button-link>
+                        <label class="block" for="assistido">Assistido</label>
+                        <input type="checkbox" id="assistido">
+
+                    </div>
 
                 </div>
 
@@ -45,14 +48,16 @@
     import TagTitle from "../../components/shared/tag-title";
     import Message from "../../components/shared/message";
     import ButtonLink from "../../components/shared/button-link";
+    import ButtonAction from "../../components/shared/button-action";
 
     export default {
 
-        components: {Message, TagTitle, ButtonLink},
+        components: {ButtonAction, Message, TagTitle, ButtonLink},
 
         data () {
             return {
                 message: '',
+                onEdit: false,
                 episodios: null
             }
         },
@@ -65,7 +70,6 @@
             fetchData() {
                 api.all(this.$route.params.id)
                     .then(response => {
-                        console.log(response);
                         this.episodios = response.data.data
                     }).catch(error => this.message = 'Erro na busca!');
             }
