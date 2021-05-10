@@ -4,15 +4,30 @@
 
         <button v-if="save" type="submit"
                 class="border-4 border-blue-300 hover:border-blue-600
-            text-blue-400 font-bold text-xl h-12 py-1 px-2 mx-2 rounded-md" >
+            text-blue-400 font-bold text-xl h-12 py-2 px-3 mx-3 rounded-md" >
             <i v-if="save" class="fas fa-check"/>
-            {{ saving ? 'Salvando...' : 'Salvar' }}
+            {{ tag }}
+<!--            {{ saving ? 'Salvando...' : 'Salvar' }}-->
         </button>
 
-        <div v-if="edit"
+        <button v-if="edit" type="submit"
                 class="border-4 border-yellow-300 hover:border-yellow-600
-            text-yellow-400 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md">
+            text-yellow-400 font-bold text-xl h-12 py-2 px-3 mx-3 rounded-md">
             <i v-if="edit" class="fas fa-pen"/>
+            {{ tag }}
+        </button>
+
+        <div v-if="search"
+                class="border-4 border-yellow-300 hover:border-yellow-600
+            text-yellow-400 font-bold text-xl h-12 py-2 px-3 mx-3 rounded-md">
+            <i v-if="search" class="fas fa-search"/>
+            {{ tag }}
+        </div>
+
+        <div v-if="link"
+                class="border-4 border-blue-300 hover:border-blue-600
+            text-bçlue-400 font-bold text-xl h-12 py-2 px-3 mx-3 rounded-md">
+            <i v-if="link" class="fas fa-external-link-alt"/>
             {{ tag }}
         </div>
 
@@ -24,19 +39,14 @@
     export default {
 
         props: [
+            'id',
             'save',
             'edit',
-            'back',
+            'search',
+            'link',
             'tag',
-            // 'submit'
-        ],
-
-        data () {
-            return {
-                saving: false,
-            }
-        },
-
+            'click',
+        ]
 
     }
 </script>

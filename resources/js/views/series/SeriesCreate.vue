@@ -1,6 +1,6 @@
 <template>
 
-    <div class="border-2 px-4 py-2 rounded-md">
+    <div-container>
 
         <tag-title title="Nova Série"/>
 
@@ -24,11 +24,11 @@
                 <input class="w-24 px-2 py-1 border-2 rounded-md" id="qtd_episodios" v-model="serie.episodios" />
             </div>
 
-            <button-action save="true"/>
+            <button-action save="true" tag="Salvar"/>
 
         </form>
 
-    </div>
+    </div-container>
 
 </template>
 
@@ -39,9 +39,10 @@
     import Message from "../../components/shared/message";
     import ButtonAction from "../../components/shared/button-action";
     import FormDefault from "../../components/shared/form-default";
+    import DivContainer from "../../components/shared/div-container";
 
     export default {
-        components: {ButtonAction, Message, TagTitle, FormDefault},
+        components: {DivContainer, ButtonAction, Message, TagTitle, FormDefault},
         data() {
             return {
                 errors: [],

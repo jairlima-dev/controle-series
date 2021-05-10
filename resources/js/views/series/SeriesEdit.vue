@@ -1,6 +1,6 @@
 <template>
 
-    <div class="border-2 px-4 py-2 rounded-md">
+    <div-container>
 
         <tag-title title="Alterar Série"/>
 
@@ -10,14 +10,15 @@
 
             <div>
                 <label class="block" for="serie_name">Série</label>
-                <input class="w-96 px-2 py-1 border rounded-md block" id="serie_name" v-model="serie.nome"/>
+                <input class="w-96 px-2 py-1 border rounded-md block" id="serie_name"
+                       v-model="serie.nome"/>
             </div>
 
-            <button-action save="true"/>
+            <button-action save="true" tag="Salvar"/>
 
         </form>
 
-    </div>
+    </div-container>
 
 </template>
 
@@ -28,13 +29,13 @@
     import TagTitle from "../../components/shared/tag-title";
     import ButtonAction from "../../components/shared/button-action"
     import FormDefault from "../../components/shared/form-default";
+    import DivContainer from "../../components/shared/div-container";
 
     export default {
-        components: {FormDefault, TagTitle, Message, ButtonAction},
+        components: {DivContainer, FormDefault, TagTitle, Message, ButtonAction},
+
         data() {
-
             return {
-
                 message: null,
                 loaded: false,
                 saving: false,
@@ -50,6 +51,7 @@
         created() {
             api.find(this.$route.params.id).
             then((response) => {
+                console.log(response);
                 // this.loaded = true;
                 this.serie = response.data.data;
             }).catch(error => {

@@ -5,7 +5,6 @@ namespace App\Services;
 
 
 use App\Models\Serie;
-use App\Models\Temporada;
 use Illuminate\Support\Facades\DB;
 
 class CriadorDeSeries

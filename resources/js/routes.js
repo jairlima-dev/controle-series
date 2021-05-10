@@ -1,13 +1,17 @@
 import SeriesIndex from "./views/series/SeriesIndex";
 import SeriesEdit from "./views/series/SeriesEdit";
 import SeriesCreate from "./views/series/SeriesCreate";
+import SeriesDelete from "./views/series/SeriesDelete";
 import SeasonsIndex from "./views/seasons/SeasonsIndex";
+import SeasonsCreate from "./views/seasons/SeasonsCreate";
+import EpisodesIndex from "./views/episodes/EpisodesIndex";
+import EpisodesCreate from "./views/episodes/EpisodesCreate";
+import EpisodesEdit from "./views/episodes/EpisodesEdit";
+import EpisodesDelete from "./views/episodes/EpisodesDelete";
 import MoviesIndex from "./views/MoviesIndex";
 import DocumentariesIndex from "./views/DocumentariesIndex";
 import About from "./views/About";
 import NotFound from "./views/NotFound";
-import SeriesDelete from "./views/series/SeriesDelete";
-import EpisodesIndex from "./views/episodes/EpisodesIndex";
 
 export default {
 
@@ -60,9 +64,33 @@ export default {
         },
 
         {
+            path: '/serie/:id/create',
+            name: 'seasons.create',
+            component: SeasonsCreate
+        },
+
+        {
             path: '/season/:id/episodes',
             name: 'season.episodes',
             component: EpisodesIndex
+        },
+
+        {
+            path: '/episodes/:id/create',
+            name: 'episodes.create',
+            component: EpisodesCreate
+        },
+
+        {
+            path: '/episodes/:id/edit',
+            name: 'episodes.edit',
+            component: EpisodesEdit
+        },
+
+        {
+            path: '/episodes/:id/delete',
+            name: 'episodes.delete',
+            component: EpisodesDelete
         },
 
         {

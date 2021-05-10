@@ -1,18 +1,16 @@
 <template>
 
-    <div v-if="message"
-         class="alert red-600 p-2 mb-1 w-50 border-red-100-1 rounded-md bg-red-100 block">
-        {{ message }}
-    </div>
+    <message v-if="message" :text="message"/>
 
 </template>
 
 <script>
 
     import api from '../../api/series';
+    import Message from "../../components/shared/message";
 
     export default {
-
+        components: {Message},
         data () {
 
             return {
@@ -27,12 +25,15 @@
                 api.delete(this.$route.params.id)
                     .then((response) => {
                         this.message = 'Série excluida';
-                        setTimeout(() => this.$router.push({ name: 'series.index'}) , 2000);
+                        setTimeout(() => this.message = null , 2000);
+                        // this.$router.push({ name: 'series.index'})
                     })
-                    .catch((error) => this.message = 'Erro!')
+                    .catch((error) => this.message = 'Ocorreu um erro na solicitação!')
             }
 
-            this.$router.push({ name: 'series.index'})
+            setTimeout(() => this.message = null , 2000);
+            this.$router.push({ name: 'series.index'});
+
         },
     }
 

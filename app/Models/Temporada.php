@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Temporada extends Model
 {
-    protected $fillable = ['numero'];
+    protected $fillable = ['numero', 'serie_id'];
 
     public function episodios()
     {

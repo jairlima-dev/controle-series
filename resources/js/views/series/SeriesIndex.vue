@@ -1,6 +1,6 @@
 <template>
 
-    <div class="border-2 px-4 py-2 rounded-md">
+    <div-container>
 
         <tag-title title="Séries"/>
 
@@ -15,17 +15,29 @@
             </p>
         </div>
 
-        <div class="actions flex my-4">
+        <div-actions>
 
-            <button-link to="series.create" tag="Novo" link="link"/>
+            <button-link to="series.create" tag="Nova Série" add="true"/>
 
-            <filter-default :filte="filter"/>
+            <div class="flex items-center">
 
-        </div>
+                <form class="flex items-end" @submit.prevent="onSubmit($event)">
+                    <label for="search">Buscar: </label>
+                    <input class="w-96 border-2 ml-4 px-2 py-2 rounded-md"
+                           type="search" id="search"
+                           placeholder="Digite aqui a sua busca"
+                    v-model="key">
+                    <button-action search="true"/>
+                </form>
+            </div>
+
+<!--            <filter-default :value="filter"/>-->
+
+        </div-actions>
 
         <ul class="flex flex-col" v-if="series">
 
-            <li class="flex p-2 border-2 justify-between rounded-md items-center" v-for="{id, nome } in series">
+            <li class="flex p-2 border-2 justify-between rounded-md items-center" v-for="{id, nome } in filtered">
 
                 <div class="title flex-1 p-2 text-xl">
                     {{ nome }}
@@ -51,7 +63,7 @@
             <button :disabled="! nextPage" @click.prevent="goToNext">Próxima</button>
         </div>
 
-    </div>
+    </div-container>
 
 </template>
 
@@ -63,6 +75,9 @@
     import ButtonLink from "../../components/shared/button-link";
     import GridDefault from "../../components/shared/grid-default";
     import FilterDefault from "../../components/shared/filter-default";
+    import DivContainer from "../../components/shared/div-container";
+    import DivActions from "../../components/shared/div-actions";
+    import ButtonAction from "../../components/shared/button-action"
 
     const getSeries = (page, callback) => {
     const params = { page };
@@ -79,12 +94,13 @@
 
     export default {
 
-        components: {FilterDefault, GridDefault, ButtonLink, TagTitle},
+        components: {DivActions, ButtonAction, DivContainer, FilterDefault, GridDefault, ButtonLink, TagTitle},
 
         data() {
 
             return {
-                filter: null,
+                filter: '',
+                key: '',
                 id: null,
                 series: null,
                 meta: null,
@@ -157,6 +173,12 @@
         },
 
         methods: {
+            onSubmit($event) {
+                api.search(this.key)
+                    .then(response => {
+                        console.log(response);
+                    });
+            },
 
             goToNext() {
                 this.$router.push({

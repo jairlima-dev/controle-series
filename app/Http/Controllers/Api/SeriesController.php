@@ -14,14 +14,22 @@ use Illuminate\Support\Facades\DB;
 
 class SeriesController extends Controller
 {
+
     public function index ()
     {
 
-        return SerieResource::collection(Serie::orderBy('nome')->paginate(10));
+        return SerieResource::collection(Serie::orderBy('nome')->paginate(8));
 
     }
 
-    public function show (Serie $serie)
+    public function search ()
+    {
+
+        return SerieResource::collection(Serie::orderBy('nome')->paginate(8));
+
+    }
+
+    public function show(Serie $serie)
     {
         return new SerieResource($serie);
     }
