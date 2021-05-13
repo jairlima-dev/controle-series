@@ -1,7 +1,5 @@
 <template>
-
     <div-container>
-
         <tag-title title="Séries"/>
 
         <div v-if="error" class="error">
@@ -26,7 +24,7 @@
                     <input class="w-96 border-2 ml-4 px-2 py-2 rounded-md"
                            type="search" id="search"
                            placeholder="Digite aqui a sua busca"
-                    v-model="key">
+                           v-model="exp">
                     <button-action search="true"/>
                 </form>
             </div>
@@ -36,25 +34,20 @@
         </div-actions>
 
         <ul class="flex flex-col" v-if="series">
-
-            <li class="flex p-2 border-2 justify-between rounded-md items-center" v-for="{id, nome } in filtered">
+            <li class="flex p-2 border-2 justify-between rounded-md items-center"
+                v-for="{id, nome } in searched" :key="id">
 
                 <div class="title flex-1 p-2 text-xl">
                     {{ nome }}
                 </div>
 
                 <div class="action-buttons flex flex-invert">
-
                     <button-link to='seasons.index' :id="id" link="true"/>
-
                     <button-link to='series.edit' :id="id" edit="true"/>
-
                     <button-link to='series.delete' :id="id" del="true"/>
-
                 </div>
 
             </li>
-
         </ul>
 
         <div class="pagination my-2">
@@ -64,7 +57,6 @@
         </div>
 
     </div-container>
-
 </template>
 
 <script>
@@ -100,7 +92,7 @@
 
             return {
                 filter: '',
-                key: '',
+                exp: '',
                 id: null,
                 series: null,
                 meta: null,
@@ -117,6 +109,17 @@
         },
 
         computed: {
+
+            searched () {
+
+                if (this.filter) {
+                    let exp = new RegExp(this.filter.trim(), 'i');
+                    return this.series.filter(serie => exp.test(serie.nome));
+                } else {
+                    return this.series;
+                }
+
+            },
 
             filtered () {
 

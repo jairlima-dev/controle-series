@@ -9,6 +9,9 @@
 
         <form class="flex items-end" @submit.prevent="onSubmit($event)">
 
+<!--            <input-form id="nome" big="true" label-text="Nome" -->
+<!--                        input-id="serie_name" v-model="serie.nome"> </input-form>-->
+
             <div class="mx-1 block">
                 <label class="block" for="serie_name">Nome</label>
                 <input class="w-96 px-2 py-1 border-2 rounded-md" id="serie_name" v-model="serie.nome" />
@@ -40,9 +43,10 @@
     import ButtonAction from "../../components/shared/button-action";
     import FormDefault from "../../components/shared/form-default";
     import DivContainer from "../../components/shared/div-container";
+    import InputForm from "../../components/shared/input-form";
 
     export default {
-        components: {DivContainer, ButtonAction, Message, TagTitle, FormDefault},
+        components: {InputForm, DivContainer, ButtonAction, Message, TagTitle, FormDefault},
         data() {
             return {
                 errors: [],
@@ -58,6 +62,7 @@
 
         methods: {
             onSubmit($event) {
+                console.log(this.serie);
                 this.saving = true
                 this.message = false
                 api.create(this.serie)

@@ -75,7 +75,7 @@ import FilterDefault from "../../components/shared/filter-default"
             fetchData() {
                 api.all(this.$route.params.id)
                     .then(response => {
-                        console.log(response);
+                        // console.log(response);
                         this.id = response.data.data[0].id;
                         this.nome = response.data.data[0].nome;
                         this.temporadas = response.data.data[0].temporadas;

@@ -24,10 +24,10 @@
             {{ tag }}
         </div>
 
-        <div v-if="link"
-                class="border-4 border-blue-300 hover:border-blue-600
+        <div v-if="load" v-on:click.prevent="action"
+             class="border-4 border-blue-300 hover:border-blue-600
             text-bçlue-400 font-bold text-xl h-12 py-2 px-3 mx-3 rounded-md">
-            <i v-if="link" class="fas fa-external-link-alt"/>
+            <i v-if="load" class="fas fa-exchange-alt"/>
             {{ tag }}
         </div>
 
@@ -43,7 +43,9 @@
             'save',
             'edit',
             'search',
+            'load',
             'link',
+            'action',
             'tag',
             'click',
         ]

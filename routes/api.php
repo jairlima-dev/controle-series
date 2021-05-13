@@ -45,5 +45,6 @@ Route::namespace('Api')->group(function () {
     Route::put('/episodes/{episodio}', [EpisodesController::class, 'update']);
     Route::delete('/episodes/{episodio}', [EpisodesController::class, 'destroy']);
 
+
 });
 

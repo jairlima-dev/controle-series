@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TemporadasFormRequest;
+use App\Http\Requests\SeasonsFormRequest;
 use App\Http\Resources\SeasonResource;
 use App\Http\Resources\SerieResource;
 use App\Models\Serie;
@@ -26,7 +26,7 @@ class SeasonsController extends Controller
 
     }
 
-    public function store (TemporadasFormRequest $request, CriadorDeTemporadas $criadorDeTemporadas)
+    public function store (SeasonsFormRequest $request, CriadorDeTemporadas $criadorDeTemporadas)
     {
 
         $numeroTemporada = (Temporada::where('serie_id', $request->serie_id)->max('numero') + 1);
