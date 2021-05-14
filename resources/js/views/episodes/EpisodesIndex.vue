@@ -15,7 +15,7 @@
 
         </div-actions>
 
-        <ul id="assisted" class="flex flex-col" v-if="episodios">
+        <ul class="flex flex-col" v-if="episodios">
 
             <li class="flex p-2 border-2 justify-between intems-center"
                 v-for="{ id, numero, nome, assistido } in episodios" :key="id">
@@ -35,8 +35,8 @@
 
                     <div class="ml-4 text-center text-xl">
 
-                        <label for="assistir" class="block">Assistido - {{ assistido }} - {{ id }}</label>
-                        <input type="checkbox" :name="id" id="assistir">
+                        <label for="assistir" class="block">Assistido - {{ assistido }}</label>
+                        <input type="checkbox" :name="id" id="assistir" v-model="assistido">
 
                     </div>
 
@@ -77,10 +77,6 @@
             this.fetchData();
         },
 
-        beforeUpdate() {
-            // this.episodios.forEach(this.checkAssistido())
-            this.checkAssistido()
-        },
 
         methods: {
             fetchData() {
@@ -89,26 +85,6 @@
                         this.episodios = response.data.data;
                         this.id = this.episodios[0].temporada_id;
                     }).catch(error => this.message = 'Erro na busca!');
-            },
-
-            checkAssistido() {
-                    let i = 0;
-                    for (i = 0; i < this.episodios.length; i++) {
-                        if (this.episodios[i].assistido == true) {
-                            console.log('Pra checar!');
-                            // let idEpisodio = this.episodios[i].id;
-                            let ver = document.getElementById("assisted");
-                            console.log(ver);
-                            let idCheck = ver.document.getElementsByTagName('input');
-
-
-                        } else if (this.episodios[i].assistido == false) {
-                            console.log('Em branco!')
-                            // let idEpisodio = this.episodios[i].id;
-                            // console.log(idEpisodio);
-                            // document.getElementById('assistido').checked = false;
-                        }
-                    }
             },
 
         },
