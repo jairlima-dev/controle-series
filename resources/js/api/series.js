@@ -7,7 +7,7 @@ export default {
     },
 
     find(id) {
-        return  axios.get(`/api/series/${id}`);
+        return axios.get(`/api/series/${id}`);
     },
 
     create(data) {

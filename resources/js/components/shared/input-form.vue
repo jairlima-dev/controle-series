@@ -1,37 +1,42 @@
 <template>
 
-    <div v-if="big" class="mx-1 block">
+    <div class="mx-1 block">
+        <label class="block">{{ labelText }}</label>
 
-        <label class="block" :for="inputId">{{ labelText }} : {{ inputReturn }}</label>
-        <label>
-            <input type="text" :id="inputId" class="w-96 px-2 py-1 border-2 rounded-md"/>
-        </label>
+            <input v-if="lg" class="w-96 px-2 py-1 border-2 rounded-md"
+                   type="text"
+                   :value="value"
+                   @input="$emit('input', $event.target.value)">
+
+
+            <input v-if="md" class="w-36 px-2 py-1 border-2 rounded-md"
+                   type="text"
+                   :value="value"
+                   @input="$emit('input', $event.target.value)">
+
+
+            <input v-if="sm" class="w-24 px-2 py-1 border-2 rounded-md"
+                   type="text"
+                   :value="value"
+                   @input="$emit('input', $event.target.value)">
+
 
     </div>
 
 </template>
 
 <script>
-
-
-
     export default {
 
         props: {
+            value: String,
             labelText: String,
-            big: String,
+            lg: String,
             md: Boolean,
             sm: Boolean,
             inputId: String,
-            inputName: String,
-            inputValue: String,
         },
 
-        data: function() {
-            return {
-                inputReturn: this.inputValue,
-            }
-
-        }
     }
+
 </script>

@@ -6,14 +6,13 @@
 
 <script>
     import api from "../../api/episodes"
-    import routes from "../../routes";
-    import DivContainer from "../../components/shared/div-container";
     import Message from "../../components/shared/message";
+    import DivContainer from "../../components/shared/div-container";
 
     export default {
         components: {Message, DivContainer},
 
-        data () {
+        data() {
             return {
                 message: '',
                 id: this.$route.params.id

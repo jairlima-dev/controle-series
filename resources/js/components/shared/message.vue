@@ -12,7 +12,8 @@
 
     export default {
         props: [
-            'text'
+            'text',
+            'argument'
         ]
     }
 </script>

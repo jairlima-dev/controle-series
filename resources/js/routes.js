@@ -10,6 +10,7 @@ import EpisodesEdit from "./views/episodes/EpisodesEdit";
 import EpisodesDelete from "./views/episodes/EpisodesDelete";
 import MoviesIndex from "./views/MoviesIndex";
 import DocumentariesIndex from "./views/DocumentariesIndex";
+import EpisodesFormEdit from "./views/episodes/EpisodesFormEdit";
 import About from "./views/About";
 import NotFound from "./views/NotFound";
 
@@ -46,7 +47,7 @@ export default {
         },
 
         {
-            path: '/series/:id/edit',
+            path: '/series/:id/edit/:data',
             name: 'series.edit',
             component: SeriesEdit
         },
@@ -82,9 +83,15 @@ export default {
         },
 
         {
-            path: '/episodes/:id/edit',
+            path: '/episodes/:id/edit/:data',
             name: 'episodes.edit',
             component: EpisodesEdit
+        },
+
+        {
+            path: '/episodes/:id/edit',
+            name: 'episodesform.edit',
+            component: EpisodesFormEdit
         },
 
         {

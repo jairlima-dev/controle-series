@@ -15,7 +15,7 @@
 
         <div-actions>
 
-            <button-link to="series.create" tag="Nova Série" add="true"/>
+            <button-link to="series.create" tag="Série" add="true"/>
 
             <div class="flex items-center">
 
@@ -34,17 +34,30 @@
         </div-actions>
 
         <ul class="flex flex-col" v-if="series">
-            <li class="flex p-2 border-2 justify-between rounded-md items-center"
-                v-for="{id, nome } in searched" :key="id">
 
-                <div class="title flex-1 p-2 text-xl">
-                    {{ nome }}
+            <li class="flex p-2 border-2 justify-between rounded-md items-center"
+                v-for="serie in searched" :key="serie.id">
+
+                <div class="title flex-1 p-2 text-xl" >
+
+                    <div v-if="!edit">
+                        {{ serie.nome }}
+                    </div>
+
+                    <div v-else-if="serieId === serie.id" class="flex">
+                        <input class="w-96 px-2 py-1 mr-2 border rounded-md "
+                               type="text" v-model="serie.nome"/>
+                        <button-link save="true" to="series.edit" :id="serie.id" :data="serie.nome"/>
+                    </div>
+
                 </div>
 
                 <div class="action-buttons flex flex-invert">
-                    <button-link to='seasons.index' :id="id" link="true"/>
-                    <button-link to='series.edit' :id="id" edit="true"/>
-                    <button-link to='series.delete' :id="id" del="true"/>
+                    <button-link to='seasons.index' :id="serie.id" link="true"/>
+                    <button @click="onEdit(serie.id)" class="border-4 border-yellow-300 hover:border-yellow-600
+                            text-yellow-400 font-bold text-xl h-12 py-2 px-3 mr-2 rounded-md">
+                        <i class="fas fa-pen"/></button>
+                    <button-link to='series.delete' :id="serie.id" del="true"/>
                 </div>
 
             </li>
@@ -86,11 +99,14 @@
 
     export default {
 
-        components: {DivActions, ButtonAction, DivContainer, FilterDefault, GridDefault, ButtonLink, TagTitle},
+        components: {DivActions, ButtonAction, DivContainer, FilterDefault,
+            GridDefault, ButtonLink, TagTitle},
 
         data() {
 
             return {
+                edit: false,
+                serieId: false,
                 filter: '',
                 exp: '',
                 id: null,
@@ -109,6 +125,7 @@
         },
 
         computed: {
+
 
             searched () {
 
@@ -176,6 +193,15 @@
         },
 
         methods: {
+            onEdit(idSerie) {
+                this.serieId = idSerie;
+                if (!this.edit) {
+                    this.edit = true;
+                } else  {
+                    this.edit = false;
+                }
+            },
+
             onSubmit($event) {
                 api.search(this.key)
                     .then(response => {

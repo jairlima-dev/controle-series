@@ -2,7 +2,7 @@
 
 <div>
 
-    <router-link :to="{ name: to, params:  { id  } }">
+    <router-link :to="{ name: to, params:  { id, data } }">
 
         <div v-if="add" class="border-4 border-blue-300 hover:border-blue-600
             text-blue-400 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md">
@@ -16,7 +16,8 @@
             {{ tag }}
         </div>
 
-        <div v-if="edit" class="border-4 border-yellow-300 hover:border-yellow-600
+        <div v-if="edit"
+             class="border-4 border-yellow-300 hover:border-yellow-600
             text-yellow-400 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md">
             <i v-if="edit" class="fas fa-pen"/>
             {{ tag }}
@@ -51,7 +52,8 @@
             'link',
             'del',
             'edit',
-            'save'
+            'save',
+            'data'
         ]
     }
 </script>

@@ -6,8 +6,8 @@
 
         <div-actions>
 
-            <button-link to="seasons.create" :id="id" tag="Nova Temporada" add="true"/>
-            <filter-default/>
+            <button-link to="seasons.create" :id="id" tag="Temporada" add="true"/>
+            <filter-default value="filter"/>
 
         </div-actions>
 
@@ -22,15 +22,16 @@
                         Temporada - {{ numero }}
                     </div>
 
-                    <button-link to="season.episodes" tag="Episódios" :id="id" link="true"/>
+                    <div class="text-center text-lg">
+                        <span class="text-sm"> - Assistidos: {{assistido}}/{{total}}</span>
+                    </div>
 
                 </div>
 
-                <div class="text-center text-xl">
-
-                    <span class="text-sm">{{assistido}}/{{total}}</span>
-
+                <div class="action-buttons flex flex-invert">
+                    <button-link to="season.episodes" :id="id" link="true"/>
                 </div>
+
 
             </li>
         </ul>
@@ -57,11 +58,11 @@ import FilterDefault from "../../components/shared/filter-default"
 
         data () {
             return {
-                filte: '',
+                filter: '',
                 assistido: 3,
                 total: 8,
                 message: '',
-                id: null,
+                id: this.$route.params.id,
                 nome: '',
                 temporadas: null
             }

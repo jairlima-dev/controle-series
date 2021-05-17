@@ -43,7 +43,9 @@
         created() {
             api.create(this.episodios)
                 .then(data => {
-                    this.$router.go(-1);
+                    this.message = 'Criado episódio: ';
+                    setTimeout(() => this.$router.go(-1), 3000);
+                    // this.$router.go(-1);
                 }).catch(error => {
                 this.message = 'Erro ao carregar os dados!'
             });

@@ -7,42 +7,58 @@
         <div-actions class="justify-between">
 
             <div class="flex">
-                <button-link to="episodes.create" :id="id" tag="Novo Episódio" add="true"/>
+                <button-link to="episodes.create" :id="id" tag="Episódio" add="true"/>
                 <filter-default/>
             </div>
 
-            <button-action tag="Salvar" save="true"/>
+            <button-action tag="Assistidos" save="true"/>
 
         </div-actions>
 
         <ul class="flex flex-col" v-if="episodios">
 
-            <li class="flex p-2 border-2 justify-between intems-center"
-                v-for="{ id, numero, nome, assistido } in episodios" :key="id">
+            <li class="flex p-2 border-2 justify-between rounded-md intems-center"
+                v-for="episodio in episodios" :key="episodio.id">
 
-                <div class="flex items-center" >
+                <div class="title flex-1 p-2 text-xl" >
 
-                    <div class="title flex flex-1 p-2 text-xl">
-                        Episódio {{ numero }} - {{ nome }}
+                    <div v-if="!edit">
+                        Episódio {{ episodio.numero }} - {{ episodio.nome }}
+                    </div>
+
+                    <div v-else-if="episodeId === episodio.id" class="flex items-center">
+                        Episódio {{ episodio.numero }} -
+                        <input class="w-96 px-2 py-1 mr-2 border rounded-md "
+                               type="text" v-model="episodio.nome">
+                        <button-link save="true" to="episodes.edit" :id="episodio.id" :data="episodio.nome"/>
                     </div>
 
                 </div>
 
                 <div class="action-buttons flex flex-invert">
 
-                    <button-link to="episodes.edit" :id="id" edit="true"/>
-                    <button-link to="episodes.delete" :id="id" del="true"/>
+                    <button @click="onEdit(episodio.id)" class="border-4 border-yellow-300 hover:border-yellow-600
+                            text-yellow-400 font-bold text-xl h-12 py-2 px-3 mr-2 rounded-md">
+                        <i class="fas fa-pen"/></button>
 
-                    <div class="ml-4 text-center text-xl">
+                    <button-link to="episodes.delete" :id="episodio.id" del="true"/>
 
-                        <label for="assistir" class="block">Assistido - {{ assistido }}</label>
-                        <input type="checkbox" :name="id" id="assistir" v-model="assistido">
 
-                    </div>
+
+                    <checked-default labelText="Assistido - " v-model="episodio.assistido"></checked-default>
+                    {{ episodio.assistido}}
+
+
+                    <!--                    <div class="ml-4 text-center text-xl">-->
+<!--                        <label for="assistido" class="block">Assistido - {{ episodio.assistido }}</label>-->
+<!--                        <input type="checkbox" id="assistido" v-model="episodio.assistido">-->
+
+<!--                    </div>-->
 
                 </div>
 
             </li>
+
         </ul>
 
     </div-container>
@@ -59,24 +75,26 @@
     import DivActions from "../../components/shared/div-actions";
     import FilterDefault from "../../components/shared/filter-default";
     import ButtonAction from "../../components/shared/button-action";
+    import CheckedDefault from "../../components/shared/checked-default"
 
     export default {
 
-        components: {ButtonAction, DivContainer, DivActions, FilterDefault,
+        components: {ButtonAction, CheckedDefault, DivContainer, DivActions, FilterDefault,
                     Message, TagTitle, ButtonLink},
 
         data () {
             return {
+                edit: false,
+                episodeId: false,
                 message: '',
-                id: null,
-                episodios: null
+                id: this.$route.params.id,
+                episodios: null,
             }
         },
 
         created() {
             this.fetchData();
         },
-
 
         methods: {
             fetchData() {
@@ -86,6 +104,15 @@
                         this.id = this.episodios[0].temporada_id;
                     }).catch(error => this.message = 'Erro na busca!');
             },
+
+            onEdit(idEpisode) {
+                this.episodeId = idEpisode;
+                if (!this.edit) {
+                    this.edit = true;
+                } else {
+                    this.edit = false;
+                }
+            }
 
         },
 
