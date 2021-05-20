@@ -24,9 +24,8 @@ class SeasonsFormRequest extends FormRequest
     public function rules()
     {
         return [
-//            'numero' => 'required',
-            'serie_id' => 'required|int',
-            'episodios' => 'required|int',
+            'serie_id' => 'required|numeric',
+            'episodios' => 'required|numeric',
         ];
     }
 
@@ -34,8 +33,8 @@ class SeasonsFormRequest extends FormRequest
     {
         return [
             'required' => 'O Campo :attribute é Obrigatório',
-            'series_id.int' => 'O Campo :attribute precisa ser numérico',
-            'episodios.int' => 'O Campo :attribute precisa ser numérico'
+            'series_id.numeric' => 'O Campo :attribute precisa ser numérico',
+            'episodios.numeric' => 'O Campo :attribute precisa ser numérico'
         ];
     }
 }

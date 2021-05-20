@@ -1,6 +1,9 @@
 <template>
 
-        <message v-if="message" :text="message"/>
+    <div>
+        <message v-if="message">{{ message }}</message>
+        <errors v-if="errors" :errors="errors"/>
+    </div>
 
 </template>
 
@@ -8,9 +11,10 @@
     import api from "../../api/episodes";
     import Message from "../../components/shared/message";
     import DivContainer from "../../components/shared/div-container";
+    import Errors from "../../components/shared/errors";
 
     export default {
-        components: {Message, DivContainer},
+        components: {Errors, Message, DivContainer},
 
         props: {
           data: String
@@ -18,20 +22,23 @@
 
         data() {
             return {
+                errors: null,
                 message: '',
                 id: this.$route.params.id,
-                nome: this.$route.params.data,
+                nome: this.$route.params.nome,
             }
         },
 
         created() {
-            api.update(this.id, {
-                nome: this.nome,
-            }).then(data => {
+            api.update(this.id, {nome: this.nome,})
+                .then(response => {
                 this.message = `Episódio Alterado: ${this.nome}`;
                 setTimeout(() => this.$router.go(-1), 2000)
             }).catch(error => {
-                this.message = 'Erro ao processar os dados!';
+                this.errors = error.response.data.errors;
+                setTimeout(() => this.$router.go(-1), 2000)
+                // this.message = 'Erro ao processar os dados!' || error;
+                // this.$router.go(-1);
             })
         },
 

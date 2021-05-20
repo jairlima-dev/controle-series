@@ -1,20 +1,26 @@
 <template>
 
-    <message v-if="message" :text="message"/>
+    <div-container>
+        <message v-if="message">{{ message }}</message>
+        <errors v-if="errors" :errors="errors"/>
+    </div-container>
 
 </template>
 
 <script>
 
     import api from '../../api/series';
+    import Errors from "../../components/shared/errors";
     import Message from "../../components/shared/message";
+    import DivContainer from "../../components/shared/div-container";
 
     export default {
-        components: {Message},
+        components: {DivContainer, Errors, Message},
         data () {
 
             return {
-                id: '',
+                errors: null,
+                // id: '',
                 message: ''
             }
         },
@@ -24,15 +30,16 @@
                 this.message = 'Efetuando solicitação. Aguarde...';
                 api.delete(this.$route.params.id)
                     .then((response) => {
-                        this.message = 'Série excluida';
-                        setTimeout(() => this.message = null , 2000);
-                        // this.$router.push({ name: 'series.index'})
-                    })
+                        this.message = 'Série excluida'
+                        // setTimeout(() => this.message = null ,4000);
+                        this.$router.push({ name: 'series.index'});
+                        })
                     .catch((error) => this.message = 'Ocorreu um erro na solicitação!')
+            } else {
+                this.$router.push({ name: 'series.index'})
             }
+            // setTimeout(() => this.$router.push({ name: 'series.index'}), 2000);
 
-            setTimeout(() => this.message = null , 2000);
-            this.$router.push({ name: 'series.index'});
 
         },
     }

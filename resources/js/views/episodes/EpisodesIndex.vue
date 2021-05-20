@@ -1,28 +1,36 @@
 <template>
 
     <div-container>
-        <tag-title title="Episódios"/>
-        <message v-if="message" :text="message"/>
+        <tag-title>Série: {{ nomeTemporada }} - Temporada {{ numeroTemporada }} </tag-title>
+        <message v-if="message">{{ message }}</message>
+        <errors v-if="errors" :errors="errors"/>
 
-        <div-actions class="justify-between">
+        <div-actions>
+            <button-link to="episodes.create"
+                         :id="id"
+                         :numero="numeroTemporada"
+                         tag="Episódio"
+                         type="add"/>
 
-            <div class="flex">
-                <button-link to="episodes.create" :id="id" tag="Episódio" add="true"/>
-                <filter-default/>
+            <div class="flex items-center">
+                <label for="filtro">Filtrar: </label>
+                <input id="filtro"
+                       type="search"
+                       @input="filter = $event.target.value"
+                       class="w-96 mx-2 p-2 border-2"
+                       label-text="Buscar"
+                       placeholder="Digite aqui a sua busca">
             </div>
-
-            <button-action tag="Assistidos" save="true"/>
 
         </div-actions>
 
-        <ul class="flex flex-col" v-if="episodios">
+        <ul v-if="episodios" v-for="episodio in filteredEpisodes" :key="episodio.id" class="flex flex-col">
 
-            <li class="flex p-2 border-2 justify-between rounded-md intems-center"
-                v-for="episodio in episodios" :key="episodio.id">
+            <li class="flex p-2 border-2 justify-between rounded-md intems-center">
 
                 <div class="title flex-1 p-2 text-xl" >
 
-                    <div v-if="!edit">
+                    <div v-if="!editNome">
                         Episódio {{ episodio.numero }} - {{ episodio.nome }}
                     </div>
 
@@ -30,30 +38,21 @@
                         Episódio {{ episodio.numero }} -
                         <input class="w-96 px-2 py-1 mr-2 border rounded-md "
                                type="text" v-model="episodio.nome">
-                        <button-link save="true" to="episodes.edit" :id="episodio.id" :data="episodio.nome"/>
+                        <button-link to="episodes.edit"
+                                     :id="episodio.id"
+                                     :nome="episodio.nome"
+                                     type="save"/>
+                        <button-action type="cancel" @execute="onEdit()"/>
                     </div>
 
                 </div>
 
-                <div class="action-buttons flex flex-invert">
+                <div  v-if="!editNome" class="action-buttons flex flex-invert">
 
-                    <button @click="onEdit(episodio.id)" class="border-4 border-yellow-300 hover:border-yellow-600
-                            text-yellow-400 font-bold text-xl h-12 py-2 px-3 mr-2 rounded-md">
-                        <i class="fas fa-pen"/></button>
-
-                    <button-link to="episodes.delete" :id="episodio.id" del="true"/>
-
-
-
-                    <checked-default labelText="Assistido - " v-model="episodio.assistido"></checked-default>
-                    {{ episodio.assistido}}
-
-
-                    <!--                    <div class="ml-4 text-center text-xl">-->
-<!--                        <label for="assistido" class="block">Assistido - {{ episodio.assistido }}</label>-->
-<!--                        <input type="checkbox" id="assistido" v-model="episodio.assistido">-->
-
-<!--                    </div>-->
+                    <button-action type="edit" @execute="onEdit(episodio.id)"/>
+                    <button-link type="delete" to="episodes.delete" :id="episodio.id"/>
+                    <checked-default :id="episodio.id" labelText="Assistido"
+                                     v-model="episodio.assistido"/>
 
                 </div>
 
@@ -69,22 +68,27 @@
 
     import api from '../../api/episodes';
     import TagTitle from "../../components/shared/tag-title";
+    import Errors from "../../components/shared/errors";
     import Message from "../../components/shared/message";
     import ButtonLink from "../../components/shared/button-link";
     import DivContainer from "../../components/shared/div-container";
     import DivActions from "../../components/shared/div-actions";
-    import FilterDefault from "../../components/shared/filter-default";
+    import FilterDefault from "../../components/shared/input-filter";
     import ButtonAction from "../../components/shared/button-action";
     import CheckedDefault from "../../components/shared/checked-default"
 
     export default {
 
-        components: {ButtonAction, CheckedDefault, DivContainer, DivActions, FilterDefault,
-                    Message, TagTitle, ButtonLink},
+        components: {ButtonAction, Errors, CheckedDefault, DivContainer, DivActions,
+            FilterDefault, Message, TagTitle, ButtonLink},
 
         data () {
             return {
-                edit: false,
+                filter: '',
+                errors: null,
+                numeroTemporada: this.$route.params.numero,
+                nomeTemporada: this.$route.params.nome,
+                editNome: false,
                 episodeId: false,
                 message: '',
                 id: this.$route.params.id,
@@ -94,6 +98,17 @@
 
         created() {
             this.fetchData();
+        },
+
+        computed: {
+            filteredEpisodes () {
+                if (this.filter) {
+                    let exp = new RegExp(this.filter.trim(), 'i');
+                    return this.episodios.filter(episodio => exp.test(episodio.nome));
+                } else {
+                    return this.episodios;
+                }
+            },
         },
 
         methods: {
@@ -107,13 +122,12 @@
 
             onEdit(idEpisode) {
                 this.episodeId = idEpisode;
-                if (!this.edit) {
-                    this.edit = true;
+                if (!this.editNome) {
+                    this.editNome = true;
                 } else {
-                    this.edit = false;
+                    this.editNome = false;
                 }
             }
-
         },
 
     }

@@ -1,63 +1,48 @@
 <template>
     <div-container>
-        <tag-title title="Séries"/>
-
-        <div v-if="error" class="error">
-            {{ error }}
-            <p>
-                <button
-                    class="text-white bg-yellow-500 py-2 px-6 hover:bg-yellow-700 rounded-md"
-                    @click.prevent="fetchData">
-                    Try Again
-                </button>
-            </p>
-        </div>
+        <tag-title>Séries</tag-title>
+        <errors v-if="errors" :errors="errors"/>
 
         <div-actions>
+            <button-link to="series.create"
+                         tag="Série"
+                         type="add"/>
 
-            <button-link to="series.create" tag="Série" add="true"/>
 
-            <div class="flex items-center">
-
-                <form class="flex items-end" @submit.prevent="onSubmit($event)">
-                    <label for="search">Buscar: </label>
-                    <input class="w-96 border-2 ml-4 px-2 py-2 rounded-md"
-                           type="search" id="search"
-                           placeholder="Digite aqui a sua busca"
-                           v-model="exp">
-                    <button-action search="true"/>
-                </form>
-            </div>
-
-<!--            <filter-default :value="filter"/>-->
+                <div class="flex items-center">
+                    <label for="busca">Buscar: </label>
+                    <input id="busca"
+                           class="w-96 mx-2 p-2 border-2"
+                           @input="filter = $event.target.value">
+                    <button-action @execute="searchSerie" type="search"/>
+                </div>
 
         </div-actions>
 
-        <ul class="flex flex-col" v-if="series">
+        <ul v-if="series" v-for="serie in filteredSeries" :key="serie.id" class="flex flex-col">
 
-            <li class="flex p-2 border-2 justify-between rounded-md items-center"
-                v-for="serie in searched" :key="serie.id">
+            <li class="flex p-2 border-2 justify-between rounded-md items-center">
 
                 <div class="title flex-1 p-2 text-xl" >
 
-                    <div v-if="!edit">
+                    <div v-if="!editNome">
                         {{ serie.nome }}
                     </div>
 
                     <div v-else-if="serieId === serie.id" class="flex">
                         <input class="w-96 px-2 py-1 mr-2 border rounded-md "
                                type="text" v-model="serie.nome"/>
-                        <button-link save="true" to="series.edit" :id="serie.id" :data="serie.nome"/>
+                        <button-link type="save" to="series.edit" :id="serie.id"
+                                     :nome="serie.nome"/>
+                        <button-action type="cancel" @execute="onEdit()" />
                     </div>
 
                 </div>
 
-                <div class="action-buttons flex flex-invert">
-                    <button-link to='seasons.index' :id="serie.id" link="true"/>
-                    <button @click="onEdit(serie.id)" class="border-4 border-yellow-300 hover:border-yellow-600
-                            text-yellow-400 font-bold text-xl h-12 py-2 px-3 mr-2 rounded-md">
-                        <i class="fas fa-pen"/></button>
-                    <button-link to='series.delete' :id="serie.id" del="true"/>
+                <div  v-if="!editNome" class="action-buttons flex flex-invert">
+                    <button-link type="link" to='seasons.index' :id="serie.id"/>
+                    <button-action type="edit" @execute="onEdit(serie.id)"/>
+                    <button-link type="delete" to='series.delete' :id="serie.id"/>
                 </div>
 
             </li>
@@ -79,10 +64,15 @@
     import TagTitle from "../../components/shared/tag-title";
     import ButtonLink from "../../components/shared/button-link";
     import GridDefault from "../../components/shared/grid-default";
-    import FilterDefault from "../../components/shared/filter-default";
+    import FilterDefault from "../../components/shared/input-filter";
     import DivContainer from "../../components/shared/div-container";
     import DivActions from "../../components/shared/div-actions";
     import ButtonAction from "../../components/shared/button-action"
+    import Errors from "../../components/shared/errors";
+    import ImputForm from "../../components/shared/input-form"
+    import InputForm from "../../components/shared/input-form";
+    import FormFilter from "../../components/shared/input-filter";
+    import InputFilter from "../../components/shared/input-filter";
 
     const getSeries = (page, callback) => {
     const params = { page };
@@ -99,13 +89,18 @@
 
     export default {
 
-        components: {DivActions, ButtonAction, DivContainer, FilterDefault,
+        components: {
+            InputFilter,
+            FormFilter,
+            InputForm,
+            Errors, ImputForm, DivActions, ButtonAction, DivContainer, FilterDefault,
             GridDefault, ButtonLink, TagTitle},
 
         data() {
 
             return {
-                edit: false,
+                errors: null,
+                editNome: false,
                 serieId: false,
                 filter: '',
                 exp: '',
@@ -119,34 +114,18 @@
                     prev: null,
                 },
                 error: null,
-
-
             };
         },
 
         computed: {
 
-
-            searched () {
-
+            filteredSeries () {
                 if (this.filter) {
                     let exp = new RegExp(this.filter.trim(), 'i');
                     return this.series.filter(serie => exp.test(serie.nome));
                 } else {
                     return this.series;
                 }
-
-            },
-
-            filtered () {
-
-                if (this.filter) {
-                    let exp = new RegExp(this.filter.trim(), 'i');
-                    return this.series.filter(serie => exp.test(serie.nome));
-                } else {
-                    return this.series;
-                }
-
             },
 
             nextPage() {
@@ -193,12 +172,16 @@
         },
 
         methods: {
+            searchSerie() {
+
+            },
+
             onEdit(idSerie) {
                 this.serieId = idSerie;
-                if (!this.edit) {
-                    this.edit = true;
+                if (!this.editNome) {
+                    this.editNome = true;
                 } else  {
-                    this.edit = false;
+                    this.editNome = false;
                 }
             },
 

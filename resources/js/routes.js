@@ -47,7 +47,7 @@ export default {
         },
 
         {
-            path: '/series/:id/edit/:data',
+            path: '/series/:id/edit/:nome',
             name: 'series.edit',
             component: SeriesEdit
         },
@@ -71,19 +71,19 @@ export default {
         },
 
         {
-            path: '/season/:id/episodes',
+            path: '/season/:id/episodes/:numero/:nome',
             name: 'season.episodes',
             component: EpisodesIndex
         },
 
         {
-            path: '/episodes/:id/create',
+            path: '/episodes/:id/create/:numero',
             name: 'episodes.create',
             component: EpisodesCreate
         },
 
         {
-            path: '/episodes/:id/edit/:data',
+            path: '/episodes/:id/edit/:nome',
             name: 'episodes.edit',
             component: EpisodesEdit
         },

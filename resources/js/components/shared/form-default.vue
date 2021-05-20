@@ -1,6 +1,6 @@
 <template>
 
-    <form class="flex items-end" @submit.prevent="onSubmit($event)">
+    <form class="flex items-end">
         <slot></slot>
     </form>
 

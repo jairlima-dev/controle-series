@@ -1,6 +1,9 @@
 <template>
 
-        <message v-if="message" :text="message"/>
+    <div>
+        <message v-if="message">{{ message }}</message>
+        <errors v-if="errors" :errors="errors"/>
+    </div>
 
 </template>
 
@@ -8,12 +11,14 @@
     import api from "../../api/episodes"
     import Message from "../../components/shared/message";
     import DivContainer from "../../components/shared/div-container";
+    import Errors from "../../components/shared/errors";
 
     export default {
-        components: {Message, DivContainer},
+        components: {Errors, Message, DivContainer},
 
         data() {
             return {
+                errors: null,
                 message: '',
                 id: this.$route.params.id
             }
@@ -27,8 +32,9 @@
                         this.message = 'Episódio excluido!';
                         setTimeout(() => this.$router.go(-1), 2000);
                     }).catch(error => {
-                        this.message = 'Só é possóvel exluir o último episodio!';
-                        setTimeout(() => this.$router.go(-1), 3000);
+                        this.message = null;
+                        this.errors = error.response.data.errors;
+                        setTimeout(() => this.$router.go(-1), 4000);
                 })
 
             } else {

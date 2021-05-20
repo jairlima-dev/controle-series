@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SeriesFormRequest;
+use App\Http\Requests\SeriesUpdateRequest;
 use App\Http\Resources\SerieResource;
 use App\Models\Episodio;
 use App\Models\Serie;
@@ -17,16 +18,12 @@ class SeriesController extends Controller
 
     public function index ()
     {
-
         return SerieResource::collection(Serie::orderBy('nome')->paginate(8));
-
     }
 
     public function search ()
     {
-
         return SerieResource::collection(Serie::orderBy('nome')->paginate(8));
-
     }
 
     public function show(Serie $serie)
@@ -36,7 +33,6 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request, CriadorDeSeries $criadorDeSeries)
     {
-
         $serie = $criadorDeSeries->criarSerie(
             $request->nome,
             $request->temporadas,
@@ -44,17 +40,18 @@ class SeriesController extends Controller
         );
 
         return new SerieResource($serie);
-
     }
 
-    public function update(Serie $serie, Request $request)
+    public function update(Serie $serie, SeriesUpdateRequest
+    $request)
     {
+        $data = $request->validate([
+            'nome' => 'required'
+        ]);
 
-        $data = $request->validate(['nome' => 'required']);
         $serie->update($data);
 
         return new SerieResource($serie);
-
     }
 
     public function destroy(Serie $serie)
@@ -63,7 +60,6 @@ class SeriesController extends Controller
         $serie->delete();
 
         return response(null, 204);
-
     }
 
     /**
@@ -75,7 +71,6 @@ class SeriesController extends Controller
             $this->destroyEpisodios($temporada);
             $temporada->delete();
         });
-
     }
 
     /**

@@ -1,6 +1,6 @@
 <template>
 
-    <div class="flex my-4">
+    <div class="flex my-4 items-end">
         <slot></slot>
     </div>
 
@@ -9,7 +9,7 @@
 <script>
 
     import ButtonLink from "./button-link";
-    import FilterDefault from "./filter-default"
+    import FilterDefault from "./input-filter"
 
     export default {
 

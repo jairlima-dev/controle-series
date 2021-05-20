@@ -25,14 +25,14 @@ class EpisodesController extends Controller
         return new EpisodeResource($episodio);
     }
 
-    public function store (Request $request)
+    public function store (EpisodesFormRequest $request)
     {
         $numeroEpisodio = (Episodio::where('temporada_id', $request->temporada_id)->max('numero') + 1);
 
         DB::beginTransaction();
             $episodio = Episodio::create([
                 'numero' =>$numeroEpisodio,
-//                'nome' => $request->nome,
+                'nome' => $request->nome,
                 'temporada_id' => $request->temporada_id
             ]);
         DB::commit();
@@ -59,16 +59,16 @@ class EpisodesController extends Controller
 
         $ultimoEpisodio = Episodio::where('temporada_id', $episodio->temporada_id)->max('numero');
         $numeroEpisodio = $episodio->numero;
-//        dd($ultimoEpisodio);
 
         if ($numeroEpisodio !== $ultimoEpisodio) {
 
-            return Response::json(['mensagem' => 'Eu aqui!'], 401);
-//            response('Só é possivel excluir o último episódio ', 401);
+            return Response::json(['errors' => [
+                'episodios' => ['Só é permitido excluir o último Episódio!'
+                ]]], 401);
 
         } else {
             $episodio->delete();
-            return response(null, 204);
+//            return response(null, 204);
         }
 
 

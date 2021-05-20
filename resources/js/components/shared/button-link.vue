@@ -2,36 +2,10 @@
 
 <div>
 
-    <router-link :to="{ name: to, params:  { id, data } }">
+    <router-link :to="{ name: to, params:  { id, numero, nome } }">
 
-        <div v-if="add" class="border-4 border-blue-300 hover:border-blue-600
-            text-blue-400 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md">
-            <i v-if="add" class="fas fa-plus-circle"/>
-            {{ tag }}
-        </div>
-
-        <div v-if="link" class="border-4 border-blue-300 hover:border-blue-600
-            text-blue-400 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md">
-            <i v-if="link" class="fas fa-external-link-alt"/>
-            {{ tag }}
-        </div>
-
-        <div v-if="edit"
-             class="border-4 border-yellow-300 hover:border-yellow-600
-            text-yellow-400 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md">
-            <i v-if="edit" class="fas fa-pen"/>
-            {{ tag }}
-        </div>
-
-        <div v-if="del" class="border-4 border-red-300 hover:border-red-600
-            text-red-400 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md">
-            <i v-if="del" class="fas fa-trash-alt"/>
-            {{ tag }}
-        </div>
-
-        <div v-if="save" class="border-4 border-blue-300 hover:border-blue-600
-            text-blue-400 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md">
-            <i v-if="save" class="fas fa-check"/>
+        <div :class="styleButton">
+            <i :class="iClass"/>
             {{ tag }}
         </div>
 
@@ -45,16 +19,48 @@
     export default {
 
         props: [
+            'type',
+            'tag',
             'to',
             'id',
-            'tag',
-            'add',
-            'link',
-            'del',
-            'edit',
-            'save',
-            'data'
-        ]
+            'numero',
+            'nome',
+        ],
+
+        computed: {
+
+            iClass() {
+                if (this.type === 'add') return "fas fa-plus-circle";
+                if (this.type === 'link') return "fas fa-external-link-alt";
+                if (this.type === 'edit') return "fas fa-pen";
+                if (this.type === 'delete') return "fas fa-trash-alt";
+                if (this.type === 'save') return "fas fa-check";
+            },
+
+            styleButton() {
+                if (this.type === 'add') {
+                    return "border-4 border-blue-300 hover:border-blue-600 " +
+                        "text-blue-400 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md"
+                }
+                if (this.type === 'link') {
+                    return "border-4 border-blue-300 hover:border-blue-600 " +
+                        "text-blue-400 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md"
+                }
+                if (this.type === 'edit') {
+                    return "border-4 border-yellow-300 hover:border-yellow-600 " +
+                        "text-yellow-400 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md"
+                }
+                if (this.type === 'delete') {
+                    return "border-4 border-red-300 hover:border-red-600 " +
+                        "text-red-400 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md"
+                }
+                if (this.type === 'save') {
+                    return "border-4 border-blue-300 hover:border-blue-600 " +
+                        "text-blue-400 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md"
+                }
+            },
+
+        },
     }
 </script>
 

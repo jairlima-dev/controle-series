@@ -25,8 +25,8 @@ class SeriesFormRequest extends FormRequest
     {
         return [
             'nome' => 'required|min:3|unique:series',
-            'temporadas' => 'required|int',
-            'episodios' => 'required|int'
+            'temporadas' => 'required|numeric',
+            'episodios' => 'required|numeric'
         ];
     }
 
@@ -36,8 +36,8 @@ class SeriesFormRequest extends FormRequest
             'required' => 'O Campo :attribute é Obrigatório',
             'nome.min' => 'O Nome precisa ter pelo menos 3 caracteres',
             'nome.unique' => 'Já existe uma Série com o mesmo nome',
-            'temporadas.int' => 'O Campo :attribute precisa ser numérico',
-            'episodios.int' => 'O Campo :attribute precisa ser numérico'
+            'temporadas.numeric' => 'O Campo :attribute precisa ser numérico',
+            'episodios.numeric' => 'O Campo :attribute precisa ser numérico'
         ];
     }
 }

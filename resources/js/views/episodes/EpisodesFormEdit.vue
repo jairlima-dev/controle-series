@@ -1,9 +1,7 @@
 <template>
 
     <div-container>
-
         <tag-title title="Alterar Episódio"/>
-
         <message v-if="message" :text="message"/>
 
         <form class="flex flex-1 items-end" @submit.prevent="onSubmit($event)">
@@ -14,7 +12,7 @@
 
             <div class="mx-1 block">
                 <label class="block" for="name">Nome</label>
-                <input class="w-96 px-2 py-1 border-2 rounded-md" id="name" v-model="episodio.nome" />
+                <input class="w-96 px-2 py-1 border-2 rounded-md" id="name" v-model="episodio.nome"/>
             </div>
 
             <checked-default v-model="episodio.assistido" label-text="Assistido"></checked-default>

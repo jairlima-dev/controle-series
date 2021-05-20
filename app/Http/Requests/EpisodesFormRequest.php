@@ -24,8 +24,18 @@ class EpisodesFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome' => 'string',
+            'nome' => 'required|min:3',
             'assistido' => 'boolean'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'required' => 'O :attribute é Obrigatório',
+            'nome.min' => 'O Nome precisa ter pelo menos 3 caracteres',
+            'nome.unique' => 'Já existe um Episódio com o mesmo nome',
+        ];
+    }
+
 }

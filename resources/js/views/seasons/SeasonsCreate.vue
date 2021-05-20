@@ -1,13 +1,15 @@
 <template>
 
     <div-container>
-        <tag-title title="Nova Temporada"/>
-        <message v-if="message" :text="message"/>
+        <tag-title>Nova Temporada</tag-title>
+        <message v-if="message">{{ message }}</message>
+        <errors v-if="errors" :errors="errors"/>
 
+<!--        <form class="flex items-end" @submit.prevent="onSubmit($event)">-->
         <form class="flex items-end" @submit.prevent="onSubmit($event)">
 
-            <input-form sm="sm" v-model="temporadas.episodios"label-text="Episódios" ></input-form>
-            <button-action save="true" tag="Salvar"/>
+            <input-form size="sm" v-model="temporadas.episodios" label-text="Episódios"/>
+            <button-action type="save" @execute="onSubmit" tag="Salvar"/>
 
         </form>
 
@@ -17,6 +19,7 @@
 
 <script>
     import api from "../../api/seasons"
+    import Errors from "../../components/shared/errors";
     import Message from "../../components/shared/message";
     import TagTitle from "../../components/shared/tag-title";
     import ButtonAction from "../../components/shared/button-action"
@@ -24,11 +27,12 @@
     import InputForm from "../../components/shared/input-form"
 
     export default {
-        components: {DivContainer, InputForm, TagTitle, ButtonAction, Message},
+        components: {DivContainer, Errors, InputForm, TagTitle, ButtonAction, Message},
 
         data() {
 
           return {
+              errors: null,
               message: '',
               temporadas: {
                   episodios: null,
@@ -39,12 +43,11 @@
 
         methods: {
             onSubmit($event) {
-                console.log(this.temporadas);
                 api.create(this.temporadas)
                     .then(data => {
                         this.$router.go(-1);
                     }).catch(errors => {
-                        this.message = errors.response.data || 'Erro! Verifique ';
+                        this.errors = errors.response.data.errors;
                 });
 
             }

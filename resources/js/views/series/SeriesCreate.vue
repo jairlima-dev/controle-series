@@ -1,16 +1,16 @@
 <template>
-
     <div-container>
-        <tag-title title="Nova Série"/>
-        <message v-if="message" :text="message"/>
+        <tag-title>Nova Série</tag-title>
+        <message v-if="message">{{ message }}</message>
+        <errors v-if="errors" :errors="errors"/>
 
-        <form class="flex items-end" @submit.prevent="onSubmit($event)">
+        <form class="flex items-end">
 
-            <input-form lg="lg" v-model="serie.nome" label-text="Nome" input-id="nome"/>
-            <input-form sm="sm" v-model="serie.temporadas" label-text="Temporadas" input-id="nome"/>
-            <input-form sm="sm" v-model="serie.episodios" label-text="Episodios" input-id="nome"/>
+            <input-form size="lg" v-model="serie.nome" label-text="Nome" input-id="nome"/>
+            <input-form size="sm" v-model="serie.temporadas" label-text="Temporadas" input-id="nome"/>
+            <input-form size="sm" v-model="serie.episodios" label-text="Episodios" input-id="nome"/>
 
-            <button-action save="true" tag="Salvar"/>
+            <button-action type="save" @execute="onSubmit" tag="Salvar"/>
 
         </form>
 
@@ -23,18 +23,20 @@
     import api from '../../api/series';
     import TagTitle from "../../components/shared/tag-title";
     import Message from "../../components/shared/message";
+    import Errors from "../../components/shared/errors";
     import ButtonAction from "../../components/shared/button-action";
     import FormDefault from "../../components/shared/form-default";
     import DivContainer from "../../components/shared/div-container";
     import InputForm from "../../components/shared/input-form";
 
     export default {
-        components: {InputForm, DivContainer, ButtonAction, Message, TagTitle, FormDefault},
+
+        components: {InputForm, Errors, DivContainer, ButtonAction, Message, TagTitle, FormDefault},
+
         data() {
             return {
-                errors: [],
-                saving: false,
-                message: false,
+                errors: null,
+                message: null,
                 serie: {
                     nome: '',
                     temporadas: null,
@@ -45,20 +47,18 @@
 
         methods: {
             onSubmit($event) {
-                console.log(this.serie);
-                this.saving = true
-                this.message = false
                 api.create(this.serie)
                 .then((data) => {
+                    this.errors = null;
                     this.message = 'Processando solicitação...';
                     this.$router.push({ name: 'series.index' });
-                }).catch((e) => {
-                    this.message = 'É necessário preencher todos os campos obrigatórios!'
-                        || e.response.data
-                        || 'Processando solicitação...';
-                }).then(() => this.saving = false)
+                }).catch((error) => {
+                    console.log(error.response);
+                    this.errors = error.response.data.errors;
+                })
             }
         }
     }
+
 </script>
 
