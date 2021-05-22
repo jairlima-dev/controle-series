@@ -8,15 +8,7 @@
         <div-actions>
 
             <button-link type="add" to="seasons.create" :id="id" tag="Temporada"/>
-            <div class="flex items-center">
-                <label for="filtro">Filtrar: </label>
-                <input id="filtro"
-                       type="search"
-                       @input="filter = $event.target.value"
-                       class="w-96 mx-2 p-2 border-2"
-                       label-text="Buscar"
-                       placeholder="Digite aqui a sua busca">
-            </div>
+            <input-form size="lg" label-text="Filtrar: " display="inline" v-model="filter"/>
 
         </div-actions>
 
@@ -64,10 +56,12 @@ import ButtonAction from "../../components/shared/button-action";
 import ButtonLink from "../../components/shared/button-link"
 import DivActions from "../../components/shared/div-actions";
 import FilterDefault from "../../components/shared/input-filter"
+import InputForm from "../../components/shared/input-form";
 
     export default {
 
-        components: {DivActions, Errors, FilterDefault, ButtonAction, ButtonLink, DivContainer,
+        components: {
+            InputForm, DivActions, Errors, FilterDefault, ButtonAction, ButtonLink, DivContainer,
             GridDefault, Message, TagTitle},
 
         data () {

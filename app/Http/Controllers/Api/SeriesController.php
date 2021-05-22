@@ -12,6 +12,7 @@ use App\Models\Temporada;
 use App\Services\CriadorDeSeries;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Console\Input\Input;
 
 class SeriesController extends Controller
 {
@@ -21,9 +22,13 @@ class SeriesController extends Controller
         return SerieResource::collection(Serie::orderBy('nome')->paginate(8));
     }
 
-    public function search ()
+    public function search (Request $request)
     {
-        return SerieResource::collection(Serie::orderBy('nome')->paginate(8));
+        $exp = $request->exp;
+//        $exp = 'abadia';
+        return SerieResource::collection(Serie::orderBy('nome')
+            ->where('nome','LIKE','%'.$exp.'%')
+            ->paginate(8));
     }
 
     public function show(Serie $serie)
@@ -42,8 +47,7 @@ class SeriesController extends Controller
         return new SerieResource($serie);
     }
 
-    public function update(Serie $serie, SeriesUpdateRequest
-    $request)
+    public function update(Serie $serie, SeriesUpdateRequest $request)
     {
         $data = $request->validate([
             'nome' => 'required'

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class EpisodesFormRequest extends FormRequest
 {
@@ -24,8 +25,13 @@ class EpisodesFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome' => 'required|min:3',
-            'assistido' => 'boolean'
+            'assistido' => 'boolean',
+            'nome' => [
+                'required',
+                'min:3',
+//                Rule::unique('episodios')
+//                    ->where('temporada_id', $this->temporada_id)
+            ]
         ];
     }
 

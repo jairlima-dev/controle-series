@@ -6,11 +6,11 @@
         <input
             :id="id"
             type="checkbox"
-            :value="value"
-            @input="$emit('input', $event.target.value)"
-            hidden>
-        <i v-if="this.value == 1" class="fas fa-check text-green-500 font-bold text-xl"/>
-        <i v-if="this.value == 0" class="fas fa-check text-gray-300 font-bold text-xl"/>
+            :checked="checked"
+            @change="$emit('change', $event.target.checked)"
+        hidden>
+        <i v-if=" this.checked == 1" class="fas fa-check text-green-500 font-bold text-xl"/>
+        <i v-if="this.checked == 0" class="fas fa-check text-gray-300 font-bold text-xl"/>
 
     </div>
 
@@ -18,15 +18,16 @@
 
 <script>
     export default {
-        name: "checked-default",
+
+        model: {
+            prop: 'checked',
+            event: 'change'
+        },
 
         props: {
-            value: String,
+            checked: String,
             labelText: String,
             id: Number,
-            check: String,
-            uncheck: String,
-
         },
 
     }

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
 
     <title>Laravel</title>
@@ -91,18 +90,6 @@
                             About
                         </li>
                     </router-link>
-
-{{--                    <router-link :to="{ name: 'movies.index' }" exact>--}}
-{{--                        <li class="text-black p-1 my-2 bg-white border-2 w-auto rounded-md">--}}
-{{--                            Filmes--}}
-{{--                        </li>--}}
-{{--                    </router-link>--}}
-
-{{--                    <router-link :to="{ name: 'documentaries.index' }" exact>--}}
-{{--                        <li class="text-black p-1 my-2 bg-white border-2 w-auto rounded-md">--}}
-{{--                            Documentários--}}
-{{--                        </li>--}}
-{{--                    </router-link>--}}
 
                 </ul>
 

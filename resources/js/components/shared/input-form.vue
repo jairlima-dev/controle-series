@@ -1,8 +1,8 @@
 <template>
 
-    <div class="mx-1 block">
+    <div class="mx-1 block items-center">
 
-        <label class="block">{{ labelText }}</label>
+        <label :class="displayLabel">{{ labelText }}</label>
         <input
             type="text"
             :class="sizeField"
@@ -20,18 +20,21 @@
             size: String,
             value: String,
             labelText: String,
-            // lg: String,
-            // md: Boolean,
-            // sm: Boolean,
             inputId: String,
+            display: String
         },
 
         computed: {
             sizeField() {
-                if (this.size === 'lg') return "w-96 px-2 py-1 border-2 rounded-md";
-                if (this.size === 'md') return "w-36 px-2 py-1 border-2 rounded-md";
-                if (this.size === 'sm') return "w-24 px-2 py-1 border-2 rounded-md";
+                if (this.size === 'lg') return "w-96 h-12 px-2 py-1 border-2 rounded-md";
+                if (this.size === 'md') return "w-36 h-12 px-2 py-1 border-2 rounded-md";
+                if (this.size === 'sm') return "w-24 h-12 px-2 py-1 border-2 rounded-md";
             },
+
+            displayLabel() {
+                if (!this.display) return 'block';
+                if (this.display === 'inline') return 'inline-block'
+            }
         },
 
 

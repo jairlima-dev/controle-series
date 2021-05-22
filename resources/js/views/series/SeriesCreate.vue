@@ -10,7 +10,7 @@
             <input-form size="sm" v-model="serie.temporadas" label-text="Temporadas" input-id="nome"/>
             <input-form size="sm" v-model="serie.episodios" label-text="Episodios" input-id="nome"/>
 
-            <button-action type="save" @execute="onSubmit" tag="Salvar"/>
+            <button-action type="save" @execute="submit" tag="Salvar"/>
 
         </form>
 
@@ -46,14 +46,13 @@
         },
 
         methods: {
-            onSubmit($event) {
+            submit($event) {
                 api.create(this.serie)
                 .then((data) => {
                     this.errors = null;
                     this.message = 'Processando solicitação...';
                     this.$router.push({ name: 'series.index' });
                 }).catch((error) => {
-                    console.log(error.response);
                     this.errors = error.response.data.errors;
                 })
             }

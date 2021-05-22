@@ -1,7 +1,5 @@
 <template>
 
-<div>
-
     <router-link :to="{ name: to, params:  { id, numero, nome } }">
 
         <div :class="styleButton">
@@ -10,8 +8,6 @@
         </div>
 
     </router-link>
-
-</div>
 
 </template>
 

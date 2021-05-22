@@ -4,22 +4,15 @@
         <errors v-if="errors" :errors="errors"/>
 
         <div-actions>
-            <button-link to="series.create"
-                         tag="Série"
-                         type="add"/>
+            <button-link to="series.create" tag="Série" type="add"/>
 
-
-                <div class="flex items-center">
-                    <label for="busca">Buscar: </label>
-                    <input id="busca"
-                           class="w-96 mx-2 p-2 border-2"
-                           @input="filter = $event.target.value">
-                    <button-action @execute="searchSerie" type="search"/>
-                </div>
+            <input-form size="lg" label-text="Buscar : " display="inline" v-model="search"/>
+<!--            <input-form size="lg" label-text="Filtrar: " display="inline" v-model="searching"/>-->
+            <button-action @execute="searchSerie" type="search"/>
 
         </div-actions>
 
-        <ul v-if="series" v-for="serie in filteredSeries" :key="serie.id" class="flex flex-col">
+        <ul v-if="series" v-for="serie in searchedSeries" :key="serie.id" class="flex flex-col">
 
             <li class="flex p-2 border-2 justify-between rounded-md items-center">
 
@@ -30,8 +23,7 @@
                     </div>
 
                     <div v-else-if="serieId === serie.id" class="flex">
-                        <input class="w-96 px-2 py-1 mr-2 border rounded-md "
-                               type="text" v-model="serie.nome"/>
+                        <input-form size="lg" v-model="serie.nome"></input-form>
                         <button-link type="save" to="series.edit" :id="serie.id"
                                      :nome="serie.nome"/>
                         <button-action type="cancel" @execute="onEdit()" />
@@ -40,7 +32,7 @@
                 </div>
 
                 <div  v-if="!editNome" class="action-buttons flex flex-invert">
-                    <button-link type="link" to='seasons.index' :id="serie.id"/>
+                    <button-link type="link" :confirme="true"  to='seasons.index' :id="serie.id"/>
                     <button-action type="edit" @execute="onEdit(serie.id)"/>
                     <button-link type="delete" to='series.delete' :id="serie.id"/>
                 </div>
@@ -60,6 +52,7 @@
 <script>
 
     import axios from 'axios';
+    import api from '../../api/series'
 
     import TagTitle from "../../components/shared/tag-title";
     import ButtonLink from "../../components/shared/button-link";
@@ -103,9 +96,10 @@
                 editNome: false,
                 serieId: false,
                 filter: '',
-                exp: '',
                 id: null,
+                search: '',
                 series: null,
+                seriesSearch: null,
                 meta: null,
                 links: {
                     first: null,
@@ -123,6 +117,14 @@
                 if (this.filter) {
                     let exp = new RegExp(this.filter.trim(), 'i');
                     return this.series.filter(serie => exp.test(serie.nome));
+                } else {
+                    return this.series;
+                }
+            },
+
+            searchedSeries () {
+                if (this.seriesSearch) {
+                    return this.seriesSearch;
                 } else {
                     return this.series;
                 }
@@ -173,7 +175,15 @@
 
         methods: {
             searchSerie() {
-
+                console.log(this.search)
+                api.search({exp: this.search})
+                    .then(response => {
+                        console.log(response)
+                        this.seriesSearch = response.data.data;
+                    }).catch(error => {
+                        this.errors = error.response.data.errors;
+                        setTimeout(() => this.errors = null, 2000);
+                });
             },
 
             onEdit(idSerie) {
@@ -183,13 +193,6 @@
                 } else  {
                     this.editNome = false;
                 }
-            },
-
-            onSubmit($event) {
-                api.search(this.key)
-                    .then(response => {
-                        console.log(response);
-                    });
             },
 
             goToNext() {
