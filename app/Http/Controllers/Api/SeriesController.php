@@ -24,8 +24,10 @@ class SeriesController extends Controller
 
     public function search (Request $request)
     {
-        $exp = $request->exp;
-//        $exp = 'abadia';
+//        $exp = json_decode($request);
+//        $exp = $request->exp;
+        $exp = 'abadia';
+
         return SerieResource::collection(Serie::orderBy('nome')
             ->where('nome','LIKE','%'.$exp.'%')
             ->paginate(8));

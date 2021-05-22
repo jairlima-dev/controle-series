@@ -22,11 +22,11 @@
 
                 <div class="title flex-1 p-2 text-xl" >
 
-                    <div v-if="!editNome">
+                    <div v-if="!hideOnEdit">
                         Episódio {{ episodio.numero }} - {{ episodio.nome }}
                     </div>
 
-                    <div v-else-if="episodeId === episodio.id" class="flex items-center">
+                    <div v-else-if="showOnEdit === episodio.id" class="flex items-center">
                         Episódio {{ episodio.numero }} -
                         <input-form size="lg" v-model="episodio.nome"/>
                         <button-link to="episodes.edit"
@@ -38,7 +38,7 @@
 
                 </div>
 
-                <div  v-if="!editNome" class="action-buttons flex flex-invert">
+                <div  v-if="!showOnEdit" class="action-buttons flex flex-invert">
 
                     <button-action type="edit" @execute="onEdit(episodio.id)"/>
                     <button-link type="delete" to="episodes.delete" :id="episodio.id"/>
@@ -81,8 +81,8 @@
                 errors: null,
                 numeroTemporada: this.$route.params.numero,
                 nomeTemporada: this.$route.params.nome,
-                editNome: false,
-                episodeId: false,
+                hideOnEdit: false,
+                showOnEdit: false,
                 message: '',
                 id: this.$route.params.id,
                 episodios: null,
@@ -114,11 +114,11 @@
             },
 
             onEdit(idEpisode) {
-                this.episodeId = idEpisode;
-                if (!this.editNome) {
-                    this.editNome = true;
+                this.showOnEdit = idEpisode;
+                if (!this.hideOnEdit) {
+                    this.hideOnEdit = true;
                 } else {
-                    this.editNome = false;
+                    this.hideOnEdit = false;
                 }
             }
         },

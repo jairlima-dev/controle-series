@@ -7,7 +7,6 @@
             <button-link to="series.create" tag="Série" type="add"/>
 
             <input-form size="lg" label-text="Buscar : " display="inline" v-model="search"/>
-<!--            <input-form size="lg" label-text="Filtrar: " display="inline" v-model="searching"/>-->
             <button-action @execute="searchSerie" type="search"/>
 
         </div-actions>
@@ -18,11 +17,11 @@
 
                 <div class="title flex-1 p-2 text-xl" >
 
-                    <div v-if="!editNome">
+                    <div v-if="!hideOnEdit">
                         {{ serie.nome }}
                     </div>
 
-                    <div v-else-if="serieId === serie.id" class="flex">
+                    <div v-else-if="showOnEdit === serie.id" class="flex">
                         <input-form size="lg" v-model="serie.nome"></input-form>
                         <button-link type="save" to="series.edit" :id="serie.id"
                                      :nome="serie.nome"/>
@@ -31,7 +30,7 @@
 
                 </div>
 
-                <div  v-if="!editNome" class="action-buttons flex flex-invert">
+                <div  v-if="!hideOnEdit" class="action-buttons flex flex-invert">
                     <button-link type="link" :confirme="true"  to='seasons.index' :id="serie.id"/>
                     <button-action type="edit" @execute="onEdit(serie.id)"/>
                     <button-link type="delete" to='series.delete' :id="serie.id"/>
@@ -93,8 +92,8 @@
 
             return {
                 errors: null,
-                editNome: false,
-                serieId: false,
+                hideOnEdit: false,
+                showOnEdit: false,
                 filter: '',
                 id: null,
                 search: '',
@@ -175,7 +174,6 @@
 
         methods: {
             searchSerie() {
-                console.log(this.search)
                 api.search({exp: this.search})
                     .then(response => {
                         console.log(response)
@@ -187,11 +185,11 @@
             },
 
             onEdit(idSerie) {
-                this.serieId = idSerie;
-                if (!this.editNome) {
-                    this.editNome = true;
+                this.showOnEdit = idSerie;
+                if (!this.hideOnEdit) {
+                    this.hideOnEdit = true;
                 } else  {
-                    this.editNome = false;
+                    this.hideOnEdit = false;
                 }
             },
 
