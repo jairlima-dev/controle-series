@@ -22,7 +22,7 @@
 
                 <div class="title flex-1 p-2 text-xl" >
 
-                    <div v-if="!hideOnEdit">
+                    <div v-if="hideOnEdit">
                         Episódio {{ episodio.numero }} - {{ episodio.nome }}
                     </div>
 
@@ -81,7 +81,7 @@
                 errors: null,
                 numeroTemporada: this.$route.params.numero,
                 nomeTemporada: this.$route.params.nome,
-                hideOnEdit: false,
+                hideOnEdit: true,
                 showOnEdit: false,
                 message: '',
                 id: this.$route.params.id,

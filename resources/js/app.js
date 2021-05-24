@@ -4,6 +4,7 @@ import routes from './routes';
 import axios from "axios";
 import VueAxios from "vue-axios";
 import "../css/tailwind.css";
+import lodash from 'lodash';
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);

@@ -8,6 +8,7 @@
 
             <input-form size="lg" label-text="Buscar : " display="inline" v-model="search"/>
             <button-action @execute="searchSerie" type="search"/>
+            <button-action v-if="searching" @execute="cancelSearch" type="cancel"/>
 
         </div-actions>
 
@@ -17,7 +18,7 @@
 
                 <div class="title flex-1 p-2 text-xl" >
 
-                    <div v-if="!hideOnEdit">
+                    <div v-if="hideOnEdit">
                         {{ serie.nome }}
                     </div>
 
@@ -30,8 +31,8 @@
 
                 </div>
 
-                <div  v-if="!hideOnEdit" class="action-buttons flex flex-invert">
-                    <button-link type="link" :confirme="true"  to='seasons.index' :id="serie.id"/>
+                <div  v-if="!showOnEdit" class="action-buttons flex flex-invert">
+                    <button-link type="link" :confirm="true"  to='seasons.index' :id="serie.id"/>
                     <button-action type="edit" @execute="onEdit(serie.id)"/>
                     <button-link type="delete" to='series.delete' :id="serie.id"/>
                 </div>
@@ -39,11 +40,15 @@
             </li>
         </ul>
 
-        <div class="pagination my-2">
-            <button :disabled="! prevPage" @click.prevent="goToPrev">Anterior</button>
-            {{ paginatonCount }}
-            <button :disabled="! nextPage" @click.prevent="goToNext">Próxima</button>
+        <div>
+            <pagination :source="pagination"></pagination>
         </div>
+
+<!--        <div class="pagination my-2">-->
+<!--            <button :disabled="! prevPage" @click.prevent="goToPrev">Anterior</button>-->
+<!--            {{ paginatonCount }}-->
+<!--            <button :disabled="! nextPage" @click.prevent="goToNext">Próxima</button>-->
+<!--        </div>-->
 
     </div-container>
 </template>
@@ -61,127 +66,93 @@
     import DivActions from "../../components/shared/div-actions";
     import ButtonAction from "../../components/shared/button-action"
     import Errors from "../../components/shared/errors";
-    import ImputForm from "../../components/shared/input-form"
     import InputForm from "../../components/shared/input-form";
-    import FormFilter from "../../components/shared/input-filter";
-    import InputFilter from "../../components/shared/input-filter";
-
-    const getSeries = (page, callback) => {
-    const params = { page };
-
-        axios
-            .get('/api/series', { params })
-            .then(response => {
-                callback(null, response.data);
-            }).catch(error => {
-            callback(error, error.response.data);
-        });
-
-    };
+    import Pagination from "../../components/shared/pagination"
 
     export default {
 
         components: {
-            InputFilter,
-            FormFilter,
-            InputForm,
-            Errors, ImputForm, DivActions, ButtonAction, DivContainer, FilterDefault,
-            GridDefault, ButtonLink, TagTitle},
+            Errors, Pagination, InputForm, DivActions, ButtonAction,
+            DivContainer, FilterDefault, GridDefault, ButtonLink, TagTitle},
 
         data() {
 
             return {
                 errors: null,
-                hideOnEdit: false,
+                hideOnEdit: true,
                 showOnEdit: false,
-                filter: '',
-                id: null,
                 search: '',
+                id: null,
                 series: null,
                 seriesSearch: null,
-                meta: null,
-                links: {
-                    first: null,
-                    last: null,
-                    next: null,
-                    prev: null,
-                },
-                error: null,
+                searching: false,
+                pagination: null,
+                // meta: null,
+                // links: {
+                //     first: null,
+                //     last: null,
+                //     next: null,
+                //     prev: null,
+                // },
+                // error: null,
             };
+        },
+
+        created() {
+
+            this.fetchData();
+
         },
 
         computed: {
 
-            filteredSeries () {
-                if (this.filter) {
-                    let exp = new RegExp(this.filter.trim(), 'i');
-                    return this.series.filter(serie => exp.test(serie.nome));
-                } else {
-                    return this.series;
-                }
-            },
-
             searchedSeries () {
-                if (this.seriesSearch) {
-                    return this.seriesSearch;
-                } else {
+                if (!this.seriesSearch) {
                     return this.series;
+                } else {
+                    return this.seriesSearch;
                 }
             },
 
-            nextPage() {
-                if (! this.meta || this.meta.current_page === this.meta.last_page) {
-                    return;
-                }
-
-                return this.meta.current_page + 1;
-            },
-
-            prevPage() {
-                if (! this.meta || this.meta.current_page === 1) {
-                    return;
-                }
-
-                return this.meta.current_page - 1;
-            },
-
-            paginatonCount() {
-                if (! this.meta) {
-                    return;
-                }
-
-                const { current_page, last_page } = this.meta;
-
-                return `${current_page} of ${last_page}`;
-            },
-        },
-
-        beforeRouteEnter (to, from, next) {
-            getSeries(to.query.page, (err, data) => {
-                next(vm => vm.setData(err, data));
-            });
-        },
-
-        // when route changes and this component is already rendered,
-        // the logic will be slightly different.
-        beforeRouteUpdate (to, from, next) {
-            this.series = this.links = this.meta = null
-            getSeries(to.query.page, (err, data) => {
-                this.setData(err, data);
-                next();
-            });
         },
 
         methods: {
-            searchSerie() {
-                api.search({exp: this.search})
+
+            fetchData() {
+                api.all()
                     .then(response => {
-                        console.log(response)
+                        this.series = response.data.data;
+                        this.pagination = response.data;
+
+                    })
+                    .catch(error => {
+                        this.error = error.response.data.errors;
+                    })
+            },
+
+            searchSerie() {
+                if (!this.search) {
+                    this.seriesSearch = this.series;
+                } else  {
+                    this.fetchSearch();
+                }
+            },
+
+            fetchSearch() {
+                api.search(this.search)
+                    .then(response => {
                         this.seriesSearch = response.data.data;
+                        this.searching = true;
                     }).catch(error => {
                         this.errors = error.response.data.errors;
                         setTimeout(() => this.errors = null, 2000);
                 });
+            },
+
+            cancelSearch() {
+              this.search = null;
+              this.searchSerie();
+              this.searching = false;
             },
 
             onEdit(idSerie) {
@@ -193,31 +164,31 @@
                 }
             },
 
-            goToNext() {
-                this.$router.push({
-                    query: {
-                        page: this.nextPage,
-                    },
-                });
-            },
-            goToPrev() {
-                this.$router.push({
-                    name: 'series.index',
-                    query: {
-                        page: this.prevPage,
-                    }
-                });
-            },
-
-            setData(err, { data: series, links, meta }) {
-                if (err) {
-                    this.error = err.toString();
-                } else {
-                    this.series = series;
-                    this.links = links;
-                    this.meta = meta;
-                }
-            },
+            // goToNext() {
+            //     this.$router.push({
+            //         query: {
+            //             page: this.nextPage,
+            //         },
+            //     });
+            // },
+            // goToPrev() {
+            //     this.$router.push({
+            //         name: 'series.index',
+            //         query: {
+            //             page: this.prevPage,
+            //         }
+            //     });
+            // },
+            //
+            // setData(err, { data: series, links, meta }) {
+            //     if (err) {
+            //         this.error = err.toString();
+            //     } else {
+            //         this.series = series;
+            //         this.links = links;
+            //         this.meta = meta;
+            //     }
+            // },
         },
     }
 

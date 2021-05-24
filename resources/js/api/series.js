@@ -22,8 +22,8 @@ export default {
         return axios.delete(`/api/series/${id}`)
     },
 
-    search(data) {
-        return axios.get(`/api/series/search`, data)
+    search(search) {
+        return axios.get(`/api/series/search/${search}`)
 
     }
 
