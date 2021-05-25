@@ -12,7 +12,7 @@
 
         </div-actions>
 
-        <ul v-if="series" v-for="serie in searchedSeries" :key="serie.id" class="flex flex-col">
+        <ul v-if="series" v-for="serie in series" :key="serie.id" class="flex flex-col">
 
             <li class="flex p-2 border-2 justify-between rounded-md items-center">
 
@@ -41,21 +41,14 @@
         </ul>
 
         <div>
-            <pagination :source="pagination"></pagination>
+            <pagination :source="pagination" @navigate="navigate"></pagination>
         </div>
-
-<!--        <div class="pagination my-2">-->
-<!--            <button :disabled="! prevPage" @click.prevent="goToPrev">Anterior</button>-->
-<!--            {{ paginatonCount }}-->
-<!--            <button :disabled="! nextPage" @click.prevent="goToNext">Próxima</button>-->
-<!--        </div>-->
 
     </div-container>
 </template>
 
 <script>
 
-    import axios from 'axios';
     import api from '../../api/series'
 
     import TagTitle from "../../components/shared/tag-title";
@@ -87,14 +80,6 @@
                 seriesSearch: null,
                 searching: false,
                 pagination: null,
-                // meta: null,
-                // links: {
-                //     first: null,
-                //     last: null,
-                //     next: null,
-                //     prev: null,
-                // },
-                // error: null,
             };
         },
 
@@ -123,25 +108,18 @@
                     .then(response => {
                         this.series = response.data.data;
                         this.pagination = response.data;
-
                     })
                     .catch(error => {
-                        this.error = error.response.data.errors;
+                        this.errors = error.response.data.errors;
                     })
             },
 
             searchSerie() {
-                if (!this.search) {
-                    this.seriesSearch = this.series;
-                } else  {
-                    this.fetchSearch();
-                }
-            },
-
-            fetchSearch() {
                 api.search(this.search)
                     .then(response => {
-                        this.seriesSearch = response.data.data;
+                        this.pagination = null;
+                        this.series = response.data.data;
+                        this.pagination = response.data;
                         this.searching = true;
                     }).catch(error => {
                         this.errors = error.response.data.errors;
@@ -151,7 +129,7 @@
 
             cancelSearch() {
               this.search = null;
-              this.searchSerie();
+              this.fetchData();
               this.searching = false;
             },
 
@@ -164,31 +142,17 @@
                 }
             },
 
-            // goToNext() {
-            //     this.$router.push({
-            //         query: {
-            //             page: this.nextPage,
-            //         },
-            //     });
-            // },
-            // goToPrev() {
-            //     this.$router.push({
-            //         name: 'series.index',
-            //         query: {
-            //             page: this.prevPage,
-            //         }
-            //     });
-            // },
-            //
-            // setData(err, { data: series, links, meta }) {
-            //     if (err) {
-            //         this.error = err.toString();
-            //     } else {
-            //         this.series = series;
-            //         this.links = links;
-            //         this.meta = meta;
-            //     }
-            // },
+            navigate(page) {
+                api.paginate(page)
+                    .then(response => {
+                        this.series = response.data.data;
+                        this.pagination = response.data;})
+                    .catch(error => {
+                        this.errors = error.response.data.errors
+                    })
+
+            },
+
         },
     }
 

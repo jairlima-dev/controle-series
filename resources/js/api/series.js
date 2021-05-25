@@ -6,6 +6,10 @@ export default {
         return axios.get(`/api/series`);
     },
 
+    paginate(page) {
+        return axios.get(`/api/series?page=${page}`);
+    },
+
     find(id) {
         return axios.get(`/api/series/${id}`);
     },
