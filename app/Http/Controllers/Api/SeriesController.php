@@ -18,14 +18,14 @@ class SeriesController extends Controller
     public function index ()
     {
         return SerieResource::collection(Serie::orderBy('nome')
-            ->paginate(10));
+            ->paginate(8));
     }
 
     public function search ($search, Request $request)
     {
         return SerieResource::collection(Serie::orderBy('nome')
             ->where('nome','LIKE','%'.$search.'%')
-            ->paginate(10));
+            ->paginate(8));
     }
 
     public function show(Serie $serie)
