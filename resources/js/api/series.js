@@ -7,7 +7,7 @@ export default {
     },
 
     paginate(page) {
-        return axios.get(`/api/series?page=${page}`);
+        return axios.get(`${page}`);
     },
 
     find(id) {

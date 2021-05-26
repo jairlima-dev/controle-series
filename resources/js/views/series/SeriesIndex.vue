@@ -41,7 +41,7 @@
         </ul>
 
         <div>
-            <pagination :source="pagination" @navigate="navigate"></pagination>
+            <pagination-default :source="pagination" @navigate="navigate"></pagination-default>
         </div>
 
     </div-container>
@@ -61,11 +61,12 @@
     import Errors from "../../components/shared/errors";
     import InputForm from "../../components/shared/input-form";
     import Pagination from "../../components/shared/pagination"
+    import PaginationDefault from "../../components/shared/pagination-default"
 
     export default {
 
         components: {
-            Errors, Pagination, InputForm, DivActions, ButtonAction,
+            Errors, Pagination, PaginationDefault, InputForm, DivActions, ButtonAction,
             DivContainer, FilterDefault, GridDefault, ButtonLink, TagTitle},
 
         data() {
@@ -86,18 +87,6 @@
         created() {
 
             this.fetchData();
-
-        },
-
-        computed: {
-
-            searchedSeries () {
-                if (!this.seriesSearch) {
-                    return this.series;
-                } else {
-                    return this.seriesSearch;
-                }
-            },
 
         },
 
@@ -146,7 +135,8 @@
                 api.paginate(page)
                     .then(response => {
                         this.series = response.data.data;
-                        this.pagination = response.data;})
+                        this.pagination = response.data;
+                    })
                     .catch(error => {
                         this.errors = error.response.data.errors
                     })

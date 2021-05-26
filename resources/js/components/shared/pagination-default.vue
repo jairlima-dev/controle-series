@@ -3,10 +3,20 @@
 
         <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
 
+
+            <div>
+                <p class="text-md text-gray-700">
+                    Página
+                    <span class="font-medium">{{ current }}</span>
+                    de
+                    <span class="font-medium">{{ last }}</span>
+                </p>
+            </div>
+
             <div>
                 <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
 
-                    <a href="#" @click.prevent="navigate(source.meta.current_page - 1)"
+                    <a href="#" @click.prevent="navigate(source.links.prev)"
                        class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-400
                        bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                         <span class="sr-only">Anterior</span>
@@ -14,14 +24,14 @@
                     </a>
 
                     <div  v-if="current !== 1">
-                        <a href="#" @click.prevent="navigate(1)" :class="ifActive(1)">
+                        <a href="#" @click.prevent="navigate(source.links.first)" :class="ifActive(1)">
                             1
                         </a>
                         <p class="bg-white border-gray-300 text-gray-600 hover:bg-gray-50 relative
                               inline-flex items-center -mx-2 px-4 py-2 border text-sm font-medium">
                             ...
                         </p>
-                        <a href="#"@click.prevent="navigate(source.meta.current_page -1)" :class="ifActive(!this.current)">
+                        <a href="#"@click.prevent="navigate(source.links.prev)" :class="ifActive(!this.current)">
                             {{ current - 1 }}
                         </a>
                     </div>
@@ -32,20 +42,20 @@
                     </p>
 
                     <div v-if="current !== last" >
-                        <a href="#" @click.prevent="navigate(source.meta.current_page +1)"  :class="ifActive(!this.current)">
+                        <a href="#" @click.prevent="navigate(source.links.next)"  :class="ifActive(!this.current)">
                             {{ current + 1 }}
                         </a>
                         <p class="bg-white border-gray-300 text-gray-600 hover:bg-gray-50 relative
                               inline-flex items-center -mx-2 px-4 py-2 border text-sm font-medium">
                             ...
                         </p>
-                        <a href="#" @click.prevent="navigate(source.meta.last_page)" :class="ifActive(this.last)">
+                        <a href="#" @click.prevent="navigate(source.links.last)" :class="ifActive(this.last)">
                             {{ last }}
                         </a>
                     </div>
 
 
-                    <a href="#" @click.prevent="navigate(source.meta.current_page + 1)"
+                    <a href="#" @click.prevent="navigate(source.links.next)"
                        class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-400
                        bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                         <span class="sr-only">Próxima</span>
@@ -71,22 +81,23 @@
     </div>
 </template>
 
-<script>
 
+<script>
     export default {
+        name: "pagination-default",
 
         props: [
             'source',
         ],
 
         data() {
-          return {
-              from: null,
-              to: null,
-              total: null,
-              current: null,
-              last: null,
-          }
+            return {
+                from: null,
+                to: null,
+                total: null,
+                current: null,
+                last: null,
+            }
         },
 
         watch: {
@@ -102,11 +113,9 @@
         methods: {
 
             navigate(page) {
-                // if (page !== 0) {
-                if (page <= this.last) {
+                if (page) {
                     this.$emit('navigate', page)
                 }
-
             },
 
             ifActive(page) {
@@ -120,7 +129,5 @@
             },
 
         },
-
     }
-
 </script>
