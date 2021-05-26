@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('Api')->group(function () {
     Route::get('/series', [SeriesController::class, 'index']);
-    Route::get('/series/search/{search}', [SeriesController::class, 'search']);
+    Route::get('/series/{search}', [SeriesController::class, 'search']);
     Route::get('/series/{serie}', [SeriesController::class, 'show']);
     Route::put('/series/{serie}', [SeriesController::class, 'update']);
     Route::delete('/series/{serie}', [SeriesController::class, 'destroy']);

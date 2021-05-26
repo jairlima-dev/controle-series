@@ -1,7 +1,7 @@
 <template>
 
     <button @click.prevent="action"
-        :class="styleButton" >
+        :class="styleButton">
         <i :class="iClass"/>
         {{ tag }}
     </button>
@@ -11,14 +11,22 @@
 <script>
     export default {
 
-        props: [
-            'type',
-            'tag',
-        ],
+        props: {
+            type: String,
+            tag: String,
+            confirmation: Boolean,
+        },
 
         methods: {
             action() {
-                this.$emit('execute');
+                if (this.confirmation) {
+                    if (confirm("Confirma Operação?")) {
+                        this.$emit('execute');
+                    } else return;
+                } else  {
+                    this.$emit('execute');
+                }
+
             },
         },
 
@@ -27,6 +35,7 @@
             iClass() {
                 if (this.type === 'save') return 'fas fa-check';
                 if (this.type === 'edit') return 'fas fa-pen';
+                if (this.type === 'delete') return 'fas fa-trash-alt';
                 if (this.type === 'search') return 'fas fa-search';
                 if (this.type === 'load') return 'fas fa-exchange-alt';
                 if (this.type === 'link') return 'fas fa-external-link-alt';
@@ -36,7 +45,11 @@
             styleButton() {
                 if (this.type === 'save') {
                     return "border-4 border-blue-300 hover:border-blue-600 text-blue-400 " +
-                        "font-bold text-xl h-12 py-2 px-3 mx-3 ring-current rounded-md"
+                        "font-bold text-xl h-12 py-2 px-3 mr-2 ring-current rounded-md"
+                }
+                if (this.type === 'delete') {
+                    return "border-4 border-red-300 hover:border-red-600 text-red-400 " +
+                        "font-bold text-xl h-12 py-2 px-3 mr-2 ring-current rounded-md"
                 }
                 if (this.type === 'edit') {
                     return "border-4 border-yellow-300 hover:border-yellow-600 text-yellow-400" +

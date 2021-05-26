@@ -29,10 +29,7 @@
                     <div v-else-if="showOnEdit === episodio.id" class="flex items-center">
                         Episódio {{ episodio.numero }} -
                         <input-form size="lg" v-model="episodio.nome"/>
-                        <button-link to="episodes.edit"
-                                     :id="episodio.id"
-                                     :nome="episodio.nome"
-                                     type="save"/>
+                        <button-action type="save" @execute="editName(episodio.id, episodio.nome)"/>
                         <button-action type="cancel" @execute="onEdit()"/>
                     </div>
 
@@ -41,7 +38,8 @@
                 <div  v-if="!showOnEdit" class="action-buttons flex flex-invert">
 
                     <button-action type="edit" @execute="onEdit(episodio.id)"/>
-                    <button-link type="delete" to="episodes.delete" :id="episodio.id"/>
+                    <button-action type="delete" @execute="deleteEpisode(episodio.id)" :confirmation="true"/>
+<!--                    <button-link type="delete" to="episodes.delete" :id="episodio.id"/>-->
                     <checked-default :id="episodio.id" labelText="Assistido"
                                      v-model="episodio.assistido"/>
 
@@ -51,6 +49,8 @@
 
         </ul>
 
+        <pagination-default :source="pagination" @navigate="navigate"></pagination-default>
+
     </div-container>
 
 </template>
@@ -58,6 +58,8 @@
 <script>
 
     import api from '../../api/episodes';
+    import global from '../../api/global';
+
     import TagTitle from "../../components/shared/tag-title";
     import Errors from "../../components/shared/errors";
     import Message from "../../components/shared/message";
@@ -68,10 +70,12 @@
     import ButtonAction from "../../components/shared/button-action";
     import CheckedDefault from "../../components/shared/checked-default"
     import InputForm from "../../components/shared/input-form";
+    import PaginationDefault from "../../components/shared/pagination-default";
 
     export default {
 
         components: {
+            PaginationDefault,
             InputForm, ButtonAction, Errors, CheckedDefault, DivContainer, DivActions,
             FilterDefault, Message, TagTitle, ButtonLink},
 
@@ -86,6 +90,7 @@
                 message: '',
                 id: this.$route.params.id,
                 episodios: null,
+                pagination: null,
             }
         },
 
@@ -109,18 +114,60 @@
                 api.all(this.$route.params.id)
                     .then(response => {
                         this.episodios = response.data.data;
+                        this.pagination = response.data;
                         this.id = this.episodios[0].temporada_id;
                     }).catch(error => this.message = 'Erro na busca!');
             },
 
             onEdit(idEpisode) {
                 this.showOnEdit = idEpisode;
+                this.message = this.errors = null;
                 if (!this.hideOnEdit) {
                     this.hideOnEdit = true;
                 } else {
                     this.hideOnEdit = false;
                 }
-            }
+            },
+
+            onDelete() {
+                this.message = this.errors = null;
+                this.fetchData()
+            },
+
+            editName(id,name) {
+                api.update(id, {nome: name})
+                    .then(response => {
+                        this.message = `Episódio Alterado: ${name}`;
+                        setTimeout(() => this.onEdit(), 2000)
+                    }).catch(error => {
+                    this.errors = error.response.data.errors;
+                    setTimeout(() => this.errors = null, 2000)
+                })
+            },
+
+            deleteEpisode(id) {
+                this.message = 'Efetuando solicitação... Aguarde...'
+                api.delete(id)
+                    .then(response => {
+                        this.message = 'Episódio excluido!';
+                        setTimeout(() => this.onDelete(), 2000);
+                    }).catch(error => {
+                    this.message = null;
+                    this.errors = error.response.data.errors;
+                    setTimeout(() => this.errors = null, 3000);
+                })
+            },
+
+            navigate(page) {
+                global.paginate(page)
+                    .then(response => {
+                        this.episodios = response.data.data;
+                        this.pagination = response.data;
+                    })
+                    .catch(error => {
+                        this.errors = error.response.data.errors
+                    })
+            },
         },
 
     }

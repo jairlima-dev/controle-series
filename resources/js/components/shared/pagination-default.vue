@@ -3,7 +3,6 @@
 
         <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
 
-
             <div>
                 <p class="text-md text-gray-700">
                     Página

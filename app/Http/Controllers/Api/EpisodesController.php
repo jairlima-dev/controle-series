@@ -16,7 +16,7 @@ class EpisodesController extends Controller
 {
     public function index (Request $request, $id)
     {
-        return EpisodeResource::collection(Episodio::whereTemporadaId($id)->get());
+        return EpisodeResource::collection(Episodio::whereTemporadaId($id)->paginate(10));
 
     }
 
