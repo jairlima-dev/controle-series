@@ -13,42 +13,31 @@
 
         </div-actions>
 
-        <div id="app-editdel">
-
-        </div>
-
         <ul v-if="series" v-for="serie in series" :key="serie.id" class="flex flex-col">
 
-            <li class="flex p-2 border-2 justify-between rounded-md items-center">
+            <div v-if="showOnEdit === serie.id" class="flex p-2 border-2 rounded-md items-center">
+                <input-form size="lg" v-model="serie.nome"/>
+                <button-action type="save" @execute="editName(serie.id, serie.nome)" />
+                <button-action type="cancel" @execute="onEdit()" />
+            </div>
+
+            <li v-if="!showOnEdit" class="flex p-2 border-2 justify-between rounded-md items-center">
 
                 <div class="title flex-1 p-2 text-xl" >
-
-                    <div v-if="hideOnEdit">
-                        {{ serie.nome }}
-                    </div>
-
-                    <div v-else-if="showOnEdit === serie.id" class="flex">
-                        <input-form size="lg" v-model="serie.nome"></input-form>
-<!--                        <button-link type="save" to="series.edit" :id="serie.id"-->
-<!--                                     :nome="serie.nome"/>-->
-                        <button-action type="save" @execute="editName(serie.id, serie.nome)" />
-                        <button-action type="cancel" @execute="onEdit()" />
-                    </div>
-
+                    {{ serie.nome }}
                 </div>
 
-                <div  v-if="!showOnEdit" class="action-buttons flex flex-invert">
+                <div class="action-buttons flex flex-invert">
                     <button-link type="link" :confirm="true"  to='seasons.index' :id="serie.id"/>
                     <button-action type="edit" @execute="onEdit(serie.id)"/>
                     <button-action type="delete" @execute="deleteSerie(serie.id)" :confirmation="true"/>
-<!--                    <button-link type="delete" to='series.delete' :id="serie.id"/>-->
                 </div>
 
             </li>
         </ul>
 
         <div>
-            <pagination-default :source="pagination" @navigate="navigate"></pagination-default>
+            <pagination-default v-show="!showOnEdit" :source="pagination" @navigate="navigate"></pagination-default>
         </div>
 
     </div-container>
@@ -140,11 +129,11 @@
             onEdit(idSerie) {
                 this.showOnEdit = idSerie;
                 this.message = this.errors = null;
-                if (!this.hideOnEdit) {
-                    this.hideOnEdit = true;
-                } else  {
-                    this.hideOnEdit = false;
-                }
+                // if (!this.hideOnEdit) {
+                //     this.hideOnEdit = true;
+                // } else  {
+                //     this.hideOnEdit = false;
+                // }
             },
 
             onDelete() {

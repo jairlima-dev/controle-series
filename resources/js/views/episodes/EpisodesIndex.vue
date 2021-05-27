@@ -18,30 +18,27 @@
 
         <ul v-if="episodios" v-for="episodio in filteredEpisodes" :key="episodio.id" class="flex flex-col">
 
-            <li class="flex p-2 border-2 justify-between rounded-md intems-center">
-
-                <div class="title flex-1 p-2 text-xl" >
-
-                    <div v-if="hideOnEdit">
-                        Episódio {{ episodio.numero }} - {{ episodio.nome }}
-                    </div>
-
-                    <div v-else-if="showOnEdit === episodio.id" class="flex items-center">
-                        Episódio {{ episodio.numero }} -
-                        <input-form size="lg" v-model="episodio.nome"/>
-                        <button-action type="save" @execute="editName(episodio.id, episodio.nome)"/>
-                        <button-action type="cancel" @execute="onEdit()"/>
-                    </div>
-
+            <div v-if="showOnEdit === episodio.id" class="flex p-2 border-2 rounded-md intems-center">
+                <div class="mt-3">
+                    Episódio {{ episodio.numero }} -
                 </div>
 
-                <div  v-if="!showOnEdit" class="action-buttons flex flex-invert">
+                <input-form size="lg" v-model="episodio.nome"/>
+                <button-action type="save" @execute="editName(episodio.id, episodio.nome)"/>
+                <button-action type="cancel" @execute="onEdit()"/>
+            </div>
+
+            <li v-if="!showOnEdit" class="flex p-2 border-2 justify-between rounded-md intems-center">
+
+                <div class="title flex-1 p-2 text-xl" >
+                    Episódio {{ episodio.numero }} - {{ episodio.nome }}
+                </div>
+
+                <div class="action-buttons flex flex-invert">
 
                     <button-action type="edit" @execute="onEdit(episodio.id)"/>
                     <button-action type="delete" @execute="deleteEpisode(episodio.id)" :confirmation="true"/>
-<!--                    <button-link type="delete" to="episodes.delete" :id="episodio.id"/>-->
-                    <checked-default :id="episodio.id" labelText="Assistido"
-                                     v-model="episodio.assistido"/>
+                    <checked-default :id="episodio.id" labelText="Assistido" v-model="episodio.assistido"/>
 
                 </div>
 
@@ -49,7 +46,7 @@
 
         </ul>
 
-        <pagination-default :source="pagination" @navigate="navigate"></pagination-default>
+        <pagination-default v-show="!showOnEdit" :source="pagination" @navigate="navigate"></pagination-default>
 
     </div-container>
 
