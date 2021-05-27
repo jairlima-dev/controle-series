@@ -24,7 +24,7 @@
                 </div>
 
                 <input-form size="lg" v-model="episodio.nome"/>
-                <button-action type="save" @execute="editName(episodio.id, episodio.nome)"/>
+                <button-action type="save" @execute="editName(episodio.id, episodio.numero, episodio.nome)"/>
                 <button-action type="cancel" @execute="onEdit()"/>
             </div>
 
@@ -131,11 +131,12 @@
                 this.fetchData()
             },
 
-            editName(id,name) {
+            editName(id, numero,name) {
                 api.update(id, {nome: name})
                     .then(response => {
-                        this.message = `Episódio Alterado: ${name}`;
-                        setTimeout(() => this.onEdit(), 2000)
+                        this.onEdit();
+                        this.message = `Episódio ${numero}: ${name} Alterado`
+                        setTimeout(() => this.message = null, 3000);
                     }).catch(error => {
                     this.errors = error.response.data.errors;
                     setTimeout(() => this.errors = null, 2000)

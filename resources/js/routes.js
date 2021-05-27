@@ -59,13 +59,13 @@ export default {
         },
 
         {
-            path: '/serie/:id/seasons',
+            path: '/seasons/:id/:nome',
             name: 'seasons.index',
             component: SeasonsIndex
         },
 
         {
-            path: '/serie/:id/create',
+            path: '/seasons/:id/create',
             name: 'seasons.create',
             component: SeasonsCreate
         },

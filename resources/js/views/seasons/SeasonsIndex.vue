@@ -7,7 +7,10 @@
 
         <div-actions>
 
-            <button-link type="add" to="seasons.create" :id="id" tag="Temporada"/>
+            <button-link to="seasons.create"
+                         :id="this.id"
+                         tag="Temporada"
+                         type="add"/>
             <input-form size="lg" label-text="Filtrar: " display="inline" v-model="filter"/>
 
         </div-actions>
@@ -40,6 +43,8 @@
             </li>
         </ul>
 
+        <pagination-default :source="pagination" @navigate="navigate"/>
+
     </div-container>
 
 </template>
@@ -57,10 +62,13 @@ import ButtonLink from "../../components/shared/button-link"
 import DivActions from "../../components/shared/div-actions";
 import FilterDefault from "../../components/shared/input-filter"
 import InputForm from "../../components/shared/input-form";
+import PaginationDefault from "../../components/shared/pagination-default";
+import global from "../../api/global";
 
     export default {
 
         components: {
+            PaginationDefault,
             InputForm, DivActions, Errors, FilterDefault, ButtonAction, ButtonLink, DivContainer,
             GridDefault, Message, TagTitle},
 
@@ -72,8 +80,9 @@ import InputForm from "../../components/shared/input-form";
                 total: 8,
                 message: '',
                 id: this.$route.params.id,
-                nome: '',
-                temporadas: null
+                nome: this.$route.params.nome,
+                temporadas: null,
+                pagination: null,
             }
         },
 
@@ -94,19 +103,29 @@ import InputForm from "../../components/shared/input-form";
 
         methods: {
             fetchData() {
-                api.all(this.$route.params.id)
+                api.all(this.id)
                     .then(response => {
-                        // console.log(response);
-                        this.id = response.data.data[0].id;
-                        this.nome = response.data.data[0].nome;
-                        this.temporadas = response.data.data[0].temporadas;
-                }).catch(error => this.message = 'Erro ao carregar os dados!');
+                        this.temporadas = response.data.data;
+                        this.pagination = response.data;
+                }).catch(error =>
+                    this.errors = error.response.data.errors);
 
             },
 
             episodesCount() {
 
-            }
+            },
+
+            navigate(page) {
+                global.paginate(page)
+                    .then(response => {
+                        this.temporadas = response.data.data;
+                        this.pagination = response.data;
+                    })
+                    .catch(error => {
+                        this.errors = error.response.data.errors
+                    })
+            },
         },
 
     }

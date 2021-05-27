@@ -28,9 +28,9 @@
                 </div>
 
                 <div class="action-buttons flex flex-invert">
-                    <button-link type="link" :confirm="true"  to='seasons.index' :id="serie.id"/>
+                    <button-link type="link" :confirm="true"  to='seasons.index' :id="serie.id" :nome="serie.nome"/>
                     <button-action type="edit" @execute="onEdit(serie.id)"/>
-                    <button-action type="delete" @execute="deleteSerie(serie.id)" :confirmation="true"/>
+                    <button-action type="delete" @execute="deleteSerie(serie.id, serie.nome)" :confirmation="true"/>
                 </div>
 
             </li>
@@ -106,6 +106,17 @@
                     })
             },
 
+            navigate(page) {
+                global.paginate(page)
+                    .then(response => {
+                        this.series = response.data.data;
+                        this.pagination = response.data;
+                    })
+                    .catch(error => {
+                        this.errors = error.response.data.errors
+                    })
+            },
+
             searchSerie() {
                 api.search(this.search)
                     .then(response => {
@@ -129,11 +140,6 @@
             onEdit(idSerie) {
                 this.showOnEdit = idSerie;
                 this.message = this.errors = null;
-                // if (!this.hideOnEdit) {
-                //     this.hideOnEdit = true;
-                // } else  {
-                //     this.hideOnEdit = false;
-                // }
             },
 
             onDelete() {
@@ -145,36 +151,29 @@
                 api.update(id, {nome: name})
                     .then(() => {
                         this.errors = null;
+                        this.onEdit();
                         this.message = `Série Alterada: ${name}`;
-                        setTimeout(() => this.onEdit(), 2000);
+                        setTimeout(() => this.message = null, 3000);
                     }).catch(error => {
                         this.errors = error.response.data.errors
                     });
             },
 
-            deleteSerie(id) {
+            deleteSerie(id, nome) {
                 this.message = 'Efetuando solicitação. Aguarde...';
                 api.delete(id)
                     .then((response) => {
                         this.errors = null;
-                        this.message = 'Série excluida';
-                        setTimeout(() => this.onDelete(), 2000);
+                        this.onDelete();
+                        this.message = `Série: "${nome}" excluida!`;
+                        setTimeout(() => this.message = null, 4000);
                     })
                     .catch((error) => {
                         this.errors = error.response.data.errors
                     })
             },
 
-            navigate(page) {
-                global.paginate(page)
-                    .then(response => {
-                        this.series = response.data.data;
-                        this.pagination = response.data;
-                    })
-                    .catch(error => {
-                        this.errors = error.response.data.errors
-                    })
-            },
+
         },
     }
 

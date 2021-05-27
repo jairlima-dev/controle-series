@@ -5,7 +5,6 @@
         <message v-if="message">{{ message }}</message>
         <errors v-if="errors" :errors="errors"/>
 
-<!--        <form class="flex items-end" @submit.prevent="onSubmit($event)">-->
         <form class="flex items-end" @submit.prevent="onSubmit($event)">
 
             <input-form size="sm" v-model="temporadas.episodios" label-text="Episódios"/>

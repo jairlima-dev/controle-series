@@ -16,7 +16,7 @@ Route::namespace('Api')->group(function () {
     Route::delete('/series/{serie}', [SeriesController::class, 'destroy']);
     Route::post('/series', [SeriesController::class, 'store']);
 
-    Route::get('/serie/{serie}', [SeasonsController::class, 'index']);
+    Route::get('/seasons/{id}', [SeasonsController::class, 'index']);
     Route::post('/seasons', [SeasonsController::class, 'store']);
 
     Route::get('/season/{season}', [EpisodesController::class, 'index']);
