@@ -1,3 +1,6 @@
+import Login from "./views/login/Login";
+import Register from "./views/register/Register";
+
 import SeriesIndex from "./views/series/SeriesIndex";
 import SeriesEdit from "./components/trash/SeriesEdit";
 import SeriesCreate from "./views/series/SeriesCreate";
@@ -21,6 +24,18 @@ export default {
     linkActiveClass: 'font-bold',
 
     routes: [
+
+        {
+            path: '/login',
+            name: 'login',
+            component: Login
+        },
+
+        {
+            path: '/register',
+            name: 'register',
+            component: Register
+        },
 
         {
             path: '/series',

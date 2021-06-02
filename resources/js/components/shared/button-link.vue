@@ -3,7 +3,7 @@
     <router-link :to="{ name: to, params:  { id, numero, nome } }">
 
         <div :class="styleButton">
-            <i :class="iClass"/>
+            <font-awesome-icon :icon="iClass"/>
             {{ tag }}
         </div>
 
@@ -26,11 +26,11 @@
         computed: {
 
             iClass() {
-                if (this.type === 'add') return "fas fa-plus-circle";
-                if (this.type === 'link') return "fas fa-external-link-alt";
-                if (this.type === 'edit') return "fas fa-pen";
-                if (this.type === 'delete') return "fas fa-trash-alt";
-                if (this.type === 'save') return "fas fa-check";
+                if (this.type === 'add') return "plus-circle";
+                if (this.type === 'link') return "external-link-alt";
+                if (this.type === 'edit') return "pen";
+                if (this.type === 'delete') return "trash-alt";
+                if (this.type === 'save') return "check";
             },
 
             styleButton() {

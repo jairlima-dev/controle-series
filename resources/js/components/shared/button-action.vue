@@ -2,13 +2,14 @@
 
     <button @click.prevent="action"
         :class="styleButton">
-        <i :class="iClass"/>
+        <font-awesome-icon :icon="iClass" />
         {{ tag }}
     </button>
 
 </template>
 
 <script>
+
     export default {
 
         props: {
@@ -33,13 +34,13 @@
         computed: {
 
             iClass() {
-                if (this.type === 'save') return 'fas fa-check';
-                if (this.type === 'edit') return 'fas fa-pen';
-                if (this.type === 'delete') return 'fas fa-trash-alt';
-                if (this.type === 'search') return 'fas fa-search';
-                if (this.type === 'load') return 'fas fa-exchange-alt';
-                if (this.type === 'link') return 'fas fa-external-link-alt';
-                if (this.type === 'cancel') return 'fas fa-times';
+                if (this.type === 'save') return 'check';
+                if (this.type === 'edit') return 'pen';
+                if (this.type === 'delete') return "trash-alt";
+                if (this.type === 'search') return "search";
+                if (this.type === 'load') return 'exchange-alt';
+                if (this.type === 'link') return 'external-link-alt';
+                if (this.type === 'cancel') return 'times';
             },
 
             styleButton() {

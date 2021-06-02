@@ -79,18 +79,11 @@
                 seriesSearch: null,
                 searching: false,
                 pagination: null,
-                reload: null
             };
         },
 
         created() {
             this.fetchData();
-        },
-
-        watch: {
-            reload() {
-                this.fetchData();
-            }
         },
 
         methods: {
@@ -129,7 +122,6 @@
                         setTimeout(() => this.errors = null, 2000);
                 });
             },
-
 
             cancelSearch() {
               this.search = null;

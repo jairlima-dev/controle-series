@@ -8,7 +8,7 @@
             <button type="submit" @click.prevent="$router.go(-1)"
                     class="text-gray-500 font-bold
                      h-12 px-3 mr-2 rounded-md">
-                <i class="fas fa-undo-alt text-3xl"/>
+                <font-awesome-icon icon="undo-alt" size="lg"/>
                 <p class="text-sm">Voltar</p>
             </button>
         </div>
