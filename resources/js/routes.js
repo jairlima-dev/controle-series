@@ -129,7 +129,7 @@ export default {
 
         {
             path: '*',
-            redirect: '/404'
+            redirect: '/series'
         },
 
         {

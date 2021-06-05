@@ -10,7 +10,7 @@
 <script>
 
     import api from '../../api/series';
-    import Errors from "../shared/errors";
+    import Errors from "../shared/errors-default";
     import Message from "../shared/message";
     import DivContainer from "../shared/div-container";
 

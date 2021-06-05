@@ -19,7 +19,7 @@
                        class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-400
                        bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                         <span class="sr-only">Anterior</span>
-                        <i class="fas fa-backward"></i>
+                        <font-awesome-icon icon="backward"/>
                     </a>
 
                     <div  v-if="current !== 1">
@@ -58,7 +58,8 @@
                        class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-400
                        bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                         <span class="sr-only">Próxima</span>
-                        <i class="fas fa-forward"></i>
+                        <font-awesome-icon icon="forward"/>
+<!--                        <i class="fas fa-forward"></i>-->
                     </a>
 
                 </nav>
@@ -110,7 +111,6 @@
         },
 
         methods: {
-
             navigate(page) {
                 if (page) {
                     this.$emit('navigate', page)

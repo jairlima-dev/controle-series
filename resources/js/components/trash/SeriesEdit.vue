@@ -12,7 +12,7 @@
     import api from '../../api/series';
     import Message from "../shared/message";
     import DivContainer from "../shared/div-container";
-    import Errors from "../shared/errors";
+    import Errors from "../shared/errors-default";
 
     export default {
         components: {Errors, DivContainer, Message},

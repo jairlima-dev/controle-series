@@ -13,18 +13,11 @@
 
 <script>
     export default {
-
         props: [
-            'type',
-            'tag',
-            'to',
-            'id',
-            'numero',
-            'nome',
+            'type', 'tag','to', 'id', 'numero', 'nome',
         ],
 
         computed: {
-
             iClass() {
                 if (this.type === 'add') return "plus-circle";
                 if (this.type === 'link') return "external-link-alt";

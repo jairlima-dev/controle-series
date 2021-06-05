@@ -1,8 +1,9 @@
 <template>
+
     <div-container>
         <tag-title>Séries</tag-title>
         <message v-if="message">{{ message }}</message>
-        <errors v-if="errors" :errors="errors"/>
+        <errors-default v-if="error" :error="error"/>
 
         <div-actions>
             <button-link to="series.create" tag="Série" type="add"/>
@@ -17,7 +18,7 @@
 
             <div v-if="showOnEdit === serie.id" class="flex p-2 border-2 rounded-md items-center">
                 <input-form size="lg" v-model="serie.nome"/>
-                <button-action type="save" @execute="editName(serie.id, serie.nome)" />
+                <button-action type="save" @execute="editName(serie)" />
                 <button-action type="cancel" @execute="onEdit()" />
             </div>
 
@@ -41,61 +42,62 @@
         </div>
 
     </div-container>
+
 </template>
 
 <script>
-
-    import api from '../../api/series'
-    import global from '../../api/global'
+    import api from '../../api/series';
+    import global from "../../api/global";
+    import { verifyToken } from '../../utils';
 
     import TagTitle from "../../components/shared/tag-title";
     import ButtonLink from "../../components/shared/button-link";
     import GridDefault from "../../components/shared/grid-default";
-    import FilterDefault from "../../components/shared/input-filter";
     import DivContainer from "../../components/shared/div-container";
     import DivActions from "../../components/shared/div-actions";
     import ButtonAction from "../../components/shared/button-action"
-    import Errors from "../../components/shared/errors";
+    import ErrorsDefault from "../../components/shared/errors-default";
     import Message from "../../components/shared/message"
     import InputForm from "../../components/shared/input-form";
     import PaginationDefault from "../../components/shared/pagination-default"
 
     export default {
-
         components: {
-            Errors, Message, PaginationDefault, InputForm, DivActions, ButtonAction,
-            DivContainer, FilterDefault, GridDefault, ButtonLink, TagTitle},
+            ErrorsDefault, Message, PaginationDefault, InputForm, DivActions, ButtonAction,
+            DivContainer, GridDefault, ButtonLink, TagTitle
+        },
 
         data() {
-
             return {
-                message: '',
-                errors: null,
+                message: 'Carregando...',
+                error: null,
                 hideOnEdit: true,
                 showOnEdit: false,
                 search: '',
                 id: null,
-                series: null,
                 seriesSearch: null,
                 searching: false,
+                series: null,
                 pagination: null,
             };
         },
 
+        mixins: [verifyToken],
+
         created() {
-            this.fetchData();
+            this.fetchData()
         },
 
         methods: {
-
             fetchData() {
                 api.all()
                     .then(response => {
+                        this.message = this.error = null;
                         this.series = response.data.data;
                         this.pagination = response.data;
                     })
                     .catch(error => {
-                        this.errors = error.response.data.errors;
+                        this.error = error.response.data.errors;
                     })
             },
 
@@ -106,7 +108,7 @@
                         this.pagination = response.data;
                     })
                     .catch(error => {
-                        this.errors = error.response.data.errors
+                        this.error = error.response.data.errors;
                     })
             },
 
@@ -118,8 +120,8 @@
                         this.pagination = response.data;
                         this.searching = true;
                     }).catch(error => {
-                        this.errors = error.response.data.errors;
-                        setTimeout(() => this.errors = null, 2000);
+                        this.error = error.response.data.errors;
+                        setTimeout(() => this.error = null, 2000);
                 });
             },
 
@@ -131,23 +133,23 @@
 
             onEdit(idSerie) {
                 this.showOnEdit = idSerie;
-                this.message = this.errors = null;
+                this.message = this.error = null;
             },
 
             onDelete() {
-                this.message = this.errors = null;
+                this.message = this.error = null;
                 this.fetchData()
             },
 
-            editName(id, name) {
-                api.update(id, {nome: name})
+            editName(serie) {
+                api.update(serie.id, {nome: serie.nome})
                     .then(() => {
-                        this.errors = null;
+                        this.error = null;
                         this.onEdit();
-                        this.message = `Série Alterada: ${name}`;
+                        this.message = `Série Alterada: ${serie.nome}`;
                         setTimeout(() => this.message = null, 3000);
                     }).catch(error => {
-                        this.errors = error.response.data.errors
+                        this.error = error.response.data.errors
                     });
             },
 
@@ -155,13 +157,13 @@
                 this.message = 'Efetuando solicitação. Aguarde...';
                 api.delete(id)
                     .then((response) => {
-                        this.errors = null;
+                        this.error = null;
                         this.onDelete();
                         this.message = `Série: "${nome}" excluida!`;
                         setTimeout(() => this.message = null, 4000);
                     })
                     .catch((error) => {
-                        this.errors = error.response.data.errors
+                        this.error = error.response.data.errors
                     })
             },
 

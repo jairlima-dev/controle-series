@@ -5,17 +5,13 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\EpisodesController;
 use App\Http\Controllers\Api\SeasonsController;
 use App\Http\Controllers\Api\SeriesController;
-use App\Http\Resources\SerieResource;
-use App\Models\Serie;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::namespace('Api')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/checkToken', [AuthController::class, 'checkToken']);
     Route::post('/logout', [AuthController::class, 'logout']);
-
-    Route::post('admin', [AdminController::class, 'index']);
+    Route::post('/admin', [AdminController::class, 'index']);
 
     Route::get('/series', [SeriesController::class, 'index']);
     Route::get('/series/{search}', [SeriesController::class, 'search']);

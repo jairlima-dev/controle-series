@@ -62,9 +62,10 @@ class EpisodesController extends Controller
 
         if ($numeroEpisodio !== $ultimoEpisodio) {
 
-            return Response::json(['errors' => [
-                'episodios' => ['Só é permitido excluir o último Episódio!'
-                ]]], 401);
+            return Response::json([
+                'errors' => [
+                'episodios' => ['Só é permitido excluir o último Episódio!']
+                ]], 401);
 
         } else {
             $episodio->delete();

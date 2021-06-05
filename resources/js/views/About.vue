@@ -3,5 +3,9 @@
 </template>
 
 <script>
-    export default {}
+    import {verifyToken} from "../utils";
+
+    export default {
+        mixins: [verifyToken]
+    }
 </script>

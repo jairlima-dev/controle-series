@@ -3,11 +3,10 @@
 </template>
 
 <script>
+    import {verifyToken} from "../utils";
+
     export default {
-        name: "FilmesIndex"
+        name: "FilmesIndex",
+        mixins: [verifyToken]
     }
 </script>
-
-<style scoped>
-
-</style>

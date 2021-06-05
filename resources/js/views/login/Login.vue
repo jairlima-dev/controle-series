@@ -1,13 +1,117 @@
 <template>
-<p>Login</p>
+    <div>
+
+        <div class="block">
+            <message type="danger" v-if="message">{{ message }}</message>
+            <errors-default v-if="error" :error="error"></errors-default>
+        </div>
+
+        <div class="flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+
+            <div class="max-w-md w-full space-y-8">
+                <div>
+                    <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                         alt="Workflow" />
+
+                    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                        Entre com os dados de acesso
+                    </h2>
+
+                </div>
+                <form class="mt-8 space-y-6" action="#" method="POST">
+                    <input type="hidden" name="remember" value="true" />
+                    <div class="rounded-md shadow-sm block justify-center">
+                        <div>
+                            <input-form name="email" type="email"
+                                        label-text="Endereço de Email"
+                                        size="lg"
+                                        v-model="credentials.email"
+                                        v-validate="'required|email'"/>
+                            <span v-show="errors.has('email')">{{ errors.first('email') }}</span>
+                        </div>
+                        <div>
+                            <input-form name="password" type="password"
+                                        label-text="Senha"
+                                        size="lg"
+                                        v-model="credentials.password"
+                                        v-validate="'required'"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center">
+
+                        <button-action type="lock" tag="Acessar" @execute="login"/>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
 </template>
 
 <script>
+    import axios from 'axios';
+    import ButtonAction from "../../components/shared/button-action";
+    import InputForm from "../../components/shared/input-form";
+    import Message from "../../components/shared/message";
+    import ErrorsDefault from "../../components/shared/errors-default";
+
     export default {
-        name: "login"
+        components: {
+            ErrorsDefault,
+            InputForm, Message, ButtonAction,
+        },
+
+        data() {
+          return {
+              credentials: {
+                  email: '',
+                  password: '',
+              },
+              message: 'Carregando...',
+              error: null,
+          }
+        },
+
+        mounted() {
+              if(this.$store.state.token !== '') {
+                  axios.post('/api/checkToken', { token: this.$store.state.token})
+                      .then(response => {
+                          this.message = null;
+                          if (response.data.success) {
+                              this.$router.push({ name: 'series.index'});
+                          } else {
+                              this.$store.commit('setToken', response.data.token);
+                          }
+                      })
+                      .catch(error => {
+                          this.message = null;
+                      })
+              } else {
+                  this.message = null;
+              }
+        },
+
+        methods: {
+            login() {
+                if (this.credentials.email === '' || this.credentials.password === '') {
+                    return this.message = 'Preencha todos os dados solicitados';
+                }
+                axios.post('/api/login', this.credentials)
+                    .then(response => {
+                        if (response.data.success) {
+                            this.$store.commit('setToken', response.data.token);
+                            this.$router.push({name: 'series.index'})
+                        }
+                    })
+                    . catch(error => {
+                        this.error = error.response.data.errors;
+                        setTimeout(() => this.error = null,3000)
+                    })
+            }
+        }
     }
 </script>
-
-<style scoped>
-
-</style>

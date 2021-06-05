@@ -24,6 +24,6 @@ export default {
 
     search(search) {
         return axios.get(`/api/series/${search}`)
-    }
+    },
 
 };

@@ -3,7 +3,7 @@
     <div-container>
         <tag-title>Nova Temporada</tag-title>
         <message v-if="message">{{ message }}</message>
-        <errors v-if="errors" :errors="errors"/>
+        <errors-default v-if="error" :error="error"/>
 
         <form class="flex items-end" @submit.prevent="onSubmit($event)">
 
@@ -18,20 +18,22 @@
 
 <script>
     import api from "../../api/seasons"
-    import Errors from "../../components/shared/errors";
+    import { verifyToken } from "../../utils";
+
     import Message from "../../components/shared/message";
     import TagTitle from "../../components/shared/tag-title";
     import ButtonAction from "../../components/shared/button-action"
     import DivContainer from "../../components/shared/div-container";
     import InputForm from "../../components/shared/input-form"
+    import ErrorsDefault from "../../components/shared/errors-default";
 
     export default {
-        components: {DivContainer, Errors, InputForm, TagTitle, ButtonAction, Message},
+        components: {ErrorsDefault, DivContainer, InputForm, TagTitle, ButtonAction, Message},
 
         data() {
 
           return {
-              errors: null,
+              error: null,
               message: '',
               temporadas: {
                   episodios: null,
@@ -40,18 +42,19 @@
           }
         },
 
+        mixins: [verifyToken],
+
         methods: {
-            onSubmit($event) {
+            onSubmit() {
                 api.create(this.temporadas)
-                    .then(data => {
+                    .then(() => {
                         this.$router.go(-1);
                     }).catch(errors => {
-                        this.errors = errors.response.data.errors;
+                        this.error = errors.response.data.errors;
                 });
 
             }
         }
-
 
     }
 </script>

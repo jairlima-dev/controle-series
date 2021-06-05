@@ -2,7 +2,7 @@
     <div-container>
         <tag-title>Nova Série</tag-title>
         <message v-if="message">{{ message }}</message>
-        <errors v-if="errors" :errors="errors"/>
+        <errors-default v-if="error" :error="error"/>
 
         <form class="flex items-end">
 
@@ -21,21 +21,23 @@
 <script>
 
     import api from '../../api/series';
+    import { verifyToken } from "../../utils"
+
     import TagTitle from "../../components/shared/tag-title";
     import Message from "../../components/shared/message";
-    import Errors from "../../components/shared/errors";
     import ButtonAction from "../../components/shared/button-action";
     import FormDefault from "../../components/shared/form-default";
     import DivContainer from "../../components/shared/div-container";
     import InputForm from "../../components/shared/input-form";
+    import ErrorsDefault from "../../components/shared/errors-default";
 
     export default {
 
-        components: {InputForm, Errors, DivContainer, ButtonAction, Message, TagTitle, FormDefault},
+        components: {ErrorsDefault, InputForm, DivContainer, ButtonAction, Message, TagTitle, FormDefault},
 
         data() {
             return {
-                errors: null,
+                error: null,
                 message: null,
                 serie: {
                     nome: '',
@@ -45,15 +47,17 @@
             }
         },
 
+        mixins: [verifyToken],
+
         methods: {
-            submit($event) {
+            submit() {
                 api.create(this.serie)
-                .then((data) => {
-                    this.errors = null;
+                .then(() => {
+                    this.error = null;
                     this.message = 'Processando solicitação...';
                     this.$router.push({ name: 'series.index' });
                 }).catch((error) => {
-                    this.errors = error.response.data.errors;
+                    this.error = error.response.data.errors;
                 })
             }
         }

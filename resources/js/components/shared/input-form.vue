@@ -4,7 +4,8 @@
 
         <label :class="displayLabel">{{ labelText }}</label>
         <input
-            type="text"
+            :name="name"
+            :type="type"
             :class="sizeField"
             :value="value"
             @input="$emit('input', $event.target.value)">
@@ -17,11 +18,16 @@
     export default {
 
         props: {
+            name: String,
             size: String,
             value: String,
             labelText: String,
             inputId: String,
-            display: String
+            display: String,
+            type: {
+                type: String,
+                default: 'text'
+            },
         },
 
         computed: {

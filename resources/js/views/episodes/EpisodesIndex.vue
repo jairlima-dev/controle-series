@@ -3,7 +3,7 @@
     <div-container>
         <tag-title>Série: {{ nomeTemporada }} - Temporada {{ numeroTemporada }} </tag-title>
         <message v-if="message">{{ message }}</message>
-        <errors v-if="errors" :errors="errors"/>
+        <errors-default v-if="error" :error="error"/>
 
         <div-actions>
             <button-link to="episodes.create"
@@ -24,7 +24,7 @@
                 </div>
 
                 <input-form size="lg" v-model="episodio.nome"/>
-                <button-action type="save" @execute="editName(episodio.id, episodio.numero, episodio.nome)"/>
+                <button-action type="save" @execute="editName(episodio)"/>
                 <button-action type="cancel" @execute="onEdit()"/>
             </div>
 
@@ -41,9 +41,7 @@
                     <checked-default :id="episodio.id" labelText="Assistido" v-model="episodio.assistido"/>
 
                 </div>
-
             </li>
-
         </ul>
 
         <pagination-default v-show="!showOnEdit" :source="pagination" @navigate="navigate"></pagination-default>
@@ -58,7 +56,6 @@
     import global from '../../api/global';
 
     import TagTitle from "../../components/shared/tag-title";
-    import Errors from "../../components/shared/errors";
     import Message from "../../components/shared/message";
     import ButtonLink from "../../components/shared/button-link";
     import DivContainer from "../../components/shared/div-container";
@@ -68,18 +65,20 @@
     import CheckedDefault from "../../components/shared/checked-default"
     import InputForm from "../../components/shared/input-form";
     import PaginationDefault from "../../components/shared/pagination-default";
+    import ErrorsDefault from "../../components/shared/errors-default";
 
     export default {
 
         components: {
+            ErrorsDefault,
             PaginationDefault,
-            InputForm, ButtonAction, Errors, CheckedDefault, DivContainer, DivActions,
+            InputForm, ButtonAction, CheckedDefault, DivContainer, DivActions,
             FilterDefault, Message, TagTitle, ButtonLink},
 
         data () {
             return {
                 filter: '',
-                errors: null,
+                error: null,
                 numeroTemporada: this.$route.params.numero,
                 nomeTemporada: this.$route.params.nome,
                 hideOnEdit: true,
@@ -113,12 +112,12 @@
                         this.episodios = response.data.data;
                         this.pagination = response.data;
                         this.id = this.episodios[0].temporada_id;
-                    }).catch(error => this.message = 'Erro na busca!');
+                    }).catch(error => this.message = 'Erro ao buscar dados!');
             },
 
             onEdit(idEpisode) {
                 this.showOnEdit = idEpisode;
-                this.message = this.errors = null;
+                this.message = this.error = null;
                 if (!this.hideOnEdit) {
                     this.hideOnEdit = true;
                 } else {
@@ -127,19 +126,19 @@
             },
 
             onDelete() {
-                this.message = this.errors = null;
+                this.message = this.error = null;
                 this.fetchData()
             },
 
-            editName(id, numero,name) {
-                api.update(id, {nome: name})
+            editName(episodio) {
+                api.update(episodio.id, {nome: episodio.nome})
                     .then(response => {
                         this.onEdit();
-                        this.message = `Episódio ${numero}: ${name} Alterado`
+                        this.message = `Episódio ${episodio.numero}: ${episodio.nome} Alterado`
                         setTimeout(() => this.message = null, 3000);
                     }).catch(error => {
-                    this.errors = error.response.data.errors;
-                    setTimeout(() => this.errors = null, 2000)
+                        this.error = error.response.data.errors;
+                        setTimeout(() => this.errors = null, 2000)
                 })
             },
 
@@ -150,9 +149,9 @@
                         this.message = 'Episódio excluido!';
                         setTimeout(() => this.onDelete(), 2000);
                     }).catch(error => {
-                    this.message = null;
-                    this.errors = error.response.data.errors;
-                    setTimeout(() => this.errors = null, 3000);
+                        this.message = null;
+                        this.error = error.response.data.errors;
+                        setTimeout(() => this.error = null, 3000);
                 })
             },
 
@@ -163,7 +162,7 @@
                         this.pagination = response.data;
                     })
                     .catch(error => {
-                        this.errors = error.response.data.errors
+                        this.error = error.response.data.errors
                     })
             },
         },

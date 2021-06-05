@@ -3,7 +3,7 @@
     <div-container>
         <tag-title>Série: {{ nome }}</tag-title>
         <message v-if="message">{{ message }}</message>
-        <errors v-if="errors" :errors="errors"/>
+        <errors-default v-if="error" :error="error"/>
 
         <div-actions>
 
@@ -50,32 +50,32 @@
 </template>
 
 <script>
+    import api from '../../api/seasons';
+    import global from "../../api/global";
+    import { verifyToken } from "../../utils";
 
-import api from '../../api/seasons';
-import TagTitle from "../../components/shared/tag-title";
-import Errors from "../../components/shared/errors";
-import Message from "../../components/shared/message";
-import GridDefault from "../../components/shared/grid-default";
-import DivContainer from "../../components/shared/div-container";
-import ButtonAction from "../../components/shared/button-action";
-import ButtonLink from "../../components/shared/button-link"
-import DivActions from "../../components/shared/div-actions";
-import FilterDefault from "../../components/shared/input-filter"
-import InputForm from "../../components/shared/input-form";
-import PaginationDefault from "../../components/shared/pagination-default";
-import global from "../../api/global";
+    import TagTitle from "../../components/shared/tag-title";
+    import ErrorsDefault from "../../components/shared/errors-default";
+    import Message from "../../components/shared/message";
+    import GridDefault from "../../components/shared/grid-default";
+    import DivContainer from "../../components/shared/div-container";
+    import ButtonAction from "../../components/shared/button-action";
+    import ButtonLink from "../../components/shared/button-link"
+    import DivActions from "../../components/shared/div-actions";
+    import InputForm from "../../components/shared/input-form";
+    import PaginationDefault from "../../components/shared/pagination-default";
 
     export default {
 
         components: {
-            PaginationDefault,
-            InputForm, DivActions, Errors, FilterDefault, ButtonAction, ButtonLink, DivContainer,
-            GridDefault, Message, TagTitle},
+            PaginationDefault, InputForm, DivActions, ErrorsDefault, ButtonAction,
+            ButtonLink, DivContainer, GridDefault, Message, TagTitle
+        },
 
-        data () {
+        data() {
             return {
                 filter: '',
-                errors: null,
+                error: null,
                 assistido: 3,
                 total: 8,
                 message: '',
@@ -86,12 +86,14 @@ import global from "../../api/global";
             }
         },
 
+        mixins: [verifyToken],
+
         created() {
-            this.fetchData();
+            this.fetchData()
         },
 
         computed: {
-            filteredTemporadas () {
+            filteredTemporadas() {
                 if (this.filter) {
                     let exp = new RegExp(this.filter.trim(), 'i');
                     return this.temporadas.filter(temporada => exp.test(temporada.numero));
@@ -107,12 +109,8 @@ import global from "../../api/global";
                     .then(response => {
                         this.temporadas = response.data.data;
                         this.pagination = response.data;
-                }).catch(error =>
-                    this.errors = error.response.data.errors);
-
-            },
-
-            episodesCount() {
+                    }).catch(error =>
+                        this.error = error.response.data.errors);
 
             },
 
@@ -123,11 +121,11 @@ import global from "../../api/global";
                         this.pagination = response.data;
                     })
                     .catch(error => {
-                        this.errors = error.response.data.errors
+                        this.error = error.response.data.errors
                     })
             },
-        },
 
+        }
     }
 
 </script>

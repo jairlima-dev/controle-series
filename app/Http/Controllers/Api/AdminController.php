@@ -10,15 +10,12 @@ class AdminController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth.api');
+        $this->middleware('auth:api');
 
     }
     public function index()
     {
-        return response()->json([
-            'success' => true,
-            'message' => 'Você está logado',
-            ], 200);
+        return response()->json(['success' => true, 'message' => 'Você está logado',], 200);
 
     }
 }

@@ -3,9 +3,9 @@
     <div-container>
         <tag-title>Novo Episódio</tag-title>
         <message v-if="message">{{ message }}</message>
-        <errors v-if="errors" :errors="errors"/>
+        <errors-default v-if="error" :error="error"/>
 
-        <form class="flex items-end" @submit.prevent="onSubmit($event)">
+        <form class="flex items-end">
 
             <input-form size="lg" label-text="Nome do Episódio" v-model="episodios.nome"/>
             <button-action type="save" @execute="onSubmit" tag="Salvar"></button-action>
@@ -22,15 +22,15 @@
     import Message from "../../components/shared/message";
     import TagTitle from "../../components/shared/tag-title";
     import ButtonAction from "../../components/shared/button-action";
-    import Errors from "../../components/shared/errors";
     import InputForm from "../../components/shared/input-form";
+    import ErrorsDefault from "../../components/shared/errors-default";
 
     export default {
-        components: {InputForm, Errors, ButtonAction, TagTitle, DivContainer, Message},
+        components: {ErrorsDefault, InputForm, ButtonAction, TagTitle, DivContainer, Message},
 
         data () {
             return {
-                errors: null,
+                error: null,
                 message: '',
                 episodios: {
                     nome: '',
@@ -40,13 +40,13 @@
         },
 
         methods: {
-            onSubmit($event) {
+            onSubmit() {
                 api.create(this.episodios)
-                    .then(data => {
+                    .then(() => {
                         this.errors = null;
                     this.$router.go(-1);
                     }).catch((error) => {
-                        this.errors = error.response.data.errors;
+                        this.error = error.response.data.errors;
                     });
             }
         }
