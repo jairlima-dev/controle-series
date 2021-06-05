@@ -27,7 +27,7 @@
                                         size="lg"
                                         v-model="credentials.email"
                                         v-validate="'required|email'"/>
-                            <span v-show="errors.has('email')">{{ errors.first('email') }}</span>
+                            <span v-show="errors.has('email')">{{ errors.first('required|email') }}</span>
                         </div>
                         <div>
                             <input-form name="password" type="password"
@@ -97,7 +97,7 @@
 
         methods: {
             login() {
-                if (this.credentials.email === '' || this.credentials.password === '') {
+                if (!this.credentials.email || !this.credentials.password) {
                     return this.message = 'Preencha todos os dados solicitados';
                 }
                 axios.post('/api/login', this.credentials)
