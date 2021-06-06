@@ -16,16 +16,14 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {faHome, faUser, faUserPlus,faSignInAlt, faSignOutAlt, faCheck, faPen,
     faTrashAlt, faSearch, faExchangeAlt, faExternalLinkAlt, faTimes, faPlusCircle,
-    faPowerOff, faCog, faUserSecret, faUndoAlt, faLock, faForward, faBackward
+    faPowerOff, faCog, faUserSecret, faUndoAlt, faLock, faForward, faBackward,faUnlock
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt,faCheck, faPen,
     faTrashAlt, faSearch, faExchangeAlt, faExternalLinkAlt, faTimes, faPlusCircle,
-    faPowerOff, faCog, faUserSecret, faUndoAlt, faLock, faForward, faBackward);
+    faPowerOff, faCog, faUserSecret, faUndoAlt, faLock, faForward, faBackward, faUnlock);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-
-
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);

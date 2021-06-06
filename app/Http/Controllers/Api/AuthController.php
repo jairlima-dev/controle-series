@@ -20,7 +20,7 @@ class AuthController extends Controller
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json([
                 'success' => false,
-                'errors' => ['usuario' => ['Usário ou Senha inválidos!']]],
+                'errors' => ['user' => ['Usário ou Senha inválidos!']]],
                 401);
         }
         return response()->json(['success' => true, 'token'=>$token], 200);
@@ -34,7 +34,7 @@ class AuthController extends Controller
 
     public function logout()
     {
-        $logout = auth()->logout();
+        auth()->logout();
         return response()->json(['success' => true], 200);
     }
 }

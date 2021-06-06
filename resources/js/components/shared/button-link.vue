@@ -28,12 +28,12 @@
 
             styleButton() {
                 if (this.type === 'add') {
-                    return "border-4 border-blue-300 hover:border-blue-600 " +
-                        "text-blue-400 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md"
+                    return "border-4 border-blue-400 hover:border-blue-700 " +
+                        "text-blue-500 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md"
                 }
                 if (this.type === 'link') {
-                    return "border-4 border-blue-300 hover:border-blue-600 " +
-                        "text-blue-400 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md"
+                    return "border-4 border-blue-400 hover:border-blue-700 " +
+                        "text-blue-500 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md"
                 }
                 if (this.type === 'edit') {
                     return "border-4 border-yellow-300 hover:border-yellow-600 " +
@@ -44,8 +44,8 @@
                         "text-red-400 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md"
                 }
                 if (this.type === 'save') {
-                    return "border-4 border-blue-300 hover:border-blue-600 " +
-                        "text-blue-400 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md"
+                    return "border-4 border-blue-400 hover:border-blue-700 " +
+                        "text-blue-500 font-bold text-xl h-12 pt-2 px-3 mr-2 rounded-md"
                 }
             },
 

@@ -10,7 +10,10 @@
             <input-form size="sm" v-model="serie.temporadas" label-text="Temporadas" input-id="nome"/>
             <input-form size="sm" v-model="serie.episodios" label-text="Episodios" input-id="nome"/>
 
-            <button-action type="save" @execute="submit" tag="Salvar"/>
+            <button-action v-if="serie.nome && serie.temporadas && serie.episodios"
+                           type="save" tag="Salvar" @execute="submit"/>
+            <button-action v-else
+                           type="lock" tag="Salvar"/>
 
         </form>
 

@@ -43,8 +43,7 @@
             onSubmit() {
                 api.create(this.episodios)
                     .then(() => {
-                        this.errors = null;
-                    this.$router.go(-1);
+                        this.$router.go(-1);
                     }).catch((error) => {
                         this.error = error.response.data.errors;
                     });

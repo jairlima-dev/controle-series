@@ -22,7 +22,7 @@
                     <input type="hidden" name="remember" value="true" />
                     <div class="rounded-md shadow-sm block justify-center">
                         <div>
-                            <input-form name="email" type="email"
+                            <input-form name="email"
                                         label-text="Endereço de Email"
                                         size="lg"
                                         v-model="credentials.email"
@@ -41,7 +41,8 @@
 
                     <div class="flex justify-center">
 
-                        <button-action type="lock" tag="Acessar" @execute="login"/>
+                        <button-action v-if="credentials.email && credentials.password" type="unlock" tag="Acessar" @execute="login"/>
+                        <button-action v-else type="lock" tag="Acessar"/>
 
                     </div>
                 </form>
