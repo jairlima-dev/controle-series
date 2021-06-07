@@ -13,7 +13,7 @@
             <button-action v-if="serie.nome && serie.temporadas && serie.episodios"
                            type="save" tag="Salvar" @execute="submit"/>
             <button-action v-else
-                           type="lock" tag="Salvar"/>
+                           type="disabled" tag="Salvar"/>
 
         </form>
 

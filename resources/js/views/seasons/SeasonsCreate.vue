@@ -8,7 +8,8 @@
         <form class="flex items-end" @submit.prevent="onSubmit($event)">
 
             <input-form size="sm" v-model="temporadas.episodios" label-text="Episódios"/>
-            <button-action type="save" @execute="onSubmit" tag="Salvar"/>
+            <button-action v-if="temporadas.episodios" type="save" @execute="onSubmit" tag="Salvar"/>
+            <button-action v-else type="disabled" tag="Salvar"/>
 
         </form>
 

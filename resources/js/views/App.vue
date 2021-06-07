@@ -1,10 +1,10 @@
 <template>
     <div class="container mx-auto">
-        <header class="bg-gray-600 text-white py-6 mb-4 h-32 rounded-xl">
-            <h1 class="text-4xl py-2 px-6 font-bold">
+        <div class="bg-gray-600 text-white py-4 mb-4 h-24 rounded-xl">
+            <div class="text-4xl py-2 px-6 font-bold">
                 Controle Remoto
-            </h1>
-        </header>
+            </div>
+        </div>
         <main class="flex h-screen pb-6 rounded-sm">
             <aside v-if="this.$store.state.token" class="bg-gray-600  text-white py-4 px-4 w-1/5 rounded-2xl cursor-pointer">
                 <div class="buttons flex justify-between mb-4">
@@ -100,7 +100,7 @@
         methods: {
             logout() {
                 axios.post('/api/logout', { token: this.$store.state.token })
-                .then(response => {
+                .then(() => {
                     this.$store.commit('clearToken');
                     this.$router.push({ name: 'login'});
                 })

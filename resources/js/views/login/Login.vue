@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="min-h-screen">
 
         <div class="block">
             <message type="danger" v-if="message">{{ message }}</message>
@@ -18,7 +18,7 @@
                     </h2>
 
                 </div>
-                <form class="mt-8 space-y-6" action="#" method="POST">
+                <form class="mt-8 space-y-6">
                     <input type="hidden" name="remember" value="true" />
                     <div class="rounded-md shadow-sm block justify-center">
                         <div>
@@ -41,7 +41,8 @@
 
                     <div class="flex justify-center">
 
-                        <button-action v-if="credentials.email && credentials.password" type="unlock" tag="Acessar" @execute="login"/>
+                        <button-action v-if="credentials.email && credentials.password"
+                                       type="unlock" tag="Acessar" @execute="login"/>
                         <button-action v-else type="lock" tag="Acessar"/>
 
                     </div>
@@ -81,7 +82,6 @@
               if(this.$store.state.token !== '') {
                   axios.post('/api/checkToken', { token: this.$store.state.token})
                       .then(response => {
-                          this.message = null;
                           if (response.data.success) {
                               this.$router.push({ name: 'series.index'});
                           } else {

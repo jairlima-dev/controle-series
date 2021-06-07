@@ -39,30 +39,23 @@
                 if (this.type === 'search') return "search";
                 if (this.type === 'load') return 'exchange-alt';
                 if (this.type === 'link') return 'external-link-alt';
-                if (this.type === 'cancel') return 'times';
                 if (this.type === 'lock') return 'lock';
                 if (this.type === 'unlock') return 'unlock';
+                if (this.type === 'cancel') return 'times';
+                if (this.type === 'disabled') return 'times';
             },
 
             styleButton() {
-                if (this.type === 'save') {
+                if (this.type === 'save' ||
+                    this.type === 'link' ||
+                    this.type === 'load' ||
+                    this.type === 'unlock') {
                     return "border-4 border-blue-400 hover:border-blue-700 text-blue-500 " +
                         "font-bold text-xl h-12 py-2 px-3 mr-2 ring-current rounded-md"
                 }
-                if (this.type === 'link') {
-                    return "border-4 border-blue-400 hover:border-blue-700 text-blue-500 " +
-                        "font-bold text-xl h-12 py-2 px-3 mr-2 ring-current rounded-md"
-                }
-                if (this.type === 'load') {
-                    return "border-4 border-blue-400 hover:border-blue-700 text-blue-500 " +
-                        "font-bold text-xl h-12 py-2 px-3 mr-2 ring-current rounded-md"
-                }
-                if (this.type === 'lock') {
+                if (this.type === 'lock' ||
+                    this.type === 'disabled') {
                     return "focus:outline-none border-4 border-gray-200 hover:border-gray-200 text-gray-300 " +
-                        "font-bold text-xl h-12 py-2 px-3 mr-2 ring-current rounded-md"
-                }
-                if (this.type === 'unlock') {
-                    return "border-4 border-blue-400 hover:border-blue-700 text-blue-500 " +
                         "font-bold text-xl h-12 py-2 px-3 mr-2 ring-current rounded-md"
                 }
                 if (this.type === 'delete') {
@@ -73,7 +66,8 @@
                     return "border-4 border-gray-400 hover:border-gray-700 text-gray-500 " +
                         "font-bold text-xl h-12 py-2 px-3 mr-2 rounded-md"
                 }
-                if (this.type === 'edit' || 'search') {
+                if (this.type === 'edit' ||
+                    this.type === 'search') {
                     return "border-4 border-yellow-400 hover:border-yellow-700 text-yellow-500" +
                         " font-bold text-xl h-12 py-2 px-3 mr-2 rounded-md"
                 }
