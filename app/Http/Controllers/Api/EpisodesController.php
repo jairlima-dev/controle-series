@@ -8,13 +8,14 @@ use App\Http\Requests\EpisodiosFormRequest;
 use App\Http\Resources\EpisodeResource;
 use App\Http\Resources\SeasonResource;
 use App\Models\Episodio;
+use App\Models\Temporada;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
 class EpisodesController extends Controller
 {
-    public function index (Request $request, $id)
+    public function index(Request $request, $id)
     {
         return EpisodeResource::collection(Episodio::whereTemporadaId($id)->paginate(10));
 
@@ -25,7 +26,7 @@ class EpisodesController extends Controller
         return new EpisodeResource($episodio);
     }
 
-    public function store (EpisodesFormRequest $request)
+    public function store(EpisodesFormRequest $request)
     {
         $numeroEpisodio = (Episodio::where('temporada_id', $request->temporada_id)->max('numero') + 1);
 
@@ -40,13 +41,13 @@ class EpisodesController extends Controller
         return new EpisodeResource($episodio);
     }
 
-    public function update(Episodio $episodio, EpisodesFormRequest $request)
+    public function update(EpisodesFormRequest $request, Episodio $episodio)
     {
 
         $data = $request->validate([
             'nome' => 'required',
             'assistido' => 'boolean'
-            ]);
+        ]);
 
         $episodio->update($data);
 
@@ -55,8 +56,6 @@ class EpisodesController extends Controller
 
     public function destroy(Episodio $episodio)
     {
-
-
         $ultimoEpisodio = Episodio::where('temporada_id', $episodio->temporada_id)->max('numero');
         $numeroEpisodio = $episodio->numero;
 
@@ -69,13 +68,12 @@ class EpisodesController extends Controller
 
         } else {
             $episodio->delete();
-//            return response(null, 204);
         }
 
 
     }
 
-    public function assistir()
+    public function assistir(Temporada $temporada, Request $request)
     {
         $episodiosAssistidos = $request->episodios;
         $temporada->episodios->each(function (Episodio $episodio) use($episodiosAssistidos) {

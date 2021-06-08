@@ -7,7 +7,7 @@ namespace App\Services;
 use App\Models\Serie;
 use Illuminate\Support\Facades\DB;
 
-class CriadorDeSeries
+class  CriadorDeSeries
 {
     public function criarSerie(string $nomeSerie, int $qtdTemporadas, int $epPorTemporada)
     {

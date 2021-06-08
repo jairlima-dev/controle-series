@@ -138,7 +138,7 @@
                         setTimeout(() => this.message = null, 3000);
                     }).catch(error => {
                         this.error = error.response.data.errors;
-                        setTimeout(() => this.errors = null, 2000)
+                        setTimeout(() => this.error = null, 2000)
                 })
             },
 

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('Api')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
     Route::post('/checkToken', [AuthController::class, 'checkToken']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/admin', [AdminController::class, 'index']);

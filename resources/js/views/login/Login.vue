@@ -19,23 +19,19 @@
 
                 </div>
                 <form class="mt-8 space-y-6">
-                    <input type="hidden" name="remember" value="true" />
                     <div class="rounded-md shadow-sm block justify-center">
                         <div>
-                            <input-form name="email"
+                            <input-form rules="required|email"
                                         label-text="Endereço de Email"
                                         size="lg"
-                                        v-model="credentials.email"
-                                        v-validate="'required|email'"/>
-                            <span v-show="errors.has('email')">{{ errors.first('required|email') }}</span>
+                                        v-model="credentials.email"/>
                         </div>
                         <div>
-                            <input-form name="password" type="password"
+                            <input-form rules="required|min:6"
+                                        type="password"
                                         label-text="Senha"
                                         size="lg"
-                                        v-model="credentials.password"
-                                        v-validate="'required'"
-                            />
+                                        v-model="credentials.password"/>
                         </div>
                     </div>
 
@@ -104,6 +100,7 @@
                 axios.post('/api/login', this.credentials)
                     .then(response => {
                         if (response.data.success) {
+                            this.$store.commit('setUser', response.data.user.name);
                             this.$store.commit('setToken', response.data.token);
                             this.$router.push({name: 'series.index'})
                         }

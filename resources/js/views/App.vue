@@ -1,8 +1,12 @@
 <template>
     <div class="container mx-auto">
-        <div class="bg-gray-600 text-white py-4 mb-4 h-24 rounded-xl">
+        <div class="flex bg-gray-600 text-white py-4 mb-4 h-24 rounded-xl items-center justify-between">
             <div class="text-4xl py-2 px-6 font-bold">
                 Controle Remoto
+            </div>
+            <div v-if="currentUser" class="text-2xl mx-12">
+                <font-awesome-icon icon="user"/>
+                <span class="m-2">Olá! {{ currentUser }}</span>
             </div>
         </div>
         <main class="flex h-screen pb-6 rounded-sm">
@@ -65,7 +69,7 @@
                     </div>
 
 
-                    <router-link :to="{ name: 'login' }">
+                    <router-link :to="{ name: 'register' }">
                         <div class="rounded-full bg-white text-black text-2xl h-12 w-12 px-3 py-2  border-2 hover:border-black">
                             <font-awesome-icon icon="user"/>
                         </div>
@@ -97,10 +101,17 @@
     export default {
         name: "App",
 
+        computed: {
+            currentUser() {
+                return this.$store.state.user;
+            }
+        },
+
         methods: {
             logout() {
                 axios.post('/api/logout', { token: this.$store.state.token })
                 .then(() => {
+                    this.$store.commit('clearUser');
                     this.$store.commit('clearToken');
                     this.$router.push({ name: 'login'});
                 })

@@ -6,9 +6,9 @@
 
         <form class="flex items-end">
 
-            <input-form size="lg" v-model="serie.nome" label-text="Nome" input-id="nome"/>
-            <input-form size="sm" v-model="serie.temporadas" label-text="Temporadas" input-id="nome"/>
-            <input-form size="sm" v-model="serie.episodios" label-text="Episodios" input-id="nome"/>
+            <input-form size="lg" v-model="serie.nome" rules="required|min:3" label-text="Nome" input-id="nome"/>
+            <input-form size="sm" v-model="serie.temporadas" rules="required" label-text="Temporadas" input-id="nome"/>
+            <input-form size="sm" v-model="serie.episodios" rules="required" label-text="Episodios" input-id="nome"/>
 
             <button-action v-if="serie.nome && serie.temporadas && serie.episodios"
                            type="save" tag="Salvar" @execute="submit"/>
@@ -18,7 +18,6 @@
         </form>
 
     </div-container>
-
 </template>
 
 <script>
