@@ -1,7 +1,6 @@
 import axios from "axios";
 
-export const verifyToken = {
-
+export const checkToken = {
     mounted() {
         if (this.$store.state.token !== '') {
             axios.post('/api/checkToken', { token: this.$store.state.token })
@@ -20,6 +19,31 @@ export const verifyToken = {
         }
     },
 
+}
+
+export const getUser = {
+    methods: {
+        getUser() {
+            if (this.$store.state.token) {
+                axios.post(`/api/getUser`,{ 'token': this.$store.state.token })
+                    .then(response => {
+                        this.$store.commit('setUser', response.data.user)
+                    }).catch(error => {
+                    console.log('Não peguei o usuário')
+                })
+            }
+        },
+    },
+}
+
+export const refresh = {
+    methods: {
+        refresh() {
+            this.message = this.error = null;
+            this.fetchData();
+            setTimeout(() => this.message = null, 3000);
+        },
+    },
 }
 
 export const navigate = {

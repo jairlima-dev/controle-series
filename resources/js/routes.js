@@ -11,10 +11,10 @@ import EpisodesIndex from "./views/episodes/EpisodesIndex";
 import EpisodesCreate from "./views/episodes/EpisodesCreate";
 import EpisodesEdit from "./components/trash/EpisodesEdit";
 import EpisodesDelete from "./components/trash/EpisodesDelete";
-import MoviesIndex from "./views/MoviesIndex";
-import DocumentariesIndex from "./views/DocumentariesIndex";
+import MoviesIndex from "./views/movies/MoviesIndex";
+import DocumentariesIndex from "./views/documentaries/DocumentariesIndex";
 import EpisodesFormEdit from "./components/trash/EpisodesFormEdit";
-import About from "./views/About";
+import About from "./views/register/About";
 import NotFound from "./views/NotFound";
 
 export default {

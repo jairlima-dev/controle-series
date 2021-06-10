@@ -100,8 +100,8 @@
                 axios.post('/api/login', this.credentials)
                     .then(response => {
                         if (response.data.success) {
-                            this.$store.commit('setUser', response.data.user.name);
                             this.$store.commit('setToken', response.data.token);
+                            this.$store.commit('setUser', response.data.user);
                             this.$router.push({name: 'series.index'})
                         }
                     })
@@ -109,7 +109,9 @@
                         this.error = error.response.data.errors;
                         setTimeout(() => this.error = null,3000)
                     })
-            }
+            },
+
+
         }
     }
 </script>

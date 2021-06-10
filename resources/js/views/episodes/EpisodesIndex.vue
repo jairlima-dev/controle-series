@@ -60,12 +60,13 @@
     import ButtonLink from "../../components/shared/button-link";
     import DivContainer from "../../components/shared/div-container";
     import DivActions from "../../components/shared/div-actions";
-    import FilterDefault from "../../components/shared/input-filter";
+    import FilterDefault from "../../components/trash/input-filter";
     import ButtonAction from "../../components/shared/button-action";
     import CheckedDefault from "../../components/shared/checked-default"
     import InputForm from "../../components/shared/input-form";
     import PaginationDefault from "../../components/shared/pagination-default";
     import ErrorsDefault from "../../components/shared/errors-default";
+    import { checkToken, refresh } from "../../utils";
 
     export default {
 
@@ -89,6 +90,8 @@
                 pagination: null,
             }
         },
+
+        mixins: [checkToken, refresh],
 
         created() {
             this.fetchData();
@@ -125,11 +128,6 @@
                 }
             },
 
-            onDelete() {
-                this.message = this.error = null;
-                this.fetchData()
-            },
-
             editName(episodio) {
                 api.update(episodio.id, {nome: episodio.nome})
                     .then(response => {
@@ -147,7 +145,7 @@
                 api.delete(id)
                     .then(response => {
                         this.message = 'Episódio excluido!';
-                        setTimeout(() => this.onDelete(), 2000);
+                        setTimeout(() => this.refresh(), 2000);
                     }).catch(error => {
                         this.message = null;
                         this.error = error.response.data.errors;

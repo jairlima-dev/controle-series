@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UsersFormRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -20,35 +21,17 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        $token = JWTAuth::attempt($credentials);
-        if (!$token) {
+        if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json([
                 'success' => false,
                 'errors' => ['user' => ['Usário ou Senha inválidos!']]],
                 401);
         }
+
         $user = auth()->user();
 
         return response()->json(['success' => true, 'token' => $token, 'user' => $user], 200);
 
-    }
-
-    public function register(Request $request)
-    {
-
-        $data = $request->validate(
-            [
-                'name' => 'required|min:3|max:20|unique:users',
-                'email' => 'required|email|unique:users',
-                'password' => 'required',
-                'c_password' => 'required|same:password',
-            ]);
-
-        $data['password'] = Hash::make($data['password']);
-        $user = new User($data);
-        $user->save();
-
-        return response()->json(['success' => true, 'user' => $user], 200);
     }
 
     public function getUser(Request $request)
@@ -63,7 +46,7 @@ class AuthController extends Controller
 
     }
 
-    public function checkToken()
+    public function checkToken(Request $request)
     {
         return response()->json(['success' => true], 200);
     }
@@ -73,4 +56,5 @@ class AuthController extends Controller
         auth()->logout();
         return response()->json(['success' => true], 200);
     }
+
 }

@@ -3,10 +3,10 @@ import VueRouter from 'vue-router';
 import routes from './routes';
 
 // * VeeValidate
-import { ValidationProvider } from "vee-validate";
+import { ValidationProvider, ValidationObserver } from "vee-validate";
 Vue.component('ValidationProvider', ValidationProvider);
-
-import msgBR from 'vee-validate/dist/locale/pt_BR';
+Vue.component('ValidationObserver', ValidationObserver);
+// *** VeeValidate
 
 import App from "./views/App";
 import axios from "axios";
@@ -37,8 +37,6 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
-// Vue.use(VeeValidate);
-// Validator.localize('pt_BR', msgBR);
 
 let app = new Vue({
     el: '#app',

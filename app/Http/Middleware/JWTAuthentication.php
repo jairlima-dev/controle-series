@@ -39,5 +39,13 @@ class JWTAuthentication
             }
         }
         return $next($request);
+
+//        if ($e instanceof TokenExpiredException) {
+//            $newToken = JWTAuth::parseToken()->refresh();
+//            return response()->json([
+//                'success' => false,
+//                'token' => $newToken,
+//                'status' => 'Token Renovado!'], 200);
+
     }
 }

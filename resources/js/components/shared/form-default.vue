@@ -1,6 +1,6 @@
 <template>
 
-    <form class="flex items-end">
+    <form class="flex items-end my-2">
         <slot></slot>
     </form>
 

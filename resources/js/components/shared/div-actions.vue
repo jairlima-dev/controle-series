@@ -9,7 +9,7 @@
 <script>
 
     import ButtonLink from "./button-link";
-    import FilterDefault from "./input-filter"
+    import FilterDefault from "../trash/input-filter"
 
     export default {
 

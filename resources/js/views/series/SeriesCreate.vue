@@ -6,9 +6,9 @@
 
         <form class="flex items-end">
 
-            <input-form size="lg" v-model="serie.nome" rules="required|min:3" label-text="Nome" input-id="nome"/>
-            <input-form size="sm" v-model="serie.temporadas" rules="required" label-text="Temporadas" input-id="nome"/>
-            <input-form size="sm" v-model="serie.episodios" rules="required" label-text="Episodios" input-id="nome"/>
+            <input-form size="lg" v-model="serie.nome" rules="required|min:3|max:40" label-text="Nome" input-id="nome"/>
+            <input-form size="sm" v-model="serie.temporadas" rules="required|num" label-text="Temporadas" input-id="nome"/>
+            <input-form size="sm" v-model="serie.episodios" rules="required|num" label-text="Episodios" input-id="nome"/>
 
             <button-action v-if="serie.nome && serie.temporadas && serie.episodios"
                            type="save" tag="Salvar" @execute="submit"/>
@@ -23,7 +23,7 @@
 <script>
 
     import api from '../../api/series';
-    import { verifyToken } from "../../utils"
+    import { checkToken } from "../../utils"
 
     import TagTitle from "../../components/shared/tag-title";
     import Message from "../../components/shared/message";
@@ -49,7 +49,7 @@
             }
         },
 
-        mixins: [verifyToken],
+        mixins: [checkToken],
 
         methods: {
             submit() {

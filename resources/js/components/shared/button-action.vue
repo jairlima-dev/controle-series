@@ -1,7 +1,7 @@
 <template>
 
     <button @click.prevent="action"
-        :class="styleButton">
+            :class="styleButton">
         <font-awesome-icon :icon="iClass" />
         {{ tag }}
     </button>
@@ -55,7 +55,7 @@
                 }
                 if (this.type === 'lock' ||
                     this.type === 'disabled') {
-                    return "focus:outline-none border-4 border-gray-200 hover:border-gray-200 text-gray-300 " +
+                    return "in-line block focus:outline-none border-4 border-gray-200 hover:border-gray-200 text-gray-300 " +
                         "font-bold text-xl h-12 py-2 px-3 mr-2 ring-current rounded-md"
                 }
                 if (this.type === 'delete') {

@@ -6,7 +6,7 @@
             </div>
             <div v-if="currentUser" class="text-2xl mx-12">
                 <font-awesome-icon icon="user"/>
-                <span class="m-2">Olá! {{ currentUser }}</span>
+                <span class="m-2">Olá! {{ currentUser.name }}</span>
             </div>
         </div>
         <main class="flex h-screen pb-6 rounded-sm">
@@ -59,6 +59,7 @@
                 </ul>
 
                 <div class="buttons-circle flex justify-between items-center my-6">
+
                     <div class="rounded-full bg-white text-black text-2xl
                         h-12 w-12 p-2 px-1 text-gray-800 border-2 hover:border-black text-center">
                         <font-awesome-icon icon="cog"/>
@@ -103,7 +104,9 @@
 
         computed: {
             currentUser() {
-                return this.$store.state.user;
+                if (this.$store.state.token) {
+                    return this.$store.state.user;
+                }
             }
         },
 

@@ -1,12 +1,13 @@
-import Vuex from 'vuex';
 import Vue from  'vue';
+import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     state: {
         token: localStorage.getItem('auth') || '',
-        user: localStorage.getItem('user'),
+        user: JSON.parse(localStorage.getItem('user')),
+        // user: localStorage.getItem('user') || '',
     },
 
     mutations: {
@@ -21,7 +22,8 @@ export const store = new Vuex.Store({
         },
 
         setUser(state,user) {
-            localStorage.setItem('user', user);
+            localStorage.setItem('user', JSON.stringify(user));
+            // localStorage.setItem('user', user);
             state.user = user;
         },
 

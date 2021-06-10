@@ -1,7 +1,7 @@
 <template>
 
-    <div class="mx-1 block items-start">
-
+<!--    <div class="mx-1 inline-block items-center">-->
+    <div class="mx-1 flex block items-center">
 
         <ValidationProvider :rules="rules" :vid="vid" v-slot="{ errors }">
             <span class="block text-white bg-red-400 rounded-md px-2 my-1">{{ errors[0] }}</span>
@@ -14,7 +14,6 @@
                 @input="$emit('input', $event.target.value)">
         </ValidationProvider>
 
-
     </div>
 
 </template>
@@ -22,25 +21,39 @@
 <script>
 
     import { extend } from "vee-validate";
-    import { required, email, confirmed } from "vee-validate/dist/rules";
+    import { required, email, confirmed, numeric } from "vee-validate/dist/rules";
 
     extend('required', {
         ...required,
-        message: 'O campo {_field_} é obrigatório'
+        message: '{_field_} é obrigatório',
     });
 
     extend('email', {
         ...email,
-        message: 'Informe um e-mail válido'});
+        message: 'Informe um e-mail válido',
+    });
 
     extend('confirmed', confirmed);
+
+    extend('num', {
+        ...numeric,
+        message: `{_field_} é numérico`,
+    });
 
     extend('min', {
         validate(value, args) {
             return value.length >= args.length;
         },
         params: ['length'],
-        message: `O {_field_} precisa ter pelo menos {length} caracteres`
+        message: `{_field_}: mínimo de {length} caracteres`
+    });
+
+    extend('max', {
+        validate(value, args) {
+            return value.length <= args.length;
+        },
+        params: ['length'],
+        message: `{_field_}: máximo de {length} caracteres`
     });
 
     export default {
@@ -53,7 +66,10 @@
             inputId: String,
             display: String,
             rules: String,
-            vid: String,
+            vid: {
+                type: String,
+                required: false,
+            },
             type: {
                 type: String,
                 default: 'text'

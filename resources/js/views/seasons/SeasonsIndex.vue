@@ -52,12 +52,12 @@
 <script>
     import api from '../../api/seasons';
     import global from "../../api/global";
-    import { verifyToken } from "../../utils";
+    import { checkToken } from "../../utils";
 
     import TagTitle from "../../components/shared/tag-title";
     import ErrorsDefault from "../../components/shared/errors-default";
     import Message from "../../components/shared/message";
-    import GridDefault from "../../components/shared/grid-default";
+    import GridDefault from "../../components/trash/grid-default";
     import DivContainer from "../../components/shared/div-container";
     import ButtonAction from "../../components/shared/button-action";
     import ButtonLink from "../../components/shared/button-link"
@@ -86,7 +86,7 @@
             }
         },
 
-        mixins: [verifyToken],
+        mixins: [checkToken],
 
         created() {
             this.fetchData()

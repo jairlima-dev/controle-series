@@ -7,7 +7,7 @@
 
         <form class="flex items-end" @submit.prevent="onSubmit($event)">
 
-            <input-form size="sm" v-model="temporadas.episodios" label-text="Episódios"/>
+            <input-form size="sm" rules="required|max:2|num" v-model="temporadas.episodios" label-text="Episódios"/>
             <button-action v-if="temporadas.episodios" type="save" @execute="onSubmit" tag="Salvar"/>
             <button-action v-else type="disabled" tag="Salvar"/>
 
@@ -19,7 +19,7 @@
 
 <script>
     import api from "../../api/seasons"
-    import { verifyToken } from "../../utils";
+    import { checkToken } from "../../utils";
 
     import Message from "../../components/shared/message";
     import TagTitle from "../../components/shared/tag-title";
@@ -43,7 +43,7 @@
           }
         },
 
-        mixins: [verifyToken],
+        mixins: [checkToken],
 
         methods: {
             onSubmit() {

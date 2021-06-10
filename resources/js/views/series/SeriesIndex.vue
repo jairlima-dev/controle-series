@@ -31,7 +31,7 @@
                 <div class="action-buttons flex flex-invert">
                     <button-link type="link" :confirm="true"  to='seasons.index' :id="serie.id" :nome="serie.nome"/>
                     <button-action type="edit" @execute="onEdit(serie.id)"/>
-                    <button-action type="delete" @execute="deleteSerie(serie.id, serie.nome)" :confirmation="true"/>
+                    <button-action type="delete" @execute="deleteSerie(serie)" :confirmation="true"/>
                 </div>
 
             </li>
@@ -48,11 +48,11 @@
 <script>
     import api from '../../api/series';
     import global from "../../api/global";
-    import { verifyToken } from '../../utils';
+    import {checkToken, refresh} from '../../utils';
 
     import TagTitle from "../../components/shared/tag-title";
     import ButtonLink from "../../components/shared/button-link";
-    import GridDefault from "../../components/shared/grid-default";
+    import GridDefault from "../../components/trash/grid-default";
     import DivContainer from "../../components/shared/div-container";
     import DivActions from "../../components/shared/div-actions";
     import ButtonAction from "../../components/shared/button-action"
@@ -82,7 +82,7 @@
             };
         },
 
-        mixins: [verifyToken],
+        mixins: [checkToken, refresh],
 
         created() {
             this.fetchData()
@@ -131,14 +131,9 @@
               this.searching = false;
             },
 
-            onEdit(idSerie) {
-                this.showOnEdit = idSerie;
+            onEdit(id) {
+                this.showOnEdit = id;
                 this.message = this.error = null;
-            },
-
-            onDelete() {
-                this.message = this.error = null;
-                this.fetchData()
             },
 
             editName(serie) {
@@ -150,19 +145,17 @@
                         setTimeout(() => this.message = null, 3000);
                     }).catch(error => {
                         this.error = error.response.data.errors
-                    });
+                    })
             },
 
-            deleteSerie(id, nome) {
+            deleteSerie(serie) {
                 this.message = 'Efetuando solicitação. Aguarde...';
-                api.delete(id)
-                    .then((response) => {
-                        this.error = null;
-                        this.onDelete();
-                        this.message = `Série: "${nome}" excluida!`;
-                        setTimeout(() => this.message = null, 4000);
+                api.delete(serie.id)
+                    .then(response => {
+                        this.message = `Usuário "${ serie.nome }" excluído!`;
+                        setTimeout(() => this.refresh(), 3000);
                     })
-                    .catch((error) => {
+                    .catch(error => {
                         this.error = error.response.data.errors
                     })
             },

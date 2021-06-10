@@ -7,7 +7,7 @@
 
         <form class="flex items-end">
 
-            <input-form size="lg" label-text="Nome do Episódio" v-model="episodios.nome"/>
+            <input-form size="lg" rules="required|min:3|num" label-text="Nome do Episódio" v-model="episodios.nome"/>
             <button-action v-if="episodios.nome" type="save" @execute="onSubmit" tag="Salvar"></button-action>
             <button-action v-else type="disabled" tag="Salvar"></button-action>
 
