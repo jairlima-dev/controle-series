@@ -1,6 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import routes from './routes';
+import { router } from './router';
+
+// * Vuex Store
+import { store } from "./store";
 
 // * VeeValidate
 import { ValidationProvider, ValidationObserver } from "vee-validate";
@@ -14,10 +17,6 @@ import VueAxios from "vue-axios";
 
 // * CSS
 import "../css/tailwind.css";
-
-
-// * Vuex Store
-import { store } from "./store";
 
 // * FontAwesome Icons
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -34,13 +33,12 @@ library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt,faCheck, faPen
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 // *** FontAwesome Icons end
 
-
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
 
 let app = new Vue({
     el: '#app',
-    router: new VueRouter(routes),
-    store: store,
+    router,
+    store,
     render: app => app(App),
 });

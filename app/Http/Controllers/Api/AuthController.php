@@ -3,50 +3,42 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UsersFormRequest;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Tymon\JWTAuth\Facades\JWTAuth;
+
 
 class AuthController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('jwtauth')->except('login', 'register');
+        $this->middleware('jwtauth')->except('login');
     }
 
-    public function login(Request $request)
+    public function login()
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = request(['email', 'password']);
 
-        if (!$token = JWTAuth::attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             return response()->json([
                 'success' => false,
-                'errors' => ['user' => ['Usário ou Senha inválidos!']]],
-                401);
+                'errors' => ['user' => ['Usário ou Senha inválidos!']]
+            ], 401);
         }
 
         $user = auth()->user();
-
-        return response()->json(['success' => true, 'token' => $token, 'user' => $user], 200);
+        return response()->json([
+            'success' => true,
+            'token' => $token,
+            'user' => $user], 200);
 
     }
 
-    public function getUser(Request $request)
+    public function getUser()
     {
-        $this->validate($request, [
-            'token' => 'required'
-        ]);
-
-        $user = JWTAuth::authenticate($request->token);
-
+        $user = auth()->user();
         return response()->json(['user' => $user]);
-
     }
 
-    public function checkToken(Request $request)
+    public function checkToken()
     {
         return response()->json(['success' => true], 200);
     }

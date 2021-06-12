@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\EpisodesController;
 use App\Http\Controllers\Api\SeasonsController;
 use App\Http\Controllers\Api\SeriesController;
-use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\UsersController;
 use Illuminate\Support\Facades\Route;
 
 Route::namespace('Api')->group(function () {
@@ -14,9 +14,9 @@ Route::namespace('Api')->group(function () {
     Route::post('/getUser', [AuthController::class, 'getUser']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::get('/register', [UserController::class, 'index']);
-    Route::post('/register', [UserController::class, 'store']);
-    Route::delete('/register/{user}', [UserController::class, 'destroy']);
+    Route::get('/register', [UsersController::class, 'index']);
+    Route::post('/register', [UsersController::class, 'store']);
+    Route::delete('/register/{user}', [UsersController::class, 'destroy']);
 
     Route::get('/series', [SeriesController::class, 'index']);
     Route::get('/series/{search}', [SeriesController::class, 'search']);

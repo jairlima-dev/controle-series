@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Controllers\Api\AuthController;
 use Closure;
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -32,20 +34,14 @@ class JWTAuthentication
                 return response()->json([
                     'success' => false,
                     'message' => 'Token Inválido!'], 401);
-            } else {
+            }
+            else {
                 return response()->json([
                     'success' => false,
                     'message' => 'Token não encontrado!'], 401);
             }
         }
         return $next($request);
-
-//        if ($e instanceof TokenExpiredException) {
-//            $newToken = JWTAuth::parseToken()->refresh();
-//            return response()->json([
-//                'success' => false,
-//                'token' => $newToken,
-//                'status' => 'Token Renovado!'], 200);
 
     }
 }

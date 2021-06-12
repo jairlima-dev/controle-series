@@ -82,7 +82,7 @@
             };
         },
 
-        mixins: [checkToken, refresh],
+        mixins: [checkToken,refresh],
 
         created() {
             this.fetchData()

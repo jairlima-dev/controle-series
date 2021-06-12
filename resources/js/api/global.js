@@ -1,9 +1,9 @@
-import axios from "axios";
+import http from "../http";
 
 export default {
 
     paginate(page) {
-        return axios.get(`${page}`);
+        return http.get(`${page}`);
     },
 
 };

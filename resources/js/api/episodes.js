@@ -1,25 +1,25 @@
-import axios from "axios";
+import http from "../http";
 
 export default {
 
     all(id) {
-        return axios.get(`/api/season/${id}`)
+        return http.get(`/api/season/${id}`)
     },
 
     find(id) {
-        return axios.get(`/api/episodes/${id}`)
+        return http.get(`/api/episodes/${id}`)
     },
 
     create(data) {
-        return axios.post('/api/episodes', data)
+        return http.post('/api/episodes', data)
     },
 
     update(id, data) {
-        return axios.put(`/api/episodes/${id}`, data)
+        return http.put(`/api/episodes/${id}`, data)
     },
 
     delete(id) {
-        return axios.delete(`/api/episodes/${id}`)
+        return http.delete(`/api/episodes/${id}`)
     },
 
 }

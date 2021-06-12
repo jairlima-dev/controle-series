@@ -1,17 +1,17 @@
-import axios from "axios";
+import http from "../http";
 
 export default {
 
     all() {
-      return axios.get('api/register')
+      return http.get('api/register')
     },
 
     create(data) {
-        return axios.post('/api/register', data)
+        return http.post('/api/register', data)
     },
 
     delete(id) {
-        return axios.delete(`/api/register/${id}`)
+        return http.delete(`/api/register/${id}`)
     }
 
 }

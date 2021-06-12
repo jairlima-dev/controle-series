@@ -1,13 +1,13 @@
-import axios from "axios";
+import http from "../http";
 
 export default {
 
     all(id) {
-        return axios.get(`/api/seasons/${id}`)
+        return http.get(`/api/seasons/${id}`)
     },
 
     create(data) {
-        return axios.post('/api/seasons', data)
+        return http.post('/api/seasons', data)
     }
 
 }

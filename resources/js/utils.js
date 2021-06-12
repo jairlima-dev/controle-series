@@ -46,22 +46,6 @@ export const refresh = {
     },
 }
 
-export const navigate = {
-
-    methods: {
-        navigate(page) {
-            axios.get(`${page}`)
-                .then(response => {
-                    this.series = response.data.data;
-                    this.pagination = response.data;
-                })
-                .catch(error => {
-                    this.error = error.response.data.errors
-                })
-        },
-    }
-
-}
 
 
 

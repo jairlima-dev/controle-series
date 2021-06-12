@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Response;
 
 class EpisodesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('jwtauth');
+    }
+
     public function index(Request $request, $id)
     {
         return EpisodeResource::collection(Episodio::whereTemporadaId($id)->paginate(10));

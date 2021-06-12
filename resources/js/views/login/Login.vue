@@ -38,7 +38,7 @@
                     <div class="flex justify-center">
 
                         <button-action v-if="credentials.email && credentials.password"
-                                       type="unlock" tag="Acessar" @execute="login"/>
+                                       type="unlock" tag="Acessar" @execute="handleLogin"/>
                         <button-action v-else type="lock" tag="Acessar"/>
 
                     </div>
@@ -52,6 +52,8 @@
 
 <script>
     import axios from 'axios';
+    import api from "../../api/auth";
+
     import ButtonAction from "../../components/shared/button-action";
     import InputForm from "../../components/shared/input-form";
     import Message from "../../components/shared/message";
@@ -59,8 +61,7 @@
 
     export default {
         components: {
-            ErrorsDefault,
-            InputForm, Message, ButtonAction,
+            ErrorsDefault, InputForm, Message, ButtonAction,
         },
 
         data() {
@@ -93,11 +94,11 @@
         },
 
         methods: {
-            login() {
-                if (!this.credentials.email || !this.credentials.password) {
+            handleLogin() {
+                if (!this.credentials.email && !this.credentials.password) {
                     return this.message = 'Preencha todos os dados solicitados';
                 }
-                axios.post('/api/login', this.credentials)
+                api.login(this.credentials)
                     .then(response => {
                         if (response.data.success) {
                             this.$store.commit('setToken', response.data.token);

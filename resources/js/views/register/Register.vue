@@ -94,7 +94,7 @@
             }
         },
 
-        mixins: [checkToken, refresh],
+        mixins: [refresh],
 
         created() {
             this.fetchData()

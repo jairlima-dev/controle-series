@@ -15,10 +15,13 @@ use Illuminate\Http\Request;
 
 class SeasonsController extends Controller
 {
-    public function index (Request $request, $id)
+    public function __construct()
     {
+        $this->middleware('jwtauth');
+    }
 
-        return SeasonResource::collection(Temporada::whereSerieId($id)->paginate(10));
+    public function index (Request $request, $id)
+    {return SeasonResource::collection(Temporada::whereSerieId($id)->paginate(10));
 
     }
 

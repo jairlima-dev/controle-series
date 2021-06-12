@@ -1,29 +1,29 @@
-import axios from "axios";
+import http from "../http";
 
 export default {
 
     all() {
-        return axios.get(`/api/series`);
+        return http.get(`/api/series`);
     },
 
     find(id) {
-        return axios.get(`/api/series/${id}`);
+        return http.get(`/api/series/${id}`);
     },
 
     create(data) {
-        return axios.post('/api/series', data)
+        return http.post('/api/series', data)
     },
 
     update(id, data) {
-        return axios.put(`/api/series/${id}`, data);
+        return http.put(`/api/series/${id}`, data);
     },
 
     delete(id) {
-        return axios.delete(`/api/series/${id}`)
+        return http.delete(`/api/series/${id}`)
     },
 
     search(search) {
-        return axios.get(`/api/series/${search}`)
+        return http.get(`/api/series/${search}`)
     },
 
 };
