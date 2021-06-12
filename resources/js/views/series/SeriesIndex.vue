@@ -48,7 +48,8 @@
 <script>
     import api from '../../api/series';
     import global from "../../api/global";
-    import {checkToken, refresh} from '../../utils';
+    import { checkToken, refresh } from '../../utils'
+    // import {checkToken, refresh} from '../../utils';
 
     import TagTitle from "../../components/shared/tag-title";
     import ButtonLink from "../../components/shared/button-link";
@@ -152,15 +153,13 @@
                 this.message = 'Efetuando solicitação. Aguarde...';
                 api.delete(serie.id)
                     .then(response => {
-                        this.message = `Usuário "${ serie.nome }" excluído!`;
+                        this.message = `Série "${ serie.nome }" excluída!`;
                         setTimeout(() => this.refresh(), 3000);
                     })
                     .catch(error => {
                         this.error = error.response.data.errors
                     })
             },
-
-
         },
     }
 

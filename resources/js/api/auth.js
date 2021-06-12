@@ -10,4 +10,7 @@ export default  {
         return http.post('api/logout')
     },
 
+    checkToken() {
+        return http.post('api/checkToken')
+    }
 }

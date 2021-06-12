@@ -58,6 +58,7 @@
     import InputForm from "../../components/shared/input-form";
     import Message from "../../components/shared/message";
     import ErrorsDefault from "../../components/shared/errors-default";
+    import http from "../../http";
 
     export default {
         components: {
@@ -77,7 +78,7 @@
 
         mounted() {
               if(this.$store.state.token !== '') {
-                  axios.post('/api/checkToken', { token: this.$store.state.token})
+                  api.checkToken()
                       .then(response => {
                           if (response.data.success) {
                               this.$router.push({ name: 'series.index'});

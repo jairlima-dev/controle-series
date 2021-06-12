@@ -35,6 +35,13 @@ class JWTAuthentication
                     'success' => false,
                     'message' => 'Token Inválido!'], 401);
             }
+            else if ($e instanceof TokenBlacklistedException) {
+                $newToken = JWTAuth::parseToken()->refresh();
+                return response()->json([
+                    'success' => false,
+                    'token' => $newToken,
+                    'status' => 'Token BlackListed Renovado!'], 200);
+            }
             else {
                 return response()->json([
                     'success' => false,
