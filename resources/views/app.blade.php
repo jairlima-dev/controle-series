@@ -8,7 +8,9 @@
     <title>Laravel</title>
 </head>
 <body>
+
 <div id="app" class="text-lg"></div>
+
 <script src="../js/app.js"></script>
 </body>
 </html>

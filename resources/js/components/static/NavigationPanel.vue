@@ -1,6 +1,7 @@
 <template>
     <main class="flex h-screen pb-6 rounded-sm">
 
+
         <aside v-if="currentToken" class="max-h-screen bg-gray-600 text-white py-4 px-4 w-1/5 rounded-2xl cursor-pointer">
             <div class="buttons flex justify-between mb-4">
 
