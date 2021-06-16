@@ -7,12 +7,6 @@ use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('jwtauth')->except('login');
-    }
-
     public function login()
     {
         $credentials = request(['email', 'password']);
@@ -40,13 +34,16 @@ class AuthController extends Controller
 
     public function checkToken()
     {
-        return response()->json(['success' => true], 200);
+        if (!$success = auth()->check()) {
+            return response()->json(['success' => $success], 401);
+        }
+        return response()->json(['success' => $success], 200);
     }
 
     public function logout()
     {
         auth()->logout();
-        return response()->json(['success' => true], 200);
+        return response()->json(['success' => true ], 200);
     }
 
 }

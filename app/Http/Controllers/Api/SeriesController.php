@@ -14,11 +14,6 @@ use Illuminate\Http\Request;
 
 class SeriesController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('jwtauth');
-    }
-
     public function index ()
     {
         return SerieResource::collection(Serie::orderBy('nome')

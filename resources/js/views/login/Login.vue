@@ -1,11 +1,6 @@
 <template>
     <div class="min-h-screen">
 
-        <div class="block">
-            <message type="danger" v-if="message">{{ message }}</message>
-            <errors-default v-if="error" :error="error"></errors-default>
-        </div>
-
         <div class="flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
 
             <div class="max-w-md w-full space-y-8">
@@ -51,14 +46,11 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import api from "../../api/auth";
 
     import ButtonAction from "../../components/shared/button-action";
     import InputForm from "../../components/shared/input-form";
     import Message from "../../components/shared/message";
     import ErrorsDefault from "../../components/shared/errors-default";
-    import http from "../../http";
 
     export default {
         components: {
@@ -70,50 +62,15 @@
               credentials: {
                   email: '',
                   password: '',
-              },
-              message: 'Carregando...',
-              error: null,
-          }
-        },
-
-        mounted() {
-              if(this.$store.state.token !== '') {
-                  api.checkToken()
-                      .then(response => {
-                          if (response.data.success) {
-                              this.$router.push({ name: 'series.index'});
-                          } else {
-                              this.$store.commit('setToken', response.data.token);
-                          }
-                      })
-                      .catch(error => {
-                          this.message = null;
-                      })
-              } else {
-                  this.message = null;
               }
+          }
         },
 
         methods: {
             handleLogin() {
-                if (!this.credentials.email && !this.credentials.password) {
-                    return this.message = 'Preencha todos os dados solicitados';
-                }
-                api.login(this.credentials)
-                    .then(response => {
-                        if (response.data.success) {
-                            this.$store.commit('setToken', response.data.token);
-                            this.$store.commit('setUser', response.data.user);
-                            this.$router.push({name: 'series.index'})
-                        }
-                    })
-                    . catch(error => {
-                        this.error = error.response.data.errors;
-                        setTimeout(() => this.error = null,3000)
-                    })
+                this.$store.dispatch('login', this.credentials)
+                    .then( () => this.$router.push({ name: 'series.index' }))
             },
-
-
         }
     }
 </script>

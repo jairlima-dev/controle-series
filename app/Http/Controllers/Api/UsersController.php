@@ -10,13 +10,6 @@ use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('jwtauth');
-
-    }
-
     public function index()
     {
         return UserResource::collection(User::orderBy('name')
@@ -33,7 +26,7 @@ class UsersController extends Controller
         if (!$user = User::create($data)) {
             return response()->json([
                 'success' => false,
-                'user' => ['Não foi possível efetuar a solicitação ']], 200);
+                'user' => ['Não foi possível efetuar a solicitação ']], 400);
         }
 
         return response()->json([
@@ -45,7 +38,9 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         if (!$user->delete()) {
-            return response()->json(['success' => false]);
+            return response()->json([
+                'success' => false,
+                'user' => ['Não foi possível efetuar a solicitação ']], 400);
         }
 
         return response()->json(['success' => true]);

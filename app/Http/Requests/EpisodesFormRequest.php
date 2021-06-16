@@ -29,8 +29,7 @@ class EpisodesFormRequest extends FormRequest
             'nome' => [
                 'required',
                 'min:3',
-//                Rule::unique('episodios')
-//                    ->where('temporada_id', $this->temporada_id)
+                'unique:episodios,nome'
             ]
         ];
     }

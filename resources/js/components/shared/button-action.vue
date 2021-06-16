@@ -43,6 +43,7 @@
                 if (this.type === 'unlock') return 'unlock';
                 if (this.type === 'cancel') return 'times';
                 if (this.type === 'disabled') return 'times';
+                if (this.type === 'logout') return 'sign-out-alt';
             },
 
             styleButton() {
@@ -54,8 +55,9 @@
                         "font-bold text-xl h-12 py-2 px-3 mr-2 ring-current rounded-md"
                 }
                 if (this.type === 'lock' ||
-                    this.type === 'disabled') {
-                    return "in-line block focus:outline-none border-4 border-gray-200 hover:border-gray-200 text-gray-300 " +
+                    this.type === 'disabled' ||
+                    this.type === 'logout') {
+                    return "focus:outline-none border-4 border-gray-300 hover:border-gray-300 text-gray-300 " +
                         "font-bold text-xl h-12 py-2 px-3 mr-2 ring-current rounded-md"
                 }
                 if (this.type === 'delete') {

@@ -1,7 +1,5 @@
-import api from '../api/auth'
-
 export const checkToken = {
-    // mounted() {
+    // created() {
     //     if (this.$store.state.token !== '') {
     //         api.checkToken()
     //             .then(response => {

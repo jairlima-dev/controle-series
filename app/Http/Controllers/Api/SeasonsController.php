@@ -15,11 +15,6 @@ use Illuminate\Http\Request;
 
 class SeasonsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('jwtauth');
-    }
-
     public function index (Request $request, $id)
     {return SeasonResource::collection(Temporada::whereSerieId($id)->paginate(10));
 

@@ -1,17 +1,20 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import { router } from './router';
+import App from "./views/App";
+
+import router from "./router";
 
 // * Vuex Store
-import { store } from "./store";
+import store from "./store";
 
 // * VeeValidate
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
+
 // *** VeeValidate
 
-import App from "./views/App";
+// * Axios / http
 import axios from "axios";
 import VueAxios from "vue-axios";
 
