@@ -23,7 +23,6 @@
 <script>
 
     import api from '../../api/series';
-    import { checkToken } from "../../utils"
 
     import TagTitle from "../../components/shared/tag-title";
     import Message from "../../components/shared/message";
@@ -48,8 +47,6 @@
                 }
             }
         },
-
-        mixins: [checkToken],
 
         methods: {
             submit() {

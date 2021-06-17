@@ -48,7 +48,7 @@
 <script>
     import api from '../../api/series';
     import global from "../../api/global";
-    import { checkToken, refresh } from '../../utils'
+    import { refresh } from '../../utils'
 
     import TagTitle from "../../components/shared/tag-title";
     import ButtonLink from "../../components/shared/button-link";
@@ -82,7 +82,7 @@
             };
         },
 
-        mixins: [checkToken, refresh],
+        mixins: [refresh],
 
         created() {
             this.fetchData()

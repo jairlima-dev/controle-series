@@ -10,7 +10,6 @@
 </template>
 
 <script>
-    import { checkToken } from "../../utils";
     import DivContainer from "../../components/shared/div-container";
     import TagTitle from "../../components/shared/tag-title";
     import FormDefault from "../../components/shared/form-default";
@@ -18,7 +17,6 @@
     export default {
         name: "About",
         components: {FormDefault, TagTitle, DivContainer},
-        mixins: [checkToken],
 
         computed: {
             currentUser() {

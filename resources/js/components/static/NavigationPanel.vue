@@ -6,7 +6,7 @@
             <div class="buttons flex justify-between mb-4">
 
 
-                <button @click="handleLogout" class="text-white text-2xl bg-red-600 w-14 h-14
+                <button @click="logout" class="text-white text-2xl bg-red-600 w-14 h-14
                             p-3 border-2 border-gray-500 rounded-full">
                     <font-awesome-icon icon="power-off"/>
                     <p class="text-center text-sm mt-2">Sair</p>
@@ -96,6 +96,7 @@
 
 <script>
     import { mapGetters } from 'vuex'
+    import { logout } from "../../utils";
     import ErrorsDefault from "../shared/errors-default";
 
     export default {
@@ -105,13 +106,7 @@
             ...mapGetters(['loggedUser', 'currentToken', 'getMessage'])
         },
 
-        methods: {
-            handleLogout() {
-                this.$store.dispatch('logout')
-                    .then(() => this.$router.push({ name: 'login'}))
-
-            }
-        },
+        mixins: [logout],
 
     }
 </script>

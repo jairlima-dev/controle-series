@@ -60,7 +60,7 @@
 
 <script>
     import api from "../../api/users";
-    import { checkToken, refresh } from "../../utils";
+    import { refresh } from "../../utils";
     import DivContainer from "../../components/shared/div-container";
     import TagTitle from "../../components/shared/tag-title";
     import Message from "../../components/shared/message";
@@ -154,7 +154,3 @@
     }
 
 </script>
-
-<style scoped>
-
-</style>

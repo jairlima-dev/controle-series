@@ -19,7 +19,6 @@
 
 <script>
     import api from "../../api/seasons"
-    import { checkToken } from "../../utils";
 
     import Message from "../../components/shared/message";
     import TagTitle from "../../components/shared/tag-title";
@@ -42,8 +41,6 @@
               }
           }
         },
-
-        mixins: [checkToken],
 
         methods: {
             onSubmit() {

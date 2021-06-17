@@ -52,7 +52,6 @@
 <script>
     import api from '../../api/seasons';
     import global from "../../api/global";
-    import { checkToken } from "../../utils";
 
     import TagTitle from "../../components/shared/tag-title";
     import ErrorsDefault from "../../components/shared/errors-default";
@@ -85,8 +84,6 @@
                 pagination: null,
             }
         },
-
-        mixins: [checkToken],
 
         created() {
             this.fetchData()

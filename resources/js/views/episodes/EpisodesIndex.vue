@@ -66,7 +66,7 @@
     import InputForm from "../../components/shared/input-form";
     import PaginationDefault from "../../components/shared/pagination-default";
     import ErrorsDefault from "../../components/shared/errors-default";
-    import { checkToken, refresh } from "../../utils";
+    import { refresh } from "../../utils";
 
     export default {
 
@@ -91,7 +91,7 @@
             }
         },
 
-        mixins: [checkToken, refresh],
+        mixins: [refresh],
 
         created() {
             this.fetchData();

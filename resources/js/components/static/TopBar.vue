@@ -6,7 +6,7 @@
         </div>
 
         <div class="text-2xl text-gray-200">
-            <auto-logout v-if="currentToken" />
+            <auto-logout v-if="currentToken"/>
         </div>
 
         <router-link :to="{ name: 'about' }">

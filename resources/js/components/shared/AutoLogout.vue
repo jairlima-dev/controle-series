@@ -4,8 +4,18 @@
 
 <script>
 
+    import { logout } from "../../utils";
+
     export default {
         name: "AutoLogout",
+        props: {
+            timeout: {
+                type: Number,
+                default: 30
+            }
+        },
+
+        mixins: [logout],
 
         data() {
             return {
@@ -13,14 +23,14 @@
                 warningTimer: null,
                 logoutTimer: null,
                 warningZone: false,
-                countDown: null
+                countDown: null,
             }
         },
 
         mounted() {
-            this.events.forEach(function (event) {
+            this.events.forEach((event) => {
                 window.addEventListener(event, this.resetTimers);
-            }, this);
+            });
 
             this.setTimers();
         },
@@ -35,8 +45,8 @@
 
         methods: {
             setTimers() {
-                this.warningTimer = setTimeout(this.warningMessage, 14 * 60 * 1000);
-                this.logoutTimer = setTimeout(this.logoutUser, 15 * 60 * 1000);
+                this.warningTimer = setTimeout(this.warningMessage, (this.timeout - 1) * 60 * 1000);
+                this.logoutTimer = setTimeout(this.logoutUser, (this.timeout) * 60 * 1000);
 
                 this.warningZone = false
 
@@ -52,8 +62,7 @@
 
             logoutUser() {
                 if (this.$store.state.token !== '') {
-                    this.$store.dispatch('logout')
-                        .then(() => this.$router.push({ name: 'login'}))
+                   this.logout()
                 }
             },
 
