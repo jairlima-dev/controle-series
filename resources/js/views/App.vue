@@ -9,6 +9,7 @@
 
 <script>
 
+    import { logout} from "../utils";
     import NavigationPanel from "../components/static/NavigationPanel";
     import TopBar from "../components/static/TopBar";
 
@@ -17,6 +18,8 @@
     export default {
         name: "App",
         components: {ErrorsDefault, TopBar, NavigationPanel },
+        mixins: [logout],
+
     }
 
 </script>

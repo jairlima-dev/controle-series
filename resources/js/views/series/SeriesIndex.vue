@@ -120,8 +120,8 @@
                         this.pagination = response.data;
                         this.searching = true;
                     }).catch(error => {
-                    this.error = error.response.data.errors;
-                    setTimeout(() => this.error = null, 2000);
+                        this.error = error.response.data.errors;
+                        setTimeout(() => this.error = null, 2000);
                 });
             },
 
@@ -144,7 +144,7 @@
                         this.message = `Série Alterada: ${serie.nome}`;
                         setTimeout(() => this.message = null, 3000);
                     }).catch(error => {
-                    this.error = error.response.data.errors
+                        this.error = error.response.data.errors
                 })
             },
 

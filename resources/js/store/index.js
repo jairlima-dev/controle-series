@@ -38,6 +38,7 @@ const store = new Vuex.Store({
     },
 
     actions: {
+
         login({ commit }, user) {
             return api.login(user)
                 .then(response => {
@@ -55,7 +56,7 @@ const store = new Vuex.Store({
         },
 
         logout({ commit }) {
-            api.logout()
+            return api.logout()
                 .then(response => {
                     commit('logoutUser')
                     return Promise.resolve(response.data)

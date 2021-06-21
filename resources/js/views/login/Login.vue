@@ -53,6 +53,7 @@
     import ErrorsDefault from "../../components/shared/errors-default";
 
     export default {
+
         components: {
             ErrorsDefault, InputForm, Message, ButtonAction,
         },

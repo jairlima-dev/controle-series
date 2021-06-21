@@ -10,6 +10,7 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
     import DivContainer from "../../components/shared/div-container";
     import TagTitle from "../../components/shared/tag-title";
     import FormDefault from "../../components/shared/form-default";
@@ -19,11 +20,7 @@
         components: {FormDefault, TagTitle, DivContainer},
 
         computed: {
-            currentUser() {
-                if (this.$store.state.token) {
-                    return this.$store.state.user
-                }
-            }
+            ...mapGetters({currentUser: 'loggedUser'}),
         }
     }
 </script>

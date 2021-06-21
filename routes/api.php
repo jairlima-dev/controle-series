@@ -9,10 +9,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Api'], function () {
     Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/logout', [AuthController::class, 'logout']);
 
     Route::group([ 'middleware' => 'auth:api' ], function () {
-        Route::post('/checkToken', [AuthController::class, 'checkToken']);
         Route::post('/getUser', [AuthController::class, 'getUser']);
 
         Route::get('/register', [UsersController::class, 'index']);

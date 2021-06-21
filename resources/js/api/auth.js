@@ -7,10 +7,7 @@ export default  {
     },
 
     logout() {
-        return http.post('api/logout')
+        return http.get('api/logout')
     },
 
-    checkToken() {
-        return http.post('api/checkToken')
-    }
 }
