@@ -27,7 +27,6 @@
 
     export default {
         name: "TopBar",
-
         components: {AutoLogout},
         computed: {
             ...mapGetters(['loggedUser', 'currentToken'])

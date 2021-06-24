@@ -20,7 +20,7 @@ class SeriesController extends Controller
             ->paginate(8));
     }
 
-    public function search ($search, Request $request)
+    public function search ($search)
     {
         return SerieResource::collection(Serie::orderBy('nome')
             ->where('nome','LIKE','%'.$search.'%')

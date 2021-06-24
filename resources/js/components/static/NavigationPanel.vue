@@ -81,12 +81,10 @@
     export default {
         name: "NavigationPanel",
         components: {NavigationAdmin, ErrorsDefault},
+        mixins: [logout],
         computed: {
             ...mapGetters(['loggedUser', 'currentToken', 'getMessage'])
         },
-
-        mixins: [logout],
-
 
     }
 </script>

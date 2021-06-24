@@ -47,6 +47,7 @@
 
 <script>
 
+    import { mapActions } from 'vuex';
     import ButtonAction from "../../components/shared/button-action";
     import InputForm from "../../components/shared/input-form";
     import Message from "../../components/shared/message";
@@ -62,15 +63,15 @@
           return {
               credentials: {
                   email: '',
-                  password: '',
+                  password: ''
               }
           }
         },
 
         methods: {
+            ...mapActions(['login']),
             handleLogin() {
-                this.$store.dispatch('login', this.credentials)
-                    .then( () => this.$router.push({ name: 'series.index' }))
+                this.login(this.credentials)
             },
         }
     }

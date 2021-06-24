@@ -2,8 +2,9 @@ import Vuex from 'vuex';
 import Vue from  'vue';
 
 import api from '../api/auth';
+import router from '../router'
 
-Vue.use(Vuex);
+Vue.use(Vuex, router);
 
 const store = new Vuex.Store({
 
@@ -38,34 +39,30 @@ const store = new Vuex.Store({
     },
 
     actions: {
+        
+        async login({ commit }, user) {
+            try {
+                var response = await api.login(user)
+                commit('setLoggedUser', {
+                    token: response.data.token,
+                    user: response.data.user
+                })
+                router.push({ name: 'series.index'})
+            } catch (error) {
+                commit('setMessage', error.response.data.errors)
+                setTimeout(() => commit('clearMessage'),3000)
+            }
+        }, 
 
-        login({ commit }, user) {
-            return api.login(user)
-                .then(response => {
-                    commit('setLoggedUser', {
-                        token: response.data.token,
-                        user: response.data.user
-                    })
-                    return Promise.resolve(response)
-                })
-                .catch(error => {
-                    commit('setMessage', error.response.data.errors)
-                    setTimeout(() => commit('clearMessage'),3000)
-                    return Promise.reject(error)
-                })
-        },
-
-        logout({ commit }) {
-            return api.logout()
-                .then(response => {
-                    commit('logoutUser')
-                    return Promise.resolve(response.data)
-                })
-                .catch(error => {
-                    commit("setMessage", error.response.data.errors)
-                    setTimeout(() => commit('clearMessage'),3000)
-                    return Promise.reject(error)
-                })
+        async logout({ commit }) {
+            try {
+                await api.logout()
+                commit('logoutUser')
+                router.push({ name: 'login' })
+            } catch (error) {
+                commit("setMessage", error.response.data.errors)
+                setTimeout(() => commit('clearMessage'),3000)
+            }
         }
     },
 

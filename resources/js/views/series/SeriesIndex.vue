@@ -14,7 +14,7 @@
 
         </div-actions>
 
-        <ul v-if="series" v-for="serie in series" :key="serie.id" class="flex flex-col">
+        <ul v-for="serie in series" :key="serie.id" class="flex flex-col">
 
             <div v-if="showOnEdit === serie.id" class="flex p-2 border-2 rounded-md items-center">
                 <input-form size="lg" v-model="serie.nome"/>

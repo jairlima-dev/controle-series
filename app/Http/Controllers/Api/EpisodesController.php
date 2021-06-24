@@ -66,10 +66,9 @@ class EpisodesController extends Controller
                 'episodios' => ['Só é permitido excluir o último Episódio!']
                 ]], 401);
 
-        } else {
-            $episodio->delete();
         }
 
+        $episodio->delete();
 
     }
 

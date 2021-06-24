@@ -1,11 +1,14 @@
 
+import { mapActions } from 'vuex'
+
 export const logout = {
     methods: {
-        logout() {
+        ...mapActions({ logout: 'logout'})
+/*         logout() {
             this.$store.dispatch('logout')
                 .then(() => this.$router.push({ name: 'login'}))
 
-        }
+        } */
     },
 }
 
