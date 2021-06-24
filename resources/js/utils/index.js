@@ -1,22 +1,12 @@
-
 import { mapActions } from 'vuex'
 
 export const logout = {
     methods: {
         ...mapActions({ logout: 'logout'})
-/*         logout() {
-            this.$store.dispatch('logout')
-                .then(() => this.$router.push({ name: 'login'}))
-
-        } */
     },
 }
 
 export const countDown = {
-
-    created() {
-        this.countDownTimer()
-    },
 
     methods: {
         countDownTimer() {
