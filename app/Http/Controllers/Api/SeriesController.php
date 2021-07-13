@@ -16,15 +16,20 @@ class SeriesController extends Controller
 {
     public function index ()
     {
-        return SerieResource::collection(Serie::orderBy('nome')
-            ->paginate(8));
+        // dd('Aqui');
+        return SerieResource::collection(
+            Serie::orderBy('nome')
+            ->paginate(8)
+        );
     }
 
     public function search ($search)
     {
-        return SerieResource::collection(Serie::orderBy('nome')
-            ->where('nome','LIKE','%'.$search.'%')
-            ->paginate(8));
+        return SerieResource::collection(
+            Serie::orderBy('nome')
+        ->where('nome','LIKE','%'.$search.'%')
+        ->paginate(8)
+        );
     }
 
     public function show(Serie $serie)
@@ -34,24 +39,23 @@ class SeriesController extends Controller
 
     public function store(SeriesFormRequest $request, CriadorDeSeries $criadorDeSeries)
     {
+
+       // dd($request->all());
         $serie = $criadorDeSeries->criarSerie(
             $request->nome,
             $request->temporadas,
             $request->episodios
         );
 
-        return new SerieResource($serie);
+        return response()->json($serie);
+       // return new SerieResource($serie);
     }
-
+    // public function update(Serie $serie, SeriesUpdateRequest $request)
     public function update(Serie $serie, SeriesUpdateRequest $request)
     {
-        $data = $request->validate([
-            'nome' => 'required'
-        ]);
-
-        $serie->update($data);
-
-        return new SerieResource($serie);
+        $serie->update($request->all());
+        return response()->json($serie);
+        //return new SerieResource($serie);
     }
 
     public function destroy(Serie $serie)

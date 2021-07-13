@@ -9,9 +9,9 @@
 <script>
 
     import ButtonLink from "./button-link";
-    import FilterDefault from "../trash/input-filter"
 
     export default {
+        name: "DivActions",
 
         props: [
             'to-link'
@@ -27,7 +27,3 @@
     }
 
 </script>
-
-<style scoped>
-
-</style>

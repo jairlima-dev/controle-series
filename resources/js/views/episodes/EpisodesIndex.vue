@@ -6,21 +6,29 @@
         <errors-default v-if="error" :error="error"/>
 
         <div-actions>
-            <button-link to="episodes.create"
-                         :id="id"
-                         :numero="numeroTemporada"
-                         tag="Episódio"
-                         type="add"/>
+            <div  class="flex flex-1 justify-between">
 
-            <input-form size="lg" label-text="Filtrar: " display="inline" v-model="filter"/>
+                <div  class="flex">
+                    <button-link to="episodes.create"
+                            :id="idTemporada"
+                            :numero="numeroTemporada"
+                            tag="Episódio"
+                            type="add"/>
+                    <input-form size="lg" label-text="Filtrar: " display="inline" v-model="filter"/>
+                    
+                </div>
+
+                <button-action type="save" :tag="assistir ? 'Assistindo' : 'Assistir'" @execute="watchEpisodes"/>                
+
+            </div>
 
         </div-actions>
 
-        <ul v-if="episodios" v-for="episodio in filteredEpisodes" :key="episodio.id" class="flex flex-col">
+        <ul v-for="episodio in filteredEpisodes" :key="episodio.id" class="flex flex-col">
 
             <div v-if="showOnEdit === episodio.id" class="flex p-2 border-2 rounded-md intems-center">
                 <div class="mt-3">
-                    Episódio {{ episodio.numero }} -
+                    Episódio {{ episodio.numero }}
                 </div>
 
                 <input-form size="lg" v-model="episodio.nome"/>
@@ -31,20 +39,24 @@
             <li v-if="!showOnEdit" class="flex p-2 border-2 justify-between rounded-md intems-center">
 
                 <div class="title flex-1 p-2 text-xl" >
-                    Episódio {{ episodio.numero }} - {{ episodio.nome }}
+                    Episódio {{ episodio.numero }} - {{ episodio.nome }} 
                 </div>
 
-                <div class="action-buttons flex flex-invert">
+                <div  class="action-buttons flex flex-invert">
 
                     <button-action type="edit" @execute="onEdit(episodio.id)"/>
                     <button-action type="delete" @execute="deleteEpisode(episodio.id)" :confirmation="true"/>
-                    <checked-default :id="episodio.id" labelText="Assistido" v-model="episodio.assistido"/>
+                    <checkbox-default 
+                        :label="episodio.assistido ? 'Assistido' : 'Assistir'" 
+                        @change="watch(episodio)" 
+                        v-model="episodio.assistido"
+                    />
 
                 </div>
             </li>
         </ul>
 
-        <pagination-default v-show="!showOnEdit" :source="pagination" @navigate="navigate"></pagination-default>
+        <pagination-default v-show="!showOnEdit" :source="pagination" @navigate="navigate"/>
 
     </div-container>
 
@@ -62,32 +74,36 @@
     import DivActions from "../../components/shared/div-actions";
     import FilterDefault from "../../components/trash/input-filter";
     import ButtonAction from "../../components/shared/button-action";
-    import CheckedDefault from "../../components/shared/checked-default"
     import InputForm from "../../components/shared/input-form";
     import PaginationDefault from "../../components/shared/pagination-default";
     import ErrorsDefault from "../../components/shared/errors-default";
     import { refresh } from "../../utils";
+    import CheckboxDefault from '../../components/shared/checkbox-default.vue';
 
     export default {
 
         components: {
             ErrorsDefault,
             PaginationDefault,
-            InputForm, ButtonAction, CheckedDefault, DivContainer, DivActions,
-            FilterDefault, Message, TagTitle, ButtonLink},
+            InputForm, ButtonAction, DivContainer, DivActions,
+            FilterDefault, Message, TagTitle, ButtonLink, CheckboxDefault},
 
         data () {
             return {
                 filter: '',
                 error: null,
+                idTemporada: this.$route.params.id,
                 numeroTemporada: this.$route.params.numero,
                 nomeTemporada: this.$route.params.nome,
                 hideOnEdit: true,
                 showOnEdit: false,
                 message: '',
-                id: this.$route.params.id,
                 episodios: null,
-                pagination: null,
+                pagination: null, 
+                assistir: false,  
+                error: '', 
+                message: '',     
+                assistido: []           
             }
         },
 
@@ -95,6 +111,7 @@
 
         created() {
             this.fetchData();
+            
         },
 
         computed: {
@@ -110,12 +127,43 @@
 
         methods: {
             fetchData() {
-                api.all(this.$route.params.id)
+                api.all(this.idTemporada)
                     .then(response => {
                         this.episodios = response.data.data;
                         this.pagination = response.data;
-                        this.id = this.episodios[0].temporada_id;
-                    }).catch(error => this.message = 'Erro ao buscar dados!');
+                        this.mountWatched();
+                    }).catch(error => {
+                        this.error = error.response.data.errors
+                    })
+            },
+
+            mountWatched() {
+                this.episodios.forEach(element => {
+                    if (element.assistido) {
+                        this.assistido.push(element.id)
+                    }
+                });
+            },
+
+            watch(episode) {               
+                var index = this.assistido.indexOf(episode.id) 
+                if(index === -1) this.assistido.push(episode.id)
+                else this.assistido.splice(index, 1)                    
+            },
+
+            watchEpisodes() {
+                this.assistir = true
+                api.watch(this.idTemporada, { assistidos: this.assistido })
+                    .then(() => {
+                        this.assistido = [];
+                        this.fetchData()
+                        this.assistir = false;
+                        this.message = 'Episódios marcados com sucesso!';
+                        setTimeout(() => this.message = null, 3000)
+                    })
+                    .catch(error => {
+                        this.error = error.response.data.errors
+                    })
             },
 
             onEdit(idEpisode) {
@@ -151,7 +199,7 @@
                         this.error = error.response.data.errors;
                         setTimeout(() => this.error = null, 3000);
                 })
-            },
+            }, 
 
             navigate(page) {
                 global.paginate(page)

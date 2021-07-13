@@ -13,6 +13,7 @@
 
 <script>
     export default {
+        name: "ButtonLink",
         props: [
             'type', 'tag','to', 'id', 'numero', 'nome',
         ],

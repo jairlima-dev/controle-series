@@ -1,17 +1,12 @@
 <template>
 
     <div class="ml-4 text-center text-xl">
-
-        <label :for="id" class="block">{{ labelText }}</label>
+        <label :for="id" class="block">{{ label }}</label>
         <input
             :id="id"
             type="checkbox"
             :checked="checked"
-            @change="$emit('change', $event.target.checked)"
-        hidden>
-        <i v-if=" this.checked == 1" class="fas fa-check text-green-500 font-bold text-xl"/>
-        <i v-if="this.checked == 0" class="fas fa-check text-gray-300 font-bold text-xl"/>
-
+            @change="$emit('change', $event.target.checked)">
     </div>
 
 </template>
@@ -25,8 +20,8 @@
         },
 
         props: {
-            checked: String,
-            labelText: String,
+            checked: Boolean,
+            label: String,
             id: Number,
         },
 

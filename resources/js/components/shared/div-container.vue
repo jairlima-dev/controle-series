@@ -6,7 +6,7 @@
 
 <script>
     export default {
-        name: "div-container"
+        name: "divContainer"
     }
 </script>
 

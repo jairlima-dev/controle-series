@@ -10,6 +10,6 @@
     export default {
         props: [],
 
-        name: "form-default"
+        name: "formDefault"
     }
 </script>

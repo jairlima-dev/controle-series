@@ -11,6 +11,7 @@
 <script>
 
     export default {
+        name: "ButtonAction",
 
         props: {
             type: String,

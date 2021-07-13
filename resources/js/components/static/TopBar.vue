@@ -6,7 +6,9 @@
         </div>
 
         <div v-if="currentToken" class="text-2xl text-gray-200">
-            <auto-logout :timeout="2" />
+            <auto-logout> 
+                Você será desconectado em alguns segundos:
+            </auto-logout>
         </div>
 
         <router-link :to="{ name: 'about' }">

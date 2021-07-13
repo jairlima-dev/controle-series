@@ -1,5 +1,7 @@
 <template>
-    {{ countDown }}
+    <div>
+        {{ countDown }}
+    </div>
 </template>
 
 <script>

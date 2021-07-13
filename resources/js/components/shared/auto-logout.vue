@@ -1,5 +1,8 @@
 <template>
-    <div v-if="warningZone">Olá! Você será desconectado em {{ countDown }} segundos!</div>
+    <div v-if="warningZone"> 
+        <slot></slot>
+        {{ countDown}}
+    </div>
 </template>
 
 <script>

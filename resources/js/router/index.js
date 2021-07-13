@@ -7,18 +7,18 @@ import Login from "../views/login/Login";
 import Register from "../views/register/Register";
 
 import SeriesIndex from "../views/series/SeriesIndex";
-import SeriesEdit from "../components/trash/SeriesEdit";
+//import SeriesEdit from "../components/trash/SeriesEdit";
 import SeriesCreate from "../views/series/SeriesCreate";
-import SeriesDelete from "../components/trash/SeriesDelete";
+//import SeriesDelete from "../components/trash/SeriesDelete";
 
 import SeasonsIndex from "../views/seasons/SeasonsIndex";
 import SeasonsCreate from "../views/seasons/SeasonsCreate";
 
 import EpisodesIndex from "../views/episodes/EpisodesIndex";
 import EpisodesCreate from "../views/episodes/EpisodesCreate";
-import EpisodesEdit from "../components/trash/EpisodesEdit";
+/* import EpisodesEdit from "../components/trash/EpisodesEdit";
 import EpisodesDelete from "../components/trash/EpisodesDelete";
-import EpisodesFormEdit from "../components/trash/EpisodesFormEdit";
+import EpisodesFormEdit from "../components/trash/EpisodesFormEdit"; */
 
 import MoviesIndex from "../views/movies/MoviesIndex";
 
@@ -26,7 +26,6 @@ import DocumentariesIndex from "../views/documentaries/DocumentariesIndex";
 
 import About from "../views/register/About";
 import NotFound from "../views/NotFound";
-import checkToken from "../utils/checkToken";
 
 Vue.use(VueRouter)
 
@@ -76,7 +75,7 @@ const router = new VueRouter({
             component: SeriesCreate
         },
 
-        {
+        /* {
             path: '/series/:id/edit/:nome',
             name: 'series.edit',
             component: SeriesEdit
@@ -86,7 +85,7 @@ const router = new VueRouter({
             path: '/series/:id/delete',
             name: 'series.delete',
             component: SeriesDelete
-        },
+        }, */
 
         {
             path: '/seasons/:id/:nome',
@@ -112,7 +111,7 @@ const router = new VueRouter({
             component: EpisodesCreate
         },
 
-        {
+        /* {
             path: '/episodes/:id/edit/:nome',
             name: 'episodes.edit',
             component: EpisodesEdit
@@ -128,7 +127,7 @@ const router = new VueRouter({
             path: '/episodes/:id/delete',
             name: 'episodes.delete',
             component: EpisodesDelete
-        },
+        }, */
 
         {
             path: '/about',
@@ -151,13 +150,6 @@ const router = new VueRouter({
             path: '/',
             redirect: '/series'
         },
-
-        {
-            path: '/checkToken',
-            name: 'checkToken',
-            component: checkToken
-        }
-
 
     ]
 })

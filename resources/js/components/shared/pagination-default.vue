@@ -30,7 +30,7 @@
                               inline-flex items-center -mx-2 px-4 py-2 border text-sm font-medium">
                             ...
                         </p>
-                        <a href="#"@click.prevent="navigate(source.links.prev)" :class="ifActive(!this.current)">
+                        <a href="#" @click.prevent="navigate(source.links.prev)" :class="ifActive(!this.current)">
                             {{ current - 1 }}
                         </a>
                     </div>
@@ -59,7 +59,6 @@
                        bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                         <span class="sr-only">Próxima</span>
                         <font-awesome-icon icon="forward"/>
-<!--                        <i class="fas fa-forward"></i>-->
                     </a>
 
                 </nav>
@@ -80,7 +79,6 @@
         </div>
     </div>
 </template>
-
 
 <script>
     export default {
@@ -126,7 +124,7 @@
                         "inline-flex items-center px-4 py-2 border text-sm font-medium"
                 }
             },
-
         },
     }
+    
 </script>

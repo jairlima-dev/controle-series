@@ -17,7 +17,7 @@ class EpisodesController extends Controller
 {
     public function index(Request $request, $id)
     {
-        return EpisodeResource::collection(Episodio::whereTemporadaId($id)->paginate(10));
+        return EpisodeResource::collection(Episodio::whereTemporadaId($id)->paginate(20));
 
     }
 
@@ -74,13 +74,14 @@ class EpisodesController extends Controller
 
     public function assistir(Temporada $temporada, Request $request)
     {
-        $episodiosAssistidos = $request->episodios;
+        $episodiosAssistidos = $request->assistidos;
         $temporada->episodios->each(function (Episodio $episodio) use($episodiosAssistidos) {
             if(!empty($episodiosAssistidos)) {
                 $episodio->assistido = in_array($episodio->id, $episodiosAssistidos);
             } else {
-                $episodio->assistido = '';
+                $episodio->assistido = false;
             }
+            $episodio->update();
         });
     }
 

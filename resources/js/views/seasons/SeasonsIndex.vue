@@ -15,9 +15,9 @@
 
         </div-actions>
 
-        <ul v-if="temporadas" v-for="temporada in filteredTemporadas" class="flex flex-col">
+        <ul v-if="temporadas"  class="flex flex-col">
 
-            <li class="flex p-2 border-2 justify-between intems-center">
+            <li v-for="temporada in filteredTemporadas" :key="temporada.id" class="flex p-2 border-2 justify-between intems-center">
 
                 <div class="flex items-center" >
 
@@ -25,9 +25,9 @@
                         Temporada - {{ temporada.numero }}
                     </div>
 
-                    <div class="text-center text-lg">
-                        <span class="text-sm"> - Assistidos: {{assistido}}/{{total}}</span>
-                    </div>
+                    <span class="p-1 border-2 bg-gray-300 rounded-md font-bold">
+                            - Assistidos: {{  watched(temporada.episodios) }}/{{ temporada.episodios.length }}
+                    </span>
 
                 </div>
 
@@ -82,6 +82,7 @@
                 nome: this.$route.params.nome,
                 temporadas: null,
                 pagination: null,
+                showed: null
             }
         },
 
@@ -109,6 +110,13 @@
                     }).catch(error =>
                         this.error = error.response.data.errors);
 
+            },
+
+            watched(episodes) {
+                const filteredWatched = episodes.filter((item) => {
+                    return item.assistido == true
+                })
+                return filteredWatched.length
             },
 
             navigate(page) {

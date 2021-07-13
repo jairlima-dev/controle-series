@@ -10,6 +10,10 @@ export default {
         return http.get(`/api/episodes/${id}`)
     },
 
+    watch(id, data) {
+        return http.post(`/api/episodes/${id}`, data)
+    },
+
     create(data) {
         return http.post('/api/episodes', data)
     },

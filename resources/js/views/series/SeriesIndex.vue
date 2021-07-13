@@ -62,6 +62,7 @@
     import PaginationDefault from "../../components/shared/pagination-default"
 
     export default {
+        name: "SeriesIndex",
         components: {
             ErrorsDefault, Message, PaginationDefault, InputForm, DivActions, ButtonAction,
             DivContainer, GridDefault, ButtonLink, TagTitle

@@ -31,6 +31,7 @@ Route::group(['namespace' => 'Api'], function () {
         Route::get('/season/{season}', [EpisodesController::class, 'index']);
         Route::post('/episodes', [EpisodesController::class, 'store']);
         Route::get('/episodes/{episodio}', [EpisodesController::class, 'show']);
+        Route::post('/episodes/{temporada}', [EpisodesController::class, 'assistir']);
         Route::put('/episodes/{episodio}', [EpisodesController::class, 'update']);
         Route::delete('/episodes/{episodio}', [EpisodesController::class, 'destroy']);
     });
